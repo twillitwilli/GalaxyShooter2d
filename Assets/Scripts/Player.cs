@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         //player moving system
-        transform.Translate(Vector3.right * playerSpeed * Time.deltaTime);
+        Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        transform.Translate(movementDirection * playerSpeed * Time.deltaTime);
     }
 }
