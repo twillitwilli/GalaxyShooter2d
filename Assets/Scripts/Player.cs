@@ -10,10 +10,4 @@ public class Player : MonoBehaviour
     {
         transform.localPosition = new Vector3(0, 0, 0);
     }
-
-    private float GetMovementDirection(string axisName)
-    {
-        float axisValue = Input.GetAxis(axisName);
-        return 0;
-    }
 }
