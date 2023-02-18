@@ -11,9 +11,10 @@ public class InputController : MonoBehaviour
         player = GetComponent<Player>();
     }
 
-    void Update()
+    private void Update()
     {
         PlayerMovement();
+        if (Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
     }
 
     private void PlayerMovement()
@@ -28,5 +29,10 @@ public class InputController : MonoBehaviour
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -5.5f, 5), 0);
         if (transform.position.x >= 11.5f) { transform.position = new Vector3(-11.5f, transform.position.y, 0); }
         else if (transform.position.x <= -11.5f) { transform.position = new Vector3(11.5f, transform.position.y, 0); }
+    }
+
+    private void FireLaser()
+    {
+        Instantiate(player.laserProjectile, transform.position, transform.rotation);
     }
 }

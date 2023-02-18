@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 20
+  laserProjectile: {fileID: 6872098108398036503, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
 --- !u!65 &436753620
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -227,7 +228,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436753618}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 11.15, y: -3.46, z: 0}
+  m_LocalPosition: {x: 1.45, y: 1.37, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
