@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float playerSpeed = 5;
+    public float playerSpeed, fireRate;
+    [HideInInspector] public bool canFire, setFireCooldown;
     public GameObject laserProjectile;
+    private float fireRateCooldown;
 
     private void Start()
     {

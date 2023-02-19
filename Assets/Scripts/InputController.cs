@@ -5,6 +5,8 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player player;
+    private bool setFireCooldown;
+    private float fireRateCooldown;
 
     private void Start()
     {
@@ -14,7 +16,7 @@ public class InputController : MonoBehaviour
     private void Update()
     {
         PlayerMovement();
-        if (Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
+        if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
     }
 
     private void PlayerMovement()
@@ -35,5 +37,18 @@ public class InputController : MonoBehaviour
     {
         Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.02f, 0);
         Instantiate(player.laserProjectile, laserSpawnOffset, transform.rotation);
+        setFireCooldown = true;
+    }
+
+    private bool CanFire()
+    {
+        if (setFireCooldown)
+        {
+            fireRateCooldown = player.fireRate;
+            setFireCooldown = false;
+        }
+        if (fireRateCooldown > 0) { fireRateCooldown -= Time.deltaTime; }
+        else return true;
+        return false;
     }
 }
