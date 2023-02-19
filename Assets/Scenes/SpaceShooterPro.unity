@@ -4959,6 +4959,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSpeed: 20
+  fireRate: 0.25
+  canFire: 0
+  setFireCooldown: 0
   laserProjectile: {fileID: 6872098108398036503, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
 --- !u!65 &436753620
 BoxCollider:
