@@ -13,4 +13,14 @@ public class Player : MonoBehaviour
     {
         transform.localPosition = new Vector3(0, 0, 0);
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Enemy>())
+        {
+            Enemy enemyHit = collision.gameObject.GetComponent<Enemy>();
+            enemyHit.EnemyDestroyed();
+            Destroy(gameObject);
+        }
+    }
 }

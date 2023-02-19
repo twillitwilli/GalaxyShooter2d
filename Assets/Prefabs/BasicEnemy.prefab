@@ -4880,7 +4880,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 0}
-  enemyEscaped: 0
   enemySpeed: 5
   enemyExplosion: {fileID: 124731750733296378, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
 --- !u!1 &7750466976166010569

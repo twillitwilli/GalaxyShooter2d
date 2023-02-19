@@ -5,7 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [HideInInspector] public EnemySpawner enemySpawner;
-    [HideInInspector] public bool enemyEscaped;
     public float enemySpeed;
     public GameObject enemyExplosion;
 
@@ -14,13 +13,14 @@ public class Enemy : MonoBehaviour
         transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
         if (transform.position.y < -9.3f)
         {
-            enemyEscaped = true;
             Destroy(gameObject);
         }
     }
 
-    private void OnDestroy()
+    public void EnemyDestroyed()
     {
-        if (!enemyEscaped) { enemySpawner.totalEnemiesKilled++; }
+        enemySpawner.totalEnemiesKilled++;
+        Instantiate(enemyExplosion, transform.position, transform.rotation);
+        Destroy(gameObject);
     }
 }
