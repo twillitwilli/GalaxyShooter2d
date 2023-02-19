@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public EnemySpawner enemySpawner;
     [HideInInspector] public bool enemyEscaped;
     public float enemySpeed;
+    public GameObject enemyExplosion;
 
     void Update()
     {

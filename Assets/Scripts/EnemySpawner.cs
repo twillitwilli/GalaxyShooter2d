@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemySpawner : MonoBehaviour
 {
     public GameObject enemy;
-    public int totalEnemiesSpawned, totalEnemiesKilled;
+    public int enemiesSpawned, totalEnemiesKilled;
     private float spawnRate;
     private bool setSpawnCooldown;
 
@@ -16,7 +16,7 @@ public class EnemySpawner : MonoBehaviour
             Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
             GameObject newEnemy = Instantiate(enemy, spawnPoint, transform.rotation);
             newEnemy.GetComponent<Enemy>().enemySpawner = this;
-            totalEnemiesSpawned++;
+            enemiesSpawned++;
             setSpawnCooldown = true;
         }
     }
