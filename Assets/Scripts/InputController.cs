@@ -33,6 +33,7 @@ public class InputController : MonoBehaviour
 
     private void FireLaser()
     {
-        Instantiate(player.laserProjectile, transform.position, transform.rotation);
+        Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.02f, 0);
+        Instantiate(player.laserProjectile, laserSpawnOffset, transform.rotation);
     }
 }
