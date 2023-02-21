@@ -4,32 +4,24 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    public GameObject enemy;
+    [SerializeField] private GameObject enemy;
     public int enemiesSpawned, totalEnemiesKilled;
-    private float spawnRate;
-    private bool setSpawnCooldown;
+    [HideInInspector] public bool disableSpawner;
 
-    private void Update()
+    private void Start()
     {
-        if (CanSpawnEnemy())
+        StartCoroutine("SpawnEnemies");
+    }
+
+    private IEnumerator SpawnEnemies()
+    {
+        while (!disableSpawner)
         {
+            yield return new WaitForSeconds(Random.Range(1, 2.5f));
             Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
             GameObject newEnemy = Instantiate(enemy, spawnPoint, transform.rotation);
             newEnemy.GetComponent<Enemy>().enemySpawner = this;
             enemiesSpawned++;
-            setSpawnCooldown = true;
         }
-    }
-
-    private bool CanSpawnEnemy()
-    {
-        if (setSpawnCooldown)
-        {
-            spawnRate = Random.Range(1, 3);
-            setSpawnCooldown = false;
-        }
-        if (spawnRate > 0) { spawnRate -= Time.deltaTime; }
-        else return true;
-        return false;
     }
 }

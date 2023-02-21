@@ -4,23 +4,19 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float playerSpeed, fireRate;
-    [HideInInspector] public bool canFire, setFireCooldown;
+    public float playerSpeed, fireRate, maxHealth, currentHealth;
     public GameObject laserProjectile;
-    private float fireRateCooldown;
 
     private void Start()
     {
         transform.localPosition = new Vector3(0, 0, 0);
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        if (collision.gameObject.GetComponent<Enemy>())
+        if (other.gameObject.GetComponent<Enemy>())
         {
-            Enemy enemyHit = collision.gameObject.GetComponent<Enemy>();
-            enemyHit.EnemyDestroyed();
-            Destroy(gameObject);
+
         }
     }
 }

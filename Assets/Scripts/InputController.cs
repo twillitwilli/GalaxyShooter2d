@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class InputController : MonoBehaviour
 {
-    private Player player;
-    private bool setFireCooldown;
-    private float fireRateCooldown;
+    private Player _player;
+    private bool _setFireCooldown;
+    private float _fireRateCooldown;
 
     private void Start()
     {
-        player = GetComponent<Player>();
+        _player = GetComponent<Player>();
     }
 
     private void Update()
@@ -22,7 +22,7 @@ public class InputController : MonoBehaviour
     private void PlayerMovement()
     {
         Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.Translate(movementDirection * player.playerSpeed * Time.deltaTime);
+        transform.Translate(movementDirection * _player.playerSpeed * Time.deltaTime);
         CheckPlayerBounds();
     }
 
@@ -36,18 +36,18 @@ public class InputController : MonoBehaviour
     private void FireLaser()
     {
         Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.02f, 0);
-        Instantiate(player.laserProjectile, laserSpawnOffset, transform.rotation);
-        setFireCooldown = true;
+        Instantiate(_player.laserProjectile, laserSpawnOffset, transform.rotation);
+        _setFireCooldown = true;
     }
 
     private bool CanFire()
     {
-        if (setFireCooldown)
+        if (_setFireCooldown)
         {
-            fireRateCooldown = player.fireRate;
-            setFireCooldown = false;
+            _fireRateCooldown = _player.fireRate;
+            _setFireCooldown = false;
         }
-        if (fireRateCooldown > 0) { fireRateCooldown -= Time.deltaTime; }
+        if (_fireRateCooldown > 0) { _fireRateCooldown -= Time.deltaTime; }
         else return true;
         return false;
     }
