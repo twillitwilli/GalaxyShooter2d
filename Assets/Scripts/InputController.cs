@@ -15,8 +15,11 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        PlayerMovement();
-        if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
+        if (!_player.playerDead)
+        {
+            PlayerMovement();
+            if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
+        }
     }
 
     private void PlayerMovement()
@@ -36,7 +39,8 @@ public class InputController : MonoBehaviour
     private void FireLaser()
     {
         Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.02f, 0);
-        Instantiate(_player.laserProjectile, laserSpawnOffset, transform.rotation);
+        GameObject laserObject = Instantiate(_player.laserProjectile, laserSpawnOffset, transform.rotation);
+        laserObject.GetComponent<Laser>().player = _player;
         _setFireCooldown = true;
     }
 

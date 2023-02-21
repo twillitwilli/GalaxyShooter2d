@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Laser : MonoBehaviour
 {
+    [HideInInspector] public Player player;
     public float laserSpeed;
 
     private void Update()
@@ -17,7 +18,7 @@ public class Laser : MonoBehaviour
         if (other.gameObject.GetComponent<Enemy>())
         {
             Enemy enemyHit = other.gameObject.GetComponent<Enemy>();
-            enemyHit.EnemyDestroyed();
+            enemyHit.AdjustHealth(-player.damage);
             Destroy(gameObject);
         }
     }

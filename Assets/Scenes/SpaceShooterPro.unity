@@ -4959,11 +4959,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b34c827faeaba48ae7ff325a03f356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
   playerSpeed: 20
   fireRate: 0.25
-  canFire: 0
-  setFireCooldown: 0
+  damage: 10
+  currentHealth: 0
   laserProjectile: {fileID: 6872098108398036503, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
+  playerDead: 0
 --- !u!65 &436753620
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -10154,6 +10156,7 @@ MonoBehaviour:
   enemy: {fileID: 4467683447142312811, guid: 36bfd0735997c3f45b9841cf0638c3a8, type: 3}
   enemiesSpawned: 0
   totalEnemiesKilled: 0
+  disableSpawner: 0
 --- !u!4 &1256008359
 Transform:
   m_ObjectHideFlags: 0

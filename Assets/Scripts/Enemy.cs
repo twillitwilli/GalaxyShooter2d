@@ -5,20 +5,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [HideInInspector] public EnemySpawner enemySpawner;
-    public float enemySpeed;
+    [SerializeField] private float health, enemySpeed;
+    private float maxHealth;
     public GameObject enemyExplosion;
 
     private void Start()
     {
-        switch (GameManager.instance.gameDifficulty)
-        {
-            case GameManager.GameDifficulty.easy:
-                break;
-            case GameManager.GameDifficulty.normal:
-                break;
-            case GameManager.GameDifficulty.hard:
-                break;
-        }
+        maxHealth = health;
     }
 
     void Update()
@@ -30,7 +23,14 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void EnemyDestroyed()
+    public void AdjustHealth(float healthValue)
+    {
+        health += healthValue;
+        if (health > maxHealth) { health = maxHealth; }
+        else if (health < 0) { EnemyDestroyed(); }
+    }
+
+    private void EnemyDestroyed()
     {
         enemySpawner.totalEnemiesKilled++;
         Instantiate(enemyExplosion, transform.position, transform.rotation);

@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    public float playerSpeed, fireRate, maxHealth, currentHealth;
+    public float maxHealth, playerSpeed, fireRate, damage;
+    [HideInInspector] public float currentHealth;
     public GameObject laserProjectile;
+    [HideInInspector] public bool playerDead;
 
     private void Start()
     {
@@ -14,9 +16,13 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Enemy>())
-        {
 
-        }
+    }
+
+    public void AdjustHealth(float healthValue)
+    {
+        currentHealth += healthValue;
+        if (currentHealth > maxHealth) { currentHealth = maxHealth; }
+        else if (currentHealth < 0) { playerDead = true; }
     }
 }
