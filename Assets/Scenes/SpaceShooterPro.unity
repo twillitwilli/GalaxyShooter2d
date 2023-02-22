@@ -4927,6 +4927,11 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!23 &378945628 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -1504981713932161579, guid: 7fd06e692873444e797696cb730858e6, type: 3}
+  m_PrefabInstance: {fileID: 445808681}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &436753618
 GameObject:
   m_ObjectHideFlags: 0
@@ -4959,12 +4964,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b34c827faeaba48ae7ff325a03f356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _playerRenderer: {fileID: 378945628}
+  _defaultPlayerMat: {fileID: 2100000, guid: b3f22625353ba4c4cb45b68c83a98b11, type: 2}
+  _playerExplosion: {fileID: 411375335934207406, guid: f503e844914ebb04b917cb591935679e, type: 3}
+  laserProjectile: {fileID: 6872098108398036503, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
   maxHealth: 100
   playerSpeed: 20
   fireRate: 0.25
   damage: 10
   currentHealth: 0
-  laserProjectile: {fileID: 6872098108398036503, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
   playerDead: 0
 --- !u!65 &436753620
 BoxCollider:
@@ -5125,6 +5133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameDifficulty: 1
+  _player: {fileID: 436753619}
 --- !u!4 &494397670
 Transform:
   m_ObjectHideFlags: 0
