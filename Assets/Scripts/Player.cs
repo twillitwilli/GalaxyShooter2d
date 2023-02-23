@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Renderer _playerRenderer;
-    [SerializeField] private Material _defaultPlayerMat;
+    private SpriteRenderer _playerRenderer;
     [SerializeField] private GameObject _playerExplosion;
     public GameObject laserProjectile;
     public float maxHealth, playerSpeed, fireRate, damage;
@@ -13,15 +12,16 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        _playerRenderer = GetComponent<SpriteRenderer>();
         transform.localPosition = new Vector3(0, 0, 0);
         currentHealth = maxHealth;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.GetComponent<Enemy>())
+        if (collision.gameObject.GetComponent<Enemy>())
         {
-            other.gameObject.GetComponent<Enemy>().AdjustHealth(-damage * 2);
+            collision.gameObject.GetComponent<Enemy>().AdjustHealth(-damage * 2);
             AdjustHealth(-25);
         }
     }
@@ -36,9 +36,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerHitColorChange()
     {
-        _playerRenderer.material.color = new Color(255, 0, 0, 255);
-        yield return new WaitForSeconds(0.1f);
-        _playerRenderer.material = _defaultPlayerMat;
+        _playerRenderer.color = new Color(255, 0, 0, 255);
+        yield return new WaitForSeconds(0.2f);
+        _playerRenderer.color = new Color(255, 255, 255, 255);
     }
 
     private void PlayerDied()

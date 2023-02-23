@@ -35,7 +35,7 @@ public class InputController : MonoBehaviour
 
     private void FireLaser()
     {
-        Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.02f, 0);
+        Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.037f, 0);
         GameObject laserObject = Instantiate(_player.laserProjectile, laserSpawnOffset, transform.rotation);
         laserObject.GetComponent<Laser>().player = _player;
         _setFireCooldown = true;

@@ -13,11 +13,11 @@ public class Laser : MonoBehaviour
         if (transform.position.y > 10) { Destroy(gameObject); }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.gameObject.GetComponent<Enemy>())
+        if (collision.gameObject.GetComponent<Enemy>())
         {
-            Enemy enemyHit = other.gameObject.GetComponent<Enemy>();
+            Enemy enemyHit = collision.gameObject.GetComponent<Enemy>();
             enemyHit.AdjustHealth(-player.damage);
             Destroy(gameObject);
         }
