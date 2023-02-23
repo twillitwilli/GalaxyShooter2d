@@ -8,13 +8,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     public enum GameDifficulty { easy, normal, hard }
     public GameDifficulty gameDifficulty;
-    [SerializeField] private Player _player;
+    private Player _player;
 
     private void Awake()
     {
         if (!instance) { instance = this; }
         else { Destroy(gameObject); }
         if (instance == this) { DontDestroyOnLoad(gameObject); }
+    }
+
+    private void Start()
+    {
+        StartCoroutine("GetNewPlayer");
     }
 
     private void Update()

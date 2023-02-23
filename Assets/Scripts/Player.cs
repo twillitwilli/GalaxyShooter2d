@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
     public GameObject laserProjectile;
     public float maxHealth, playerSpeed, fireRate, damage;
     [HideInInspector] public float currentHealth;
-    [HideInInspector] public bool playerDead;
 
     private void Start()
     {
@@ -32,13 +31,7 @@ public class Player : MonoBehaviour
         if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
         currentHealth += healthValue;
         if (currentHealth > maxHealth) { currentHealth = maxHealth; }
-        else if (currentHealth < 0) 
-        { 
-            playerDead = true;
-            GameObject newExplosion = Instantiate(_playerExplosion, transform.position, transform.rotation);
-            newExplosion.transform.SetParent(null);
-            Destroy(gameObject);
-        }
+        else if (currentHealth < 0) { PlayerDied(); }
     }
 
     private IEnumerator PlayerHitColorChange()
@@ -46,5 +39,13 @@ public class Player : MonoBehaviour
         _playerRenderer.material.color = new Color(255, 0, 0, 255);
         yield return new WaitForSeconds(0.1f);
         _playerRenderer.material = _defaultPlayerMat;
+    }
+
+    private void PlayerDied()
+    {
+        GameObject newExplosion = Instantiate(_playerExplosion, transform.position, transform.rotation);
+        newExplosion.transform.SetParent(null);
+        FindObjectOfType<EnemySpawner>().disableSpawner = true;
+        Destroy(gameObject);
     }
 }

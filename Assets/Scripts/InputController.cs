@@ -15,11 +15,8 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        if (!_player.playerDead)
-        {
-            PlayerMovement();
-            if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
-        }
+        PlayerMovement();
+        if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
     }
 
     private void PlayerMovement()
