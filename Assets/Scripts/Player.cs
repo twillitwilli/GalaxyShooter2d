@@ -9,6 +9,9 @@ public class Player : MonoBehaviour
     public GameObject laserProjectile;
     public float maxHealth, playerSpeed, fireRate, damage;
     [HideInInspector] public float currentHealth;
+    private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
+    private Color _defaualtColor = new Color(255, 255, 255, 255);
+    private Color _playerHitColor = new Color(255, 0, 0, 255);
 
     private void Start()
     {
@@ -36,9 +39,9 @@ public class Player : MonoBehaviour
 
     private IEnumerator PlayerHitColorChange()
     {
-        _playerRenderer.color = new Color(255, 0, 0, 255);
-        yield return new WaitForSeconds(0.2f);
-        _playerRenderer.color = new Color(255, 255, 255, 255);
+        _playerRenderer.color = _playerHitColor;
+        yield return _colorChangeWaitTime;
+        _playerRenderer.color = _defaualtColor;
     }
 
     private void PlayerDied()
