@@ -6,7 +6,6 @@ public class Player : MonoBehaviour
 {
     private SpriteRenderer _playerRenderer;
     [SerializeField] private GameObject _playerExplosion;
-    public GameObject laserProjectile;
     public float maxHealth, playerSpeed, fireRate, damage;
     [HideInInspector] public float currentHealth;
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
@@ -22,9 +21,10 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>())
+        Enemy enemy;
+        if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
         {
-            collision.gameObject.GetComponent<Enemy>().AdjustHealth(-damage * 2);
+            enemy.AdjustHealth(-damage * 2);
             AdjustHealth(-25);
         }
     }
@@ -46,8 +46,7 @@ public class Player : MonoBehaviour
 
     private void PlayerDied()
     {
-        GameObject newExplosion = Instantiate(_playerExplosion, transform.position, transform.rotation);
-        newExplosion.transform.SetParent(null);
+        Instantiate(_playerExplosion, transform.position, transform.rotation);
         FindObjectOfType<EnemySpawner>().disableSpawner = true;
         Destroy(gameObject);
     }

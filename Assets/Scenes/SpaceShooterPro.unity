@@ -581,8 +581,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2ee526b8ee83844a7457b84be905d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 4467683447142312811, guid: 36bfd0735997c3f45b9841cf0638c3a8, type: 3}
-  enemyParent: {fileID: 332407245}
+  _enemy: {fileID: 0}
+  _enemyParent: {fileID: 0}
   enemiesSpawned: 0
   totalEnemiesKilled: 0
   disableSpawner: 0
@@ -634,6 +634,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c71d71ea52ba6fa40b3470e3bc60e160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _laser: {fileID: 6172490556401935598, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
 --- !u!114 &1900548313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,7 +648,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerExplosion: {fileID: 411375335934207406, guid: f503e844914ebb04b917cb591935679e, type: 3}
-  laserProjectile: {fileID: 6172490556401935598, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
   maxHealth: 100
   playerSpeed: 20
   fireRate: 0.25

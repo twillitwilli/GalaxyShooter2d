@@ -5,6 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player _player;
+    [SerializeField] private GameObject _laser;
     private bool _setFireCooldown;
     private float _fireRateCooldown;
 
@@ -36,7 +37,7 @@ public class InputController : MonoBehaviour
     private void FireLaser()
     {
         Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.037f, 0);
-        GameObject laserObject = Instantiate(_player.laserProjectile, laserSpawnOffset, transform.rotation);
+        GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
         laserObject.GetComponent<Laser>().player = _player;
         _setFireCooldown = true;
     }

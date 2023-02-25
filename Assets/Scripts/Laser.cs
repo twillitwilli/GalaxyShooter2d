@@ -15,10 +15,10 @@ public class Laser : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<Enemy>())
+        Enemy enemy;
+        if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
         {
-            Enemy enemyHit = collision.gameObject.GetComponent<Enemy>();
-            enemyHit.AdjustHealth(-player.damage);
+            enemy.AdjustHealth(-player.damage);
             Destroy(gameObject);
         }
     }
