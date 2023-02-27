@@ -5,19 +5,20 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [HideInInspector] public EnemySpawner enemySpawner;
-    [SerializeField] private float health, enemySpeed;
+    [SerializeField] private float _health;
     [SerializeField] [Range(1, 100)] private float lootChance;
-    private float maxHealth;
+    private float _maxHealth, _enemySpeed;
     public GameObject enemyExplosion;
 
     private void Start()
     {
-        maxHealth = health;
+        _maxHealth = _health;
+        _enemySpeed = Random.Range(2.5f, 5);
     }
 
     void Update()
     {
-        transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
+        transform.Translate(-Vector3.up * _enemySpeed * Time.deltaTime);
         if (transform.position.y < -9.3f) { Destroy(gameObject); }
     }
 
@@ -27,15 +28,15 @@ public class Enemy : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Player>(out player))
         {
             player.playerStats.AdjustCurrentHealth(-26);
-            AdjustHealth(player.playerStats.GetAttackDamage() * 2);
+            AdjustHealth(-player.playerStats.GetAttackDamage() * 2);
         }
     }
 
     public void AdjustHealth(float healthValue)
     {
-        health += healthValue;
-        if (health > maxHealth) { health = maxHealth; }
-        else if (health < 0) { EnemyDestroyed(); }
+        _health += healthValue;
+        if (_health > _maxHealth) { _health = _maxHealth; }
+        else if (_health < 0) { EnemyDestroyed(); }
     }
 
     private void EnemyDestroyed()

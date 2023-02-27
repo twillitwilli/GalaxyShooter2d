@@ -98,8 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 0}
-  health: 15
-  enemySpeed: 5
+  _health: 16
   lootChance: 40
   enemyExplosion: {fileID: 124731750733296378, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
 --- !u!61 &5989956738150325945
