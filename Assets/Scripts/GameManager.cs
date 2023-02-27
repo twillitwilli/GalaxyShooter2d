@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
-    public enum GameDifficulty { easy, normal, hard }
-    public GameDifficulty gameDifficulty;
+    [HideInInspector] public PowerUpManager powerUpManager;
     private Player _player;
 
     private void Awake()
@@ -20,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        powerUpManager = GetComponent<PowerUpManager>();
         StartCoroutine("GetNewPlayer");
     }
 

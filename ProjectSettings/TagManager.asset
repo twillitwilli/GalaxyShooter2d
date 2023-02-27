@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Enemy
   - Laser
+  - PowerUp
+  - Meteor
   layers:
   - Default
   - TransparentFX
@@ -15,7 +17,7 @@ TagManager:
   - UI
   - Player
   - Enemy
-  - 
+  - PowerUp
   - 
   - 
   - 
@@ -48,4 +50,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1221101847
+    locked: 0
+  - name: Enemies
+    uniqueID: 1394881287
     locked: 0

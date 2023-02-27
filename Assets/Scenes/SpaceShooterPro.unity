@@ -153,6 +153,36 @@ Transform:
   m_Father: {fileID: 1256008359}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &472121382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 472121383}
+  m_Layer: 0
+  m_Name: SpawnedMeteors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &472121383
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 472121382}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1801272304}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &494397668
 GameObject:
   m_ObjectHideFlags: 0
@@ -163,6 +193,7 @@ GameObject:
   m_Component:
   - component: {fileID: 494397670}
   - component: {fileID: 494397669}
+  - component: {fileID: 494397672}
   - component: {fileID: 494397671}
   m_Layer: 0
   m_Name: GameManager
@@ -183,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1700eee604f18e84d9a6665ba076c8ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gameDifficulty: 1
+  powerUpManager: {fileID: 0}
 --- !u!4 &494397670
 Transform:
   m_ObjectHideFlags: 0
@@ -294,6 +325,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &494397672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 494397668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c1df52eb1195da4a864f923db5fb2f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUp:
+  - {fileID: 2191912324531327109, guid: 38d5030d309d9f547895c5c1f6affe89, type: 3}
 --- !u!1 &654464826
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +419,7 @@ Transform:
   m_LocalScale: {x: 1.0920074, y: 1.1031839, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &705507993
 GameObject:
@@ -581,8 +626,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f2ee526b8ee83844a7457b84be905d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 0}
-  _enemyParent: {fileID: 0}
+  _enemy: {fileID: 4467683447142312811, guid: 36bfd0735997c3f45b9841cf0638c3a8, type: 3}
+  _enemyParent: {fileID: 332407245}
   enemiesSpawned: 0
   totalEnemiesKilled: 0
   disableSpawner: 0
@@ -599,7 +644,54 @@ Transform:
   m_Children:
   - {fileID: 332407245}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1801272302
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1801272304}
+  - component: {fileID: 1801272303}
+  m_Layer: 0
+  m_Name: EnvironmentSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1801272303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801272302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 651fa6eaa0571a34389c767d31aaffe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meteor: {fileID: 5066630596700075007, guid: c57653c65bf8abc4dba91b3a0ea6e3a9, type: 3}
+  spawnParent: {fileID: 472121383}
+  disableSpawner: 0
+--- !u!4 &1801272304
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1801272302}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 472121383}
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1900548311
 GameObject:
@@ -615,6 +707,7 @@ GameObject:
   - component: {fileID: 1900548316}
   - component: {fileID: 1900548313}
   - component: {fileID: 1900548312}
+  - component: {fileID: 1900548319}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -635,6 +728,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _laser: {fileID: 6172490556401935598, guid: 1023e0f47ad25194bb9326823ced66f9, type: 3}
+  _tripleShot: {fileID: 6077782838251318183, guid: 45e236d71e7964949af3e1f3312ee80e, type: 3}
 --- !u!114 &1900548313
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -647,12 +741,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8b34c827faeaba48ae7ff325a03f356, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStats: {fileID: 0}
   _playerExplosion: {fileID: 411375335934207406, guid: f503e844914ebb04b917cb591935679e, type: 3}
-  maxHealth: 100
-  playerSpeed: 20
-  fireRate: 0.25
-  damage: 10
-  currentHealth: 0
 --- !u!212 &1900548314
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -716,7 +806,7 @@ Transform:
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1900548316
 Rigidbody2D:
@@ -765,3 +855,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3.338038, y: 4.3640165}
   m_EdgeRadius: 0
+--- !u!114 &1900548319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1900548311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8fd97d605b1e2644e98ba678a6dd0af8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  powerUpManager: {fileID: 0}

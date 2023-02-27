@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player _player;
-    [SerializeField] private GameObject _laser;
+    [SerializeField] private GameObject _laser, _tripleShot;
     private bool _setFireCooldown;
     private float _fireRateCooldown;
 
@@ -23,7 +23,7 @@ public class InputController : MonoBehaviour
     private void PlayerMovement()
     {
         Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.Translate(movementDirection * _player.playerSpeed * Time.deltaTime);
+        transform.Translate(movementDirection * _player.playerStats.GetPlayerSpeed() * Time.deltaTime);
         CheckPlayerBounds();
     }
 
@@ -36,9 +36,18 @@ public class InputController : MonoBehaviour
 
     private void FireLaser()
     {
-        Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.037f, 0);
-        GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
-        laserObject.GetComponent<Laser>().player = _player;
+        if (!_player.playerStats.powerUpManager.IsTripleShotActive())
+        {
+            Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.037f, 0);
+            GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
+            laserObject.GetComponent<Laser>().player = _player;
+        }
+        else
+        {
+            GameObject tripleShotParent = Instantiate(_tripleShot, transform.position, transform.rotation);
+            Laser[] laserShots = tripleShotParent.GetComponentsInChildren<Laser>();
+            foreach (Laser lasers in laserShots) { lasers.player = _player; }
+        }
         _setFireCooldown = true;
     }
 
@@ -46,7 +55,7 @@ public class InputController : MonoBehaviour
     {
         if (_setFireCooldown)
         {
-            _fireRateCooldown = _player.fireRate;
+            _fireRateCooldown = _player.playerStats.GetFireRate();
             _setFireCooldown = false;
         }
         if (_fireRateCooldown > 0) { _fireRateCooldown -= Time.deltaTime; }
