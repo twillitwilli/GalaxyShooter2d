@@ -12,12 +12,11 @@ public class Meteor : MonoBehaviour
         float randomScale = Random.Range(0.5f, 1.2f);
         transform.localScale = new Vector3(randomScale, randomScale, 1);
         randomSpeed = Random.Range(1, 6);
-        randomRotationSpeed = Random.Range(-5, 5);
     }
+
     private void Update()
     {
         transform.Translate(-Vector3.up * randomSpeed * Time.deltaTime);
-        transform.Rotate(Vector3.forward * randomRotationSpeed * Time.deltaTime);
         if (transform.position.y < -6.9f) { Destroy(gameObject); }
     }
 

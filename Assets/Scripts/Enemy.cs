@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _health;
     [SerializeField] [Range(1, 100)] private float lootChance;
     private float _maxHealth, _enemySpeed;
-    public GameObject enemyExplosion;
+    [SerializeField] private GameObject enemyExplosion;
 
     private void Start()
     {
