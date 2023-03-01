@@ -17,7 +17,7 @@ public class EnvironmentSpawner : MonoBehaviour
     {
         while (!disableSpawner)
         {
-            yield return new WaitForSeconds(Random.Range(1.5f, 3.5f));
+            yield return new WaitForSeconds(Random.Range(0.5f, 1.5f));
             Vector3 spawnPoint = new Vector3(Random.Range(-9.4f, 9.4f), 6.9f, 0);
             GameObject newMeteor = Instantiate(meteor, spawnPoint, transform.rotation);
             newMeteor.transform.SetParent(spawnParent);

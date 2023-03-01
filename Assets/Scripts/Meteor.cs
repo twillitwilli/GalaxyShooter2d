@@ -12,7 +12,7 @@ public class Meteor : MonoBehaviour
     private void Start()
     {
         _meteorParent = GetComponentInParent<MeteorMovement>();
-        float randomScale = Random.Range(0.5f, 1.2f);
+        float randomScale = Random.Range(0.25f, 0.7f);
         transform.localScale = new Vector3(randomScale, randomScale, 1);
         randomRotationSpeed = Random.Range(-90, 90);
     }

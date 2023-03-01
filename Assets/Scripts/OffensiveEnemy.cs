@@ -32,7 +32,7 @@ public class OffensiveEnemy : Enemy
         yield return new WaitForSeconds(Random.Range(3, 6));
         if (currentLaser == null)
         {
-            Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.699f, 0);
+            Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.338f, 0);
             currentLaser = Instantiate(_enemyLaser, spawnOffset, transform.rotation);
         }
     }

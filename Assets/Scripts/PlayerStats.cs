@@ -7,7 +7,7 @@ public class PlayerStats : MonoBehaviour
     private Player _player;
     [HideInInspector] public PowerUpManager powerUpManager;
     private SpriteRenderer _playerRenderer;
-    private float _maxHealth = 100, _playerSpeed = 15, _fireRate = 0.25f, _attackDamage = 12, _currentHealth;
+    private float _maxHealth = 100, _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12, _currentHealth;
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
     private Color _playerHitColor = new Color(255, 0, 0, 255);

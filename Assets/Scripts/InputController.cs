@@ -42,7 +42,7 @@ public class InputController : MonoBehaviour
     {
         if (!_player.playerStats.powerUpManager.IsTripleShotActive())
         {
-            Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 1.037f, 0);
+            Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 0.518f, 0);
             GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
             laserObject.GetComponent<Laser>().player = _player;
         }
