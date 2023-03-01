@@ -24,7 +24,7 @@ public class Laser : MonoBehaviour
         }
         else if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
         {
-            Destroy(meteor.gameObject);
+            meteor.Destroyed();
             Destroy(gameObject);
         }
     }

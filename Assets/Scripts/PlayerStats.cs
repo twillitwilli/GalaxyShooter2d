@@ -22,8 +22,11 @@ public class PlayerStats : MonoBehaviour
 
     public void AdjustCurrentHealth(float healthValue)
     {
-        if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
-        _currentHealth += healthValue;
+        if (!powerUpManager.ShieldActive())
+        {
+            if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
+            _currentHealth += healthValue;
+        }
         if (_currentHealth > _maxHealth) { _currentHealth = _maxHealth; }
         else if (_currentHealth < 0) { _player.PlayerDied(); }
     }

@@ -4,12 +4,24 @@ using UnityEngine;
 
 public class PowerUpManager : MonoBehaviour
 {
+    private Player _player;
     public enum PowerUps { tripleShot, speedBoost, shield }
     [SerializeField] private GameObject[] powerUp;
+    [SerializeField] private GameObject shieldObject;
     private bool _tripleShotActive, _speedBoostActive;
     private WaitForSeconds tripleShotDuration = new WaitForSeconds(8);
     private WaitForSeconds speedBoostDuration = new WaitForSeconds(10);
     private GameObject activeShield;
+
+    private void Start()
+    {
+        SetNewPlayer();
+    }
+
+    public void SetNewPlayer()
+    {
+        _player = GameManager.instance.player;
+    }
 
     public void SpawnPowerUp(Transform spawnTransform)
     {
@@ -30,6 +42,11 @@ public class PowerUpManager : MonoBehaviour
                 StartCoroutine("SpeedBoostDuration");
                 break;
             case PowerUps.shield:
+                if (activeShield == null)
+                {
+                    activeShield = Instantiate(shieldObject, _player.transform.position, _player.transform.rotation);
+                    activeShield.transform.SetParent(_player.transform);
+                }
                 break;
         }
     }
@@ -42,6 +59,16 @@ public class PowerUpManager : MonoBehaviour
     public bool IsSpeedBoostActive()
     {
         return _speedBoostActive;
+    }
+
+    public bool ShieldActive()
+    {
+        if (activeShield != null)
+        {
+            Destroy(activeShield);
+            return true;
+        }
+        else return false;
     }
 
     private IEnumerator TripleShotDuration()

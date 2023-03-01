@@ -4,20 +4,22 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
-    private float randomSpeed, randomRotationSpeed;
+    private MeteorMovement _meteorParent;
     [SerializeField][Range(1, 100)]private float lootChance;
+    [SerializeField] [Range(1, 100)] private int pointValue;
+    private float randomRotationSpeed;
 
     private void Start()
     {
+        _meteorParent = GetComponentInParent<MeteorMovement>();
         float randomScale = Random.Range(0.5f, 1.2f);
         transform.localScale = new Vector3(randomScale, randomScale, 1);
-        randomSpeed = Random.Range(1, 6);
+        randomRotationSpeed = Random.Range(-90, 90);
     }
 
     private void Update()
     {
-        transform.Translate(-Vector3.up * randomSpeed * Time.deltaTime);
-        if (transform.position.y < -6.9f) { Destroy(gameObject); }
+        transform.Rotate(Vector3.forward * randomRotationSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -32,8 +34,14 @@ public class Meteor : MonoBehaviour
 
     public void Destroyed()
     {
+        GameManager.instance.pointManager.UpdateCurrentScore(pointValue);
         int randomSpawnChance = Random.Range(0, 100);
-        if (randomSpawnChance < lootChance) { GameManager.instance.powerUpManager.SpawnPowerUp(transform); }
+        if (randomSpawnChance < lootChance) { GameManager.instance.powerUpManager.SpawnPowerUp(_meteorParent.transform); }
         Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(_meteorParent.gameObject);
     }
 }

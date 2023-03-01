@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [HideInInspector] public PowerUpManager powerUpManager;
-    private Player _player;
+    [HideInInspector] public PointManager pointManager;
+    [HideInInspector] public Player player;
+    private bool setScore;
 
     private void Awake()
     {
@@ -20,21 +22,33 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         powerUpManager = GetComponent<PowerUpManager>();
+        pointManager = GetComponent<PointManager>();
         StartCoroutine("GetNewPlayer");
     }
 
     private void Update()
     {
-        if (_player == null && Input.GetKeyDown(KeyCode.R))
+        if (player == null)
         {
-            SceneManager.LoadScene(0);
-            StartCoroutine("GetNewPlayer");
+            if (setScore)
+            {
+                setScore = false;
+                pointManager.SaveHighScore();
+            }
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(0);
+                StartCoroutine("GetNewPlayer");
+            }
         }
     }
 
     private IEnumerator GetNewPlayer()
     {
         yield return new WaitForSeconds(1);
-        _player = FindObjectOfType<Player>();
+        player = FindObjectOfType<Player>();
+        powerUpManager.SetNewPlayer();
+        pointManager.LoadHighScore();
+        setScore = true;
     }
 }

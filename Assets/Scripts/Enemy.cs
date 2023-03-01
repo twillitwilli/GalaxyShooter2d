@@ -7,6 +7,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public EnemySpawner enemySpawner;
     [SerializeField] private float _health;
     [SerializeField] [Range(1, 100)] private float lootChance;
+    [SerializeField] [Range(1, 100)] private int pointValue;
     private float _maxHealth, _enemySpeed;
     [SerializeField] private GameObject enemyExplosion;
 
@@ -16,10 +17,14 @@ public class Enemy : MonoBehaviour
         _enemySpeed = Random.Range(2.5f, 5);
     }
 
-    void Update()
+    public virtual void Update()
     {
         transform.Translate(-Vector3.up * _enemySpeed * Time.deltaTime);
-        if (transform.position.y < -9.3f) { Destroy(gameObject); }
+        if (transform.position.y < -9.3f) 
+        {
+            enemySpawner.EnemyDestroyed(false);
+            Destroy(gameObject); 
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,9 +46,10 @@ public class Enemy : MonoBehaviour
 
     private void EnemyDestroyed()
     {
+        GameManager.instance.pointManager.UpdateCurrentScore(pointValue);
         int randomSpawnChance = Random.Range(0, 100);
         if (randomSpawnChance < lootChance) { GameManager.instance.powerUpManager.SpawnPowerUp(transform); }
-        enemySpawner.totalEnemiesKilled++;
+        enemySpawner.EnemyDestroyed(true);
         Instantiate(enemyExplosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }

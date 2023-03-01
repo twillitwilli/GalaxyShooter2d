@@ -23,7 +23,11 @@ public class InputController : MonoBehaviour
     private void PlayerMovement()
     {
         Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.Translate(movementDirection * _player.playerStats.GetPlayerSpeed() * Time.deltaTime);
+        if (!_player.playerStats.powerUpManager.IsSpeedBoostActive())
+        {
+            transform.Translate(movementDirection * _player.playerStats.GetPlayerSpeed() * Time.deltaTime);
+        }
+        else { transform.Translate(movementDirection * (_player.playerStats.GetPlayerSpeed() + 5) * Time.deltaTime); }
         CheckPlayerBounds();
     }
 
