@@ -39,6 +39,7 @@ public class PowerUpManager : MonoBehaviour
                 break;
             case PowerUps.speedBoost:
                 _speedBoostActive = true;
+                _player.ThrusterSize(true);
                 StartCoroutine("SpeedBoostDuration");
                 break;
             case PowerUps.shield:
@@ -81,5 +82,6 @@ public class PowerUpManager : MonoBehaviour
     {
         yield return speedBoostDuration;
         _speedBoostActive = false;
+        _player.ThrusterSize(false);
     }
 }

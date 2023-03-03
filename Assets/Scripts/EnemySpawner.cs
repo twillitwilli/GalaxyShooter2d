@@ -19,7 +19,7 @@ public class EnemySpawner : MonoBehaviour
         while (!disableSpawner)
         {
             yield return new WaitForSeconds(Random.Range(1, 2.5f));
-            if (currentlySpawnedEnemies < 8)
+            if (currentlySpawnedEnemies < 12)
             {
                 Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
                 GameObject newEnemy = Instantiate(_enemies[GetRandomEnemy()], spawnPoint, transform.rotation);

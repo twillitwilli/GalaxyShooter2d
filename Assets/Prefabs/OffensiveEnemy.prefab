@@ -148,5 +148,5 @@ MonoBehaviour:
   _health: 28
   lootChance: 35
   pointValue: 35
-  enemyExplosion: {fileID: 124731750733296378, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
+  enemyExplosion: {fileID: 7413233751183864575, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
   _enemyLaser: {fileID: 6172490556401935598, guid: ec3489d5646e3f94dab475e59e4aee9e, type: 3}

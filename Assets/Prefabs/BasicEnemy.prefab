@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4467683447142312811}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.86, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.325, y: 0.325, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -148,4 +148,4 @@ MonoBehaviour:
   _health: 16
   lootChance: 40
   pointValue: 25
-  enemyExplosion: {fileID: 124731750733296378, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
+  enemyExplosion: {fileID: 7413233751183864575, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}

@@ -14,6 +14,6 @@ public class MeteorMovement : MonoBehaviour
     private void Update()
     {
         transform.Translate(-Vector3.up * randomSpeed * Time.deltaTime);
-        if (transform.position.y < -6.9f) { Destroy(gameObject); }
+        if (transform.position.y < -8) { Destroy(gameObject); }
     }
 }
