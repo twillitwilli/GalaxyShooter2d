@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
     private int GetRandomEnemy()
     {
         float aggresiveEnemySpawnChance = Random.Range(0, 100);
-        if (totalEnemiesKilled > 5 && aggresiveEnemySpawnChance > 35) { return 1; }
+        if (totalEnemiesKilled > 5 && aggresiveEnemySpawnChance > 45) { return 1; }
         return 0;
     }
 

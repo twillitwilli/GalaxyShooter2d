@@ -82,6 +82,6 @@ public class PowerUpManager : MonoBehaviour
     {
         yield return speedBoostDuration;
         _speedBoostActive = false;
-        _player.ThrusterSize(false);
+        if (_player != null) { _player.ThrusterSize(false); }
     }
 }

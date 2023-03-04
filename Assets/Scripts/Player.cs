@@ -27,11 +27,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SpeedBoostThruster()
-    {
-        
-    }
-
     public void PlayerDied()
     {
         Instantiate(_playerExplosion, transform.position, transform.rotation);
