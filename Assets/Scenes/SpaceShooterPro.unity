@@ -250,7 +250,7 @@ Transform:
   m_GameObject: {fileID: 342784497}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -2.59, z: 0}
-  m_LocalScale: {x: 0.51, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children: []
   m_Father: {fileID: 1900548315}
   m_RootOrder: 0
@@ -444,11 +444,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1df52eb1195da4a864f923db5fb2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUp:
+  _powerUp:
   - {fileID: 2191912324531327109, guid: 38d5030d309d9f547895c5c1f6affe89, type: 3}
   - {fileID: 3302553859883654214, guid: f7fce81754441b34eb1126170401a7ad, type: 3}
   - {fileID: 6470814299166402580, guid: 0e0762070ad9f914f972e1b4e5d09536, type: 3}
-  shieldObject: {fileID: 4827565905950145411, guid: 49676c1528bf5344dbd5397bd08d4493, type: 3}
+  _shieldObject: {fileID: 4827565905950145411, guid: 49676c1528bf5344dbd5397bd08d4493, type: 3}
 --- !u!114 &494397673
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -461,8 +461,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d73c4decbeaf2dd468e4714c69f6ebcb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: {fileID: 2074442024}
-  highScore: {fileID: 2129704602}
+  _currentScore: {fileID: 2074442024}
+  _highScore: {fileID: 2129704602}
 --- !u!1 &654464826
 GameObject:
   m_ObjectHideFlags: 0
@@ -1065,8 +1065,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 651fa6eaa0571a34389c767d31aaffe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meteor: {fileID: 7992673147488524278, guid: 1dc9ca797a0f813448c4f33e7804c025, type: 3}
-  spawnParent: {fileID: 472121383}
+  _meteor: {fileID: 7992673147488524278, guid: 1dc9ca797a0f813448c4f33e7804c025, type: 3}
+  _spawnParent: {fileID: 472121383}
   disableSpawner: 0
 --- !u!4 &1801272304
 Transform:

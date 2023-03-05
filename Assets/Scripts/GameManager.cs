@@ -9,7 +9,7 @@ public class GameManager : MonoBehaviour
     [HideInInspector] public PowerUpManager powerUpManager;
     [HideInInspector] public PointManager pointManager;
     [HideInInspector] public Player player;
-    private bool setScore;
+    private bool _setScore;
 
     private void Awake()
     {
@@ -30,9 +30,9 @@ public class GameManager : MonoBehaviour
     {
         if (player == null)
         {
-            if (setScore)
+            if (_setScore)
             {
-                setScore = false;
+                _setScore = false;
                 pointManager.SaveHighScore();
             }
             if (Input.GetKeyDown(KeyCode.R))
@@ -49,6 +49,6 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         powerUpManager.SetNewPlayer();
         pointManager.LoadHighScore();
-        setScore = true;
+        _setScore = true;
     }
 }

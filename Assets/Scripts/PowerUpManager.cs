@@ -6,12 +6,12 @@ public class PowerUpManager : MonoBehaviour
 {
     private Player _player;
     public enum PowerUps { tripleShot, speedBoost, shield }
-    [SerializeField] private GameObject[] powerUp;
-    [SerializeField] private GameObject shieldObject;
+    [SerializeField] private GameObject[] _powerUp;
+    [SerializeField] private GameObject _shieldObject;
     private bool _tripleShotActive, _speedBoostActive;
-    private WaitForSeconds tripleShotDuration = new WaitForSeconds(8);
-    private WaitForSeconds speedBoostDuration = new WaitForSeconds(10);
-    private GameObject activeShield;
+    private WaitForSeconds _tripleShotDuration = new WaitForSeconds(8);
+    private WaitForSeconds _speedBoostDuration = new WaitForSeconds(10);
+    private GameObject _activeShield;
 
     private void Start()
     {
@@ -25,8 +25,8 @@ public class PowerUpManager : MonoBehaviour
 
     public void SpawnPowerUp(Transform spawnTransform)
     {
-        int randomPowerUp = Random.Range(0, powerUp.Length);
-        Instantiate(powerUp[randomPowerUp], spawnTransform.position, spawnTransform.rotation);
+        int randomPowerUp = Random.Range(0, _powerUp.Length);
+        Instantiate(_powerUp[randomPowerUp], spawnTransform.position, spawnTransform.rotation);
     }
 
     public void PowerUpObtained(PowerUps whichEffectObtained)
@@ -37,16 +37,18 @@ public class PowerUpManager : MonoBehaviour
                 _tripleShotActive = true;
                 StartCoroutine("TripleShotDuration");
                 break;
+
             case PowerUps.speedBoost:
                 _speedBoostActive = true;
                 _player.ThrusterSize(true);
                 StartCoroutine("SpeedBoostDuration");
                 break;
+
             case PowerUps.shield:
-                if (activeShield == null)
+                if (_activeShield == null)
                 {
-                    activeShield = Instantiate(shieldObject, _player.transform.position, _player.transform.rotation);
-                    activeShield.transform.SetParent(_player.transform);
+                    _activeShield = Instantiate(_shieldObject, _player.transform.position, _player.transform.rotation);
+                    _activeShield.transform.SetParent(_player.transform);
                 }
                 break;
         }
@@ -64,9 +66,9 @@ public class PowerUpManager : MonoBehaviour
 
     public bool ShieldActive()
     {
-        if (activeShield != null)
+        if (_activeShield != null)
         {
-            Destroy(activeShield);
+            Destroy(_activeShield);
             return true;
         }
         else return false;
@@ -74,13 +76,13 @@ public class PowerUpManager : MonoBehaviour
 
     private IEnumerator TripleShotDuration()
     {
-        yield return tripleShotDuration;
+        yield return _tripleShotDuration;
         _tripleShotActive = false;
     }
 
     private IEnumerator SpeedBoostDuration()
     {
-        yield return speedBoostDuration;
+        yield return _speedBoostDuration;
         _speedBoostActive = false;
         if (_player != null) { _player.ThrusterSize(false); }
     }

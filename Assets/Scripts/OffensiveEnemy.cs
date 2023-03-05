@@ -5,45 +5,46 @@ using UnityEngine;
 public class OffensiveEnemy : Enemy
 {
     private enum EnemyState { moving, attacking, fleeing }
-    private EnemyState currentState;
+    private EnemyState _currentState;
     [SerializeField] private GameObject _enemyLaser;
-    private GameObject currentLaser;
+    private GameObject _currentLaser;
     private float _randomStopPos, _enemyStartSpeed;
-    private bool canFire, firing;
+    private bool _canFire, _firing;
 
     private void Start()
     {
-        currentState = EnemyState.moving;
+        _currentState = EnemyState.moving;
         _randomStopPos = Random.Range(1.4f, 4.9f);
         _enemyStartSpeed = Random.Range(2.5f, 5);
     }
 
+
     public override void Update()
     {
-        switch (currentState)
+        switch (_currentState)
         {
             case EnemyState.moving:
                 transform.Translate(-Vector3.up * _enemyStartSpeed * Time.deltaTime);
 
                 if (transform.position.y <= _randomStopPos) 
                 {
-                    canFire = true;
-                    currentState = EnemyState.attacking; 
+                    _canFire = true;
+                    _currentState = EnemyState.attacking; 
                 }
                 break;
 
             case EnemyState.attacking:
                 if (GameManager.instance.player == null) 
                 {
-                    firing = false;
-                    currentState = EnemyState.fleeing; 
+                    _firing = false;
+                    _currentState = EnemyState.fleeing; 
                 }
 
                 Attacking();
                 break;
 
             case EnemyState.fleeing:
-                transform.Translate(-Vector3.up * _enemyStartSpeed * Time.deltaTime);
+                transform.Translate(-Vector3.up * (_enemyStartSpeed + 2) * Time.deltaTime);
 
                 if (transform.position.y < -9.3f)
                 {
@@ -56,23 +57,23 @@ public class OffensiveEnemy : Enemy
 
     public virtual void Attacking()
     {
-        if (canFire)
+        if (_canFire)
         {
-            firing = true;
-            canFire = false;
+            _firing = true;
+            _canFire = false;
             StartCoroutine("FireLaser");
         }
     }
 
     private IEnumerator FireLaser()
     {
-        while (firing)
+        while (_firing)
         {
             yield return new WaitForSeconds(Random.Range(3, 6));
-            if (currentLaser == null)
+            if (_currentLaser == null)
             {
                 Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.338f, 0);
-                currentLaser = Instantiate(_enemyLaser, spawnOffset, transform.rotation);
+                _currentLaser = Instantiate(_enemyLaser, spawnOffset, transform.rotation);
             }
         }
     }

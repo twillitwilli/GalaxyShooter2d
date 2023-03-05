@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private GameObject[] _enemies;
     [SerializeField] private Transform _enemyParent;
     [HideInInspector] public bool disableSpawner;
-    private float currentlySpawnedEnemies, totalEnemiesKilled;
+    private float _currentlySpawnedEnemies, _totalEnemiesKilled;
 
     private void Start()
     {
@@ -19,13 +19,13 @@ public class EnemySpawner : MonoBehaviour
         while (!disableSpawner)
         {
             yield return new WaitForSeconds(Random.Range(1, 2.5f));
-            if (currentlySpawnedEnemies < 12)
+            if (_currentlySpawnedEnemies < 12)
             {
                 Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
                 GameObject newEnemy = Instantiate(_enemies[GetRandomEnemy()], spawnPoint, transform.rotation);
                 newEnemy.GetComponent<Enemy>().enemySpawner = this;
                 newEnemy.transform.SetParent(_enemyParent);
-                currentlySpawnedEnemies++;
+                _currentlySpawnedEnemies++;
             }
         }
     }
@@ -33,13 +33,13 @@ public class EnemySpawner : MonoBehaviour
     private int GetRandomEnemy()
     {
         float aggresiveEnemySpawnChance = Random.Range(0, 100);
-        if (totalEnemiesKilled > 5 && aggresiveEnemySpawnChance > 45) { return 1; }
+        if (_totalEnemiesKilled > 5 && aggresiveEnemySpawnChance > 45) { return 1; }
         return 0;
     }
 
     public void EnemyDestroyed(bool destroyedByPlayer)
     {
-        if (destroyedByPlayer) { totalEnemiesKilled++; }
-        currentlySpawnedEnemies--;
+        if (destroyedByPlayer) { _totalEnemiesKilled++; }
+        _currentlySpawnedEnemies--;
     }
 }
