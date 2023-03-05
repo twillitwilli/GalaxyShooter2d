@@ -7,10 +7,12 @@ public class PlayerStats : MonoBehaviour
     private Player _player;
     [HideInInspector] public PowerUpManager powerUpManager;
     private SpriteRenderer _playerRenderer;
-    private float _maxHealth = 100, _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12, _currentHealth;
+    private int _maxHealth = 3, _currentHealth;
+    private float _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12;
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
     private Color _playerHitColor = new Color(255, 0, 0, 255);
+    [SerializeField] private GameObject[] playerDamageEffect;
 
     private void Start()
     {
@@ -18,17 +20,28 @@ public class PlayerStats : MonoBehaviour
         powerUpManager = GameManager.instance.powerUpManager;
         _playerRenderer = GetComponent<SpriteRenderer>();
         _currentHealth = _maxHealth;
+        AdjustCurrentHealth(0);
     }
 
-    public void AdjustCurrentHealth(float healthValue)
+    public void AdjustCurrentHealth(int healthValue)
     {
-        if (!powerUpManager.ShieldActive())
-        {
-            if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
-            _currentHealth += healthValue;
-        }
+        if (powerUpManager.ShieldActive() && healthValue < 0) { return; }
+
+        if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
+
+        _currentHealth += healthValue;
+        VisualDamage();
+
         if (_currentHealth > _maxHealth) { _currentHealth = _maxHealth; }
-        else if (_currentHealth < 0) { _player.PlayerDied(); }
+        else if (_currentHealth <= 0) 
+        {
+            _currentHealth = 0;
+            GameManager.instance.healhDisplayManager.UpdateHealthDisplay(_currentHealth);
+            _player.PlayerDied();
+            return;
+        }
+
+        GameManager.instance.healhDisplayManager.UpdateHealthDisplay(_currentHealth);
     }
 
     private IEnumerator PlayerHitColorChange()
@@ -38,7 +51,30 @@ public class PlayerStats : MonoBehaviour
         _playerRenderer.color = _defaualtColor;
     }
 
-    public void AdjustMaxHealth(float healthValue)
+    private void VisualDamage()
+    {
+        switch (_currentHealth)
+        {
+            case 3:
+                foreach (GameObject visualDamage in playerDamageEffect)
+                {
+                    visualDamage.SetActive(false);
+                }
+                break;
+            case 2:
+                playerDamageEffect[0].SetActive(true);
+                playerDamageEffect[1].SetActive(false);
+                break;
+            case 1:
+                foreach (GameObject visualDamage in playerDamageEffect)
+                {
+                    visualDamage.SetActive(true);
+                }
+                break;
+        }
+    }
+
+    public void AdjustMaxHealth(int healthValue)
     {
         _maxHealth += healthValue;
         if (_maxHealth > 350) { _maxHealth = 350; }

@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5607701957982234211}
   - component: {fileID: 2756429407179096984}
   - component: {fileID: 4406849742593806315}
+  - component: {fileID: 5346463282116290229}
+  - component: {fileID: 29960336327679027}
   m_Layer: 7
   m_Name: OffensiveEnemy
   m_TagString: Enemy
@@ -146,7 +148,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 0}
   _health: 28
-  lootChance: 35
-  pointValue: 35
   enemyExplosion: {fileID: 7413233751183864575, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
   _enemyLaser: {fileID: 6172490556401935598, guid: ec3489d5646e3f94dab475e59e4aee9e, type: 3}
+--- !u!114 &5346463282116290229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2374083915551609777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813cd5a7d7b24d74abc8d5e0f3cc49f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pointValue: 30
+--- !u!114 &29960336327679027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2374083915551609777}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67bfef2ae81360b4e9b7696cd2bc93f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _lootChance: 30

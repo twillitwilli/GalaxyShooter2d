@@ -6,10 +6,16 @@ public class Enemy : MonoBehaviour
 {
     [HideInInspector] public EnemySpawner enemySpawner;
     [SerializeField] private float _health;
-    [SerializeField] [Range(1, 100)] private float lootChance;
-    [SerializeField] [Range(1, 100)] private int pointValue;
     private float _maxHealth, _enemySpeed;
     [SerializeField] private GameObject enemyExplosion;
+    private GivePoints _givePoints;
+    private LootChance _lootChance;
+
+    private void Awake()
+    {
+        _givePoints = GetComponent<GivePoints>();
+        _lootChance = GetComponent<LootChance>();
+    }
 
     private void Start()
     {
@@ -32,7 +38,7 @@ public class Enemy : MonoBehaviour
         Player player;
         if (collision.gameObject.TryGetComponent<Player>(out player))
         {
-            player.playerStats.AdjustCurrentHealth(-26);
+            player.playerStats.AdjustCurrentHealth(-1);
             AdjustHealth(-player.playerStats.GetAttackDamage() * 2);
         }
     }
@@ -46,9 +52,8 @@ public class Enemy : MonoBehaviour
 
     private void EnemyDestroyed()
     {
-        GameManager.instance.pointManager.UpdateCurrentScore(pointValue);
-        int randomSpawnChance = Random.Range(0, 100);
-        if (randomSpawnChance < lootChance) { GameManager.instance.powerUpManager.SpawnPowerUp(transform); }
+        _givePoints.GivePointsToPointManager();
+        _lootChance.Loot(transform);
         enemySpawner.EnemyDestroyed(true);
         Instantiate(enemyExplosion, transform.position, transform.rotation);
         Destroy(gameObject);

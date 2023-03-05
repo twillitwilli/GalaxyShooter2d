@@ -17,7 +17,7 @@ public class EnemyLaser : MonoBehaviour
         Player player;
         if (collision.gameObject.TryGetComponent<Player>(out player))
         {
-            player.playerStats.AdjustCurrentHealth(-26);
+            player.playerStats.AdjustCurrentHealth(-1);
         }
     }
 }

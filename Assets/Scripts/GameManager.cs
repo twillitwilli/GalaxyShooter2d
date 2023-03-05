@@ -8,8 +8,10 @@ public class GameManager : MonoBehaviour
     public static GameManager instance;
     [HideInInspector] public PowerUpManager powerUpManager;
     [HideInInspector] public PointManager pointManager;
+    [HideInInspector] public HealthDisplayManager healhDisplayManager;
     [HideInInspector] public Player player;
     private bool _setScore;
+    [SerializeField] private GameObject _gameOverScreen;
 
     private void Awake()
     {
@@ -23,6 +25,7 @@ public class GameManager : MonoBehaviour
     {
         powerUpManager = GetComponent<PowerUpManager>();
         pointManager = GetComponent<PointManager>();
+        healhDisplayManager = GetComponent<HealthDisplayManager>();
         StartCoroutine("GetNewPlayer");
     }
 
@@ -34,11 +37,19 @@ public class GameManager : MonoBehaviour
             {
                 _setScore = false;
                 pointManager.SaveHighScore();
+                _gameOverScreen.SetActive(true);
             }
+
             if (Input.GetKeyDown(KeyCode.R))
             {
-                SceneManager.LoadScene(0);
+                SceneManager.LoadScene(1);
+                pointManager.ResetCurrentScore();
+                _gameOverScreen.SetActive(false);
                 StartCoroutine("GetNewPlayer");
+            }
+            else if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                SceneManager.LoadScene(0);
             }
         }
     }

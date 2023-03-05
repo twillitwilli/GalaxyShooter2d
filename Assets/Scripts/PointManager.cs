@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using TMPro;
 
 public class PointManager : MonoBehaviour
 {
-    [SerializeField] private Text _currentScore, _highScore;
+    [SerializeField] private TMP_Text _currentScore, _highScore;
     private int _currentPoints, _highScorePoints;
 
     private void Start()
     {
         _currentPoints = 0;
+        UpdateCurrentScore(0);
         LoadHighScore();
+    }
+
+    public void ResetCurrentScore()
+    {
+        _currentPoints = 0;
+        UpdateCurrentScore(0);
     }
 
     public void UpdateCurrentScore(int newPointValue)
