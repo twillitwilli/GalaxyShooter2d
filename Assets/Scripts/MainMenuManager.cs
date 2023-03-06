@@ -16,13 +16,17 @@ public class MainMenuManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            SceneManager.LoadScene(1);
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+        if (Input.GetKeyDown(KeyCode.Return)) { LoadGame(); }
+        else if (Input.GetKeyDown(KeyCode.Escape)) { ExitGame(); }
+    }
+
+    public void LoadGame()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    public void ExitGame()
+    {
+        Application.Quit();
     }
 }

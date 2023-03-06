@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
+    [SerializeField] private GameObject explosion;
     private MeteorMovement _meteorParent;
     private float _randomRotationSpeed;
     private GivePoints _givePoints;
@@ -40,6 +41,8 @@ public class Meteor : MonoBehaviour
 
     public void Destroyed()
     {
+        GameObject newExplosion = Instantiate(explosion, transform.position, transform.rotation);
+        newExplosion.transform.localScale = transform.localScale;
         _givePoints.GivePointsToPointManager();
         _lootChance.Loot(_meteorParent.transform);
         Destroy(gameObject);
