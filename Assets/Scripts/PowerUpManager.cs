@@ -34,24 +34,38 @@ public class PowerUpManager : MonoBehaviour
         switch (whichEffectObtained)
         {
             case PowerUps.tripleShot:
-                _tripleShotActive = true;
-                StartCoroutine("TripleShotDuration");
+                if (!_tripleShotActive)
+                {
+                    PlayPowerUpObtainedSFX();
+                    _tripleShotActive = true;
+                    StartCoroutine("TripleShotDuration");
+                }
                 break;
 
             case PowerUps.speedBoost:
-                _speedBoostActive = true;
-                _player.ThrusterSize(true);
-                StartCoroutine("SpeedBoostDuration");
+                if (!_speedBoostActive)
+                {
+                    PlayPowerUpObtainedSFX();
+                    _speedBoostActive = true;
+                    _player.ThrusterSize(true);
+                    StartCoroutine("SpeedBoostDuration");
+                }
                 break;
 
             case PowerUps.shield:
                 if (_activeShield == null)
                 {
+                    PlayPowerUpObtainedSFX();
                     _activeShield = Instantiate(_shieldObject, _player.transform.position, _player.transform.rotation);
                     _activeShield.transform.SetParent(_player.transform);
                 }
                 break;
         }
+    }
+
+    private void PlayPowerUpObtainedSFX()
+    {
+        _player.GetComponent<AudioSource>().Play();
     }
 
     public bool IsTripleShotActive()

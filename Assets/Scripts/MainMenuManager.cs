@@ -6,18 +6,12 @@ using TMPro;
 
 public class MainMenuManager : MonoBehaviour
 {
-    [SerializeField] private TMP_Text highScoreTextDisplay;
+    [SerializeField] private TMP_Text _highScoreTextDisplay;
 
     private void Start()
     {
         if (GameManager.instance != null) { Destroy(GameManager.instance.gameObject); }
-        highScoreTextDisplay.text = "Current High Score: " + PlayerPrefs.GetInt("HighScore");
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return)) { LoadGame(); }
-        else if (Input.GetKeyDown(KeyCode.Escape)) { ExitGame(); }
+        _highScoreTextDisplay.text = "Current High Score: " + PlayerPrefs.GetInt("HighScore");
     }
 
     public void LoadGame()

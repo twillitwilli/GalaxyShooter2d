@@ -12,7 +12,7 @@ public class PlayerStats : MonoBehaviour
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
     private Color _playerHitColor = new Color(255, 0, 0, 255);
-    [SerializeField] private GameObject[] playerDamageEffect;
+    [SerializeField] private GameObject[] _playerDamageEffect;
 
     private void Start()
     {
@@ -56,17 +56,17 @@ public class PlayerStats : MonoBehaviour
         switch (_currentHealth)
         {
             case 3:
-                foreach (GameObject visualDamage in playerDamageEffect)
+                foreach (GameObject visualDamage in _playerDamageEffect)
                 {
                     visualDamage.SetActive(false);
                 }
                 break;
             case 2:
-                playerDamageEffect[0].SetActive(true);
-                playerDamageEffect[1].SetActive(false);
+                _playerDamageEffect[0].SetActive(true);
+                _playerDamageEffect[1].SetActive(false);
                 break;
             case 1:
-                foreach (GameObject visualDamage in playerDamageEffect)
+                foreach (GameObject visualDamage in _playerDamageEffect)
                 {
                     visualDamage.SetActive(true);
                 }
