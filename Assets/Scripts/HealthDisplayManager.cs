@@ -5,11 +5,11 @@ using UnityEngine.UI;
 
 public class HealthDisplayManager : MonoBehaviour
 {
-    [SerializeField] private Image image;
-    [SerializeField] private Sprite[] healthImages;
+    [SerializeField] private Image _image;
+    [SerializeField] private Sprite[] _healthImages;
 
     public void UpdateHealthDisplay(int currentHealth)
     {
-        image.sprite = healthImages[currentHealth];
+        _image.sprite = _healthImages[currentHealth];
     }
 }

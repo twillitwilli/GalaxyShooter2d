@@ -148,7 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 0}
   _health: 28
-  enemyExplosion: {fileID: 7413233751183864575, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
+  _enemyExplosion: {fileID: 7413233751183864575, guid: 09c9138c85001094b910b6ec0b241d20, type: 3}
   _enemyLaser: {fileID: 6172490556401935598, guid: ec3489d5646e3f94dab475e59e4aee9e, type: 3}
 --- !u!114 &5346463282116290229
 MonoBehaviour:
@@ -162,7 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 813cd5a7d7b24d74abc8d5e0f3cc49f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointValue: 30
+  _pointValue: 25
 --- !u!114 &29960336327679027
 MonoBehaviour:
   m_ObjectHideFlags: 0

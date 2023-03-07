@@ -784,8 +784,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34151698f747dcd40871cb0d85772678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  image: {fileID: 1360920008}
-  healthImages:
+  _image: {fileID: 1360920008}
+  _healthImages:
   - {fileID: 21300000, guid: ba53e111f0125654cabfd4eefaf3a657, type: 3}
   - {fileID: 21300000, guid: 80fba5ece7697c44eacc036539c1b552, type: 3}
   - {fileID: 21300000, guid: 482c8e4c0346b704aa5f1760c3c989d5, type: 3}

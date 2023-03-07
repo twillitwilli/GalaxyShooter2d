@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OffensiveEnemy : Enemy
 {
-    private enum EnemyState { moving, attacking, fleeing }
+    private enum EnemyState { _moving, _attacking, _fleeing }
     private EnemyState _currentState;
     [SerializeField] private GameObject _enemyLaser;
     private GameObject _currentLaser;
@@ -13,7 +13,7 @@ public class OffensiveEnemy : Enemy
 
     private void Start()
     {
-        _currentState = EnemyState.moving;
+        _currentState = EnemyState._moving;
         _randomStopPos = Random.Range(1.4f, 4.9f);
         _enemyStartSpeed = Random.Range(2.5f, 5);
     }
@@ -23,27 +23,27 @@ public class OffensiveEnemy : Enemy
     {
         switch (_currentState)
         {
-            case EnemyState.moving:
+            case EnemyState._moving:
                 transform.Translate(-Vector3.up * _enemyStartSpeed * Time.deltaTime);
 
                 if (transform.position.y <= _randomStopPos) 
                 {
                     _canFire = true;
-                    _currentState = EnemyState.attacking; 
+                    _currentState = EnemyState._attacking; 
                 }
                 break;
 
-            case EnemyState.attacking:
+            case EnemyState._attacking:
                 if (GameManager.instance.player == null) 
                 {
                     _firing = false;
-                    _currentState = EnemyState.fleeing; 
+                    _currentState = EnemyState._fleeing; 
                 }
 
                 Attacking();
                 break;
 
-            case EnemyState.fleeing:
+            case EnemyState._fleeing:
                 transform.Translate(-Vector3.up * (_enemyStartSpeed + 2) * Time.deltaTime);
 
                 if (transform.position.y < -9.3f)

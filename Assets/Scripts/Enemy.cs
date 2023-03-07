@@ -7,7 +7,7 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public EnemySpawner enemySpawner;
     [SerializeField] private float _health;
     private float _maxHealth, _enemySpeed;
-    [SerializeField] private GameObject enemyExplosion;
+    [SerializeField] private GameObject _enemyExplosion;
     private GivePoints _givePoints;
     private LootChance _lootChance;
 
@@ -55,7 +55,7 @@ public class Enemy : MonoBehaviour
         _givePoints.GivePointsToPointManager();
         _lootChance.Loot(transform);
         enemySpawner.EnemyDestroyed(true);
-        Instantiate(enemyExplosion, transform.position, transform.rotation);
+        Instantiate(_enemyExplosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 }
