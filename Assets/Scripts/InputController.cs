@@ -5,8 +5,8 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player _player;
-    [SerializeField] private GameObject _laser, _tripleShot;
-    private bool _setFireCooldown;
+    [SerializeField] private GameObject _laser, _tripleShot, _thrusterBoost;
+    private bool _setFireCooldown, _boosterControl;
     private float _fireRateCooldown;
 
     private void Start()
@@ -17,7 +17,11 @@ public class InputController : MonoBehaviour
     private void Update()
     {
         PlayerMovement();
+
         if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
+
+        if (!_boosterControl && Input.GetKeyDown(KeyCode.LeftShift)) { ThrusterBoost(true, 5); }
+        else if (_boosterControl && Input.GetKeyUp(KeyCode.LeftShift)) { ThrusterBoost(false, -5); }
     }
 
     private void PlayerMovement()
@@ -65,5 +69,12 @@ public class InputController : MonoBehaviour
         if (_fireRateCooldown > 0) { _fireRateCooldown -= Time.deltaTime; }
         else return true;
         return false;
+    }
+
+    private void ThrusterBoost(bool boost, float boostSpeed)
+    {
+        _boosterControl = boost;
+        _thrusterBoost.SetActive(boost);
+        _player.playerStats.AdjustPlayerSpeed(boostSpeed);
     }
 }
