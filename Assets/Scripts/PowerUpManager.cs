@@ -65,6 +65,7 @@ public class PowerUpManager : MonoBehaviour
                     _activeShield = Instantiate(_shieldObject, _player.transform.position, _player.transform.rotation);
                     _activeShield.transform.SetParent(_player.transform);
                 }
+                else { _player.playerStats.AdjustCurrentHealth(1); }
                 break;
         }
     }
