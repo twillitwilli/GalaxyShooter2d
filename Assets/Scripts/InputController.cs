@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player _player;
-    [SerializeField] private GameObject _laser, _tripleShot, _thrusterBoost;
+    [SerializeField] private GameObject _laser, _tripleShot, _thrusterBoost, _meteorMiner;
     private bool _setFireCooldown, _boosterControl;
     private float _fireRateCooldown;
 
@@ -22,6 +22,9 @@ public class InputController : MonoBehaviour
 
         if (!_boosterControl && Input.GetKeyDown(KeyCode.LeftShift)) { ThrusterBoost(true, 5); }
         else if (_boosterControl && Input.GetKeyUp(KeyCode.LeftShift)) { ThrusterBoost(false, -5); }
+
+        if (!_meteorMiner.activeSelf && Input.GetKeyDown(KeyCode.RightShift)) { _meteorMiner.SetActive(true); }
+        else if (_meteorMiner.activeSelf && Input.GetKeyUp(KeyCode.RightShift)) { _meteorMiner.SetActive(false); }
     }
 
     private void PlayerMovement()
@@ -44,19 +47,22 @@ public class InputController : MonoBehaviour
 
     private void FireLaser()
     {
-        if (!_player.playerStats.powerUpManager.IsTripleShotActive())
+        if (_player.playerStats.UseAmmo(1))
         {
-            Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 0.518f, 0);
-            GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
-            laserObject.GetComponent<Laser>().player = _player;
+            if (!_player.playerStats.powerUpManager.IsTripleShotActive())
+            {
+                Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 0.518f, 0);
+                GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
+                laserObject.GetComponent<Laser>().player = _player;
+            }
+            else
+            {
+                GameObject tripleShotParent = Instantiate(_tripleShot, transform.position, transform.rotation);
+                Laser[] laserShots = tripleShotParent.GetComponentsInChildren<Laser>();
+                foreach (Laser lasers in laserShots) { lasers.player = _player; }
+            }
+            _setFireCooldown = true;
         }
-        else
-        {
-            GameObject tripleShotParent = Instantiate(_tripleShot, transform.position, transform.rotation);
-            Laser[] laserShots = tripleShotParent.GetComponentsInChildren<Laser>();
-            foreach (Laser lasers in laserShots) { lasers.player = _player; }
-        }
-        _setFireCooldown = true;
     }
 
     private bool CanFire()

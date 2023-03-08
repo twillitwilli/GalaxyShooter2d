@@ -7,11 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
     [HideInInspector] public PowerUpManager powerUpManager;
-    [HideInInspector] public PointManager pointManager;
-    [HideInInspector] public HealthDisplayManager healhDisplayManager;
+    [HideInInspector] public UIManager displayManager;
     [HideInInspector] public Player player;
     private bool _setScore;
-    [SerializeField] private GameObject _gameOverScreen;
 
     private void Awake()
     {
@@ -24,8 +22,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         powerUpManager = GetComponent<PowerUpManager>();
-        pointManager = GetComponent<PointManager>();
-        healhDisplayManager = GetComponent<HealthDisplayManager>();
+        displayManager = GetComponent<UIManager>();
         StartCoroutine("GetNewPlayer");
     }
 
@@ -36,15 +33,15 @@ public class GameManager : MonoBehaviour
             if (_setScore)
             {
                 _setScore = false;
-                pointManager.SaveHighScore();
-                _gameOverScreen.SetActive(true);
+                displayManager.SaveHighScore();
+                displayManager.ToggleNotification(true, 0);
             }
 
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene(1);
-                pointManager.ResetCurrentScore();
-                _gameOverScreen.SetActive(false);
+                displayManager.ResetCurrentScore();
+                displayManager.ToggleNotification(false, 0);
                 StartCoroutine("GetNewPlayer");
             }
             else if (Input.GetKeyDown(KeyCode.Escape))
@@ -59,7 +56,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(1);
         player = FindObjectOfType<Player>();
         powerUpManager.SetNewPlayer();
-        pointManager.LoadHighScore();
+        displayManager.LoadHighScore();
         _setScore = true;
     }
 }

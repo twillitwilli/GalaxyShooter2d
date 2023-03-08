@@ -8,6 +8,6 @@ public class GivePoints : MonoBehaviour
 
     public void GivePointsToPointManager()
     {
-        GameManager.instance.pointManager.UpdateCurrentScore(_pointValue);
+        GameManager.instance.displayManager.UpdateCurrentScore(_pointValue);
     }
 }

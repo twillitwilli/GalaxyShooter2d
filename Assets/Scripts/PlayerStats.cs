@@ -7,7 +7,7 @@ public class PlayerStats : MonoBehaviour
     private Player _player;
     [HideInInspector] public PowerUpManager powerUpManager;
     private SpriteRenderer _playerRenderer;
-    private int _maxHealth = 3, _currentHealth;
+    private int _maxHealth = 3, _currentHealth, _currentAmmo;
     private float _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12;
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
@@ -20,6 +20,8 @@ public class PlayerStats : MonoBehaviour
         powerUpManager = GameManager.instance.powerUpManager;
         _playerRenderer = GetComponent<SpriteRenderer>();
         _currentHealth = _maxHealth;
+        _currentAmmo = 15;
+        GameManager.instance.displayManager.UpdateAmmoDisplay(_currentAmmo);
         AdjustCurrentHealth(0);
     }
 
@@ -36,12 +38,12 @@ public class PlayerStats : MonoBehaviour
         else if (_currentHealth <= 0) 
         {
             _currentHealth = 0;
-            GameManager.instance.healhDisplayManager.UpdateHealthDisplay(_currentHealth);
+            GameManager.instance.displayManager.UpdateHealthDisplay(_currentHealth);
             _player.PlayerDied();
             return;
         }
 
-        GameManager.instance.healhDisplayManager.UpdateHealthDisplay(_currentHealth);
+        GameManager.instance.displayManager.UpdateHealthDisplay(_currentHealth);
     }
 
     private IEnumerator PlayerHitColorChange()
@@ -102,6 +104,14 @@ public class PlayerStats : MonoBehaviour
         else if (_attackDamage < 12) { _attackDamage = 12; }
     }
 
+    public void AdjustCurrentAmmo(int ammoValue)
+    {
+        _currentAmmo += ammoValue;
+        if (_currentAmmo < 0) { _currentAmmo = 0; }
+        else if (_currentAmmo > 15) { _currentAmmo = 15; }
+        GameManager.instance.displayManager.UpdateAmmoDisplay(_currentAmmo);
+    }
+
     public float GetPlayerSpeed()
     {
         return _playerSpeed;
@@ -115,5 +125,15 @@ public class PlayerStats : MonoBehaviour
     public float GetAttackDamage()
     {
         return _attackDamage;
+    }
+
+    public bool UseAmmo(int ammoUsed)
+    {
+        if (_currentAmmo >= ammoUsed)
+        {
+            AdjustCurrentAmmo(-ammoUsed);
+            return true;
+        }
+        else return false;
     }
 }
