@@ -8,9 +8,10 @@ public class PowerUpManager : MonoBehaviour
     public enum PowerUps { tripleShot, speedBoost, shield }
     [SerializeField] private GameObject[] _powerUp;
 
-    private bool _tripleShotActive, _speedBoostActive;
+    private bool _tripleShotActive, _speedBoostActive, _waveAttackActive;
     private WaitForSeconds _tripleShotDuration = new WaitForSeconds(8);
     private WaitForSeconds _speedBoostDuration = new WaitForSeconds(10);
+    private WaitForSeconds _waveAttackDuration = new WaitForSeconds(5);
 
     [SerializeField] private GameObject _shieldObject;
     private int _shieldHealth;
@@ -39,11 +40,20 @@ public class PowerUpManager : MonoBehaviour
         switch (whichEffectObtained)
         {
             case PowerUps.tripleShot:
-                if (!_tripleShotActive)
+                if (!_waveAttackActive)
                 {
-                    PlayPowerUpObtainedSFX();
-                    _tripleShotActive = true;
-                    StartCoroutine("TripleShotDuration");
+                    if (!_tripleShotActive)
+                    {
+                        PlayPowerUpObtainedSFX();
+                        _tripleShotActive = true;
+                        StartCoroutine("TripleShotDuration");
+                    }
+                    else
+                    {
+                        PlayPowerUpObtainedSFX();
+                        _waveAttackActive = true;
+                        StartCoroutine("WaveAttackDuration");
+                    }
                 }
                 break;
 
@@ -65,7 +75,14 @@ public class PowerUpManager : MonoBehaviour
                     _activeShield = Instantiate(_shieldObject, _player.transform.position, _player.transform.rotation);
                     _activeShield.transform.SetParent(_player.transform);
                 }
-                else { _player.playerStats.AdjustCurrentHealth(1); }
+                else 
+                { 
+                    if (_player.playerStats.GetPlayerHealth() < 3)
+                    {
+                        PlayPowerUpObtainedSFX();
+                        _player.playerStats.AdjustCurrentHealth(1);
+                    }
+                }
                 break;
         }
     }
@@ -83,6 +100,11 @@ public class PowerUpManager : MonoBehaviour
     public bool IsSpeedBoostActive()
     {
         return _speedBoostActive;
+    }
+
+    public bool IsWaveAttackActive()
+    {
+        return _waveAttackActive;
     }
 
     public bool ShieldActive()
@@ -108,5 +130,12 @@ public class PowerUpManager : MonoBehaviour
         yield return _speedBoostDuration;
         _speedBoostActive = false;
         if (_player != null) { _player.ThrusterSize(false); }
+    }
+
+    private IEnumerator WaveAttackDuration()
+    {
+        _tripleShotActive = false;
+        yield return _waveAttackDuration;
+        _waveAttackActive = false;
     }
 }

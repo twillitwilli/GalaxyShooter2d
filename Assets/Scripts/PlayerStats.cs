@@ -112,6 +112,11 @@ public class PlayerStats : MonoBehaviour
         GameManager.instance.displayManager.UpdateAmmoDisplay(_currentAmmo);
     }
 
+    public int GetPlayerHealth()
+    {
+        return _currentHealth;
+    }
+
     public float GetPlayerSpeed()
     {
         return _playerSpeed;

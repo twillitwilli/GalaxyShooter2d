@@ -13,7 +13,7 @@ public class Laser : MonoBehaviour
         if (transform.position.y > 10) { Destroy(gameObject); }
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    public virtual void OnTriggerEnter2D(Collider2D collision)
     {
         Enemy enemy;
         Meteor meteor;

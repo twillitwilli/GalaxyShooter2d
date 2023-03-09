@@ -9,12 +9,7 @@ public class EnemySpawner : MonoBehaviour
     [HideInInspector] public bool disableSpawner;
     private float _currentlySpawnedEnemies, _totalEnemiesKilled;
 
-    private void Start()
-    {
-        StartCoroutine("SpawnEnemies");
-    }
-
-    private IEnumerator SpawnEnemies()
+    public IEnumerator SpawnEnemies()
     {
         while (!disableSpawner)
         {

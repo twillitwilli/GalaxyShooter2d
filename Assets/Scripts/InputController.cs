@@ -5,7 +5,7 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player _player;
-    [SerializeField] private GameObject _laser, _tripleShot, _thrusterBoost, _meteorMiner;
+    [SerializeField] private GameObject _laser, _tripleShot, _thrusterBoost, _meteorMiner, _waveAttack;
     private bool _setFireCooldown, _boosterControl;
     private float _fireRateCooldown;
 
@@ -61,8 +61,17 @@ public class InputController : MonoBehaviour
                 Laser[] laserShots = tripleShotParent.GetComponentsInChildren<Laser>();
                 foreach (Laser lasers in laserShots) { lasers.player = _player; }
             }
-            _setFireCooldown = true;
         }
+
+        if (_player.playerStats.powerUpManager.IsWaveAttackActive())
+        {
+            Vector3 waveSpawnOffset = new Vector3(transform.position.x, transform.position.y + 0.87f, 0);
+            GameObject newWaveAttack = Instantiate(_waveAttack, waveSpawnOffset, transform.rotation);
+            newWaveAttack.transform.localEulerAngles = new Vector3(0, 0, 90);
+            newWaveAttack.GetComponent<WaveAttack>().player = _player;
+        }
+
+        _setFireCooldown = true;
     }
 
     private bool CanFire()

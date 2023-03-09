@@ -16,7 +16,7 @@ public class MeteorMiner : MonoBehaviour
         Meteor meteor;
         if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
         {
-            meteor.Destroyed();
+            meteor.Gathered();
             _player.playerStats.AdjustCurrentAmmo(1);
         }
     }

@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Meteor : MonoBehaviour
 {
+    [HideInInspector] public EnvironmentSpawner spawner;
     [SerializeField] private GameObject _explosion;
+    [SerializeField] private AudioClip _meteorGatheredSFX;
     private MeteorMovement _meteorParent;
     private float _randomRotationSpeed;
     private GivePoints _givePoints;
@@ -41,9 +43,20 @@ public class Meteor : MonoBehaviour
 
     public void Destroyed()
     {
+        spawner.meteorsDestroyed++;
         GameObject newExplosion = Instantiate(_explosion, transform.position, transform.rotation);
         newExplosion.transform.localScale = transform.localScale;
+        GameManager.instance.cameraController.ShakeCamera();
         _givePoints.GivePointsToPointManager();
+        _lootChance.Loot(_meteorParent.transform);
+        Destroy(gameObject);
+    }
+
+    public void Gathered()
+    {
+        AudioSource.PlayClipAtPoint(_meteorGatheredSFX, transform.position);
+        spawner.meteorsGathered++;
+        if (!spawner.enemySpawnerActive && spawner.meteorsGathered >= 10) { spawner.TurnOnEnemySpawns(); }
         _lootChance.Loot(_meteorParent.transform);
         Destroy(gameObject);
     }

@@ -55,6 +55,7 @@ public class Enemy : MonoBehaviour
         _givePoints.GivePointsToPointManager();
         _lootChance.Loot(transform);
         enemySpawner.EnemyDestroyed(true);
+        GameManager.instance.cameraController.ShakeCamera();
         Instantiate(_enemyExplosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }

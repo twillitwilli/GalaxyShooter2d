@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+    [HideInInspector] public CameraController cameraController;
     [HideInInspector] public PowerUpManager powerUpManager;
     [HideInInspector] public UIManager displayManager;
     [HideInInspector] public Player player;
