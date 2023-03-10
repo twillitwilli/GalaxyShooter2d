@@ -116,6 +116,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawner: {fileID: 0}
   _explosion: {fileID: 3858358944533326152, guid: f503e844914ebb04b917cb591935679e, type: 3}
+  _implosion: {fileID: 6579438284505574464, guid: 07e3c616d7c4068469540ed2b00ab487, type: 3}
   _meteorGatheredSFX: {fileID: 8300000, guid: d3f26c00c28f32d48bd4dae8e0de41f7, type: 3}
 --- !u!114 &3830046205747108333
 MonoBehaviour:

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Meteor : MonoBehaviour
 {
     [HideInInspector] public EnvironmentSpawner spawner;
-    [SerializeField] private GameObject _explosion;
+    [SerializeField] private GameObject _explosion, _implosion;
     [SerializeField] private AudioClip _meteorGatheredSFX;
     private MeteorMovement _meteorParent;
     private float _randomRotationSpeed;
@@ -58,6 +58,7 @@ public class Meteor : MonoBehaviour
         spawner.meteorsGathered++;
         if (!spawner.enemySpawnerActive && spawner.meteorsGathered >= 10) { spawner.TurnOnEnemySpawns(); }
         _lootChance.Loot(_meteorParent.transform);
+        Instantiate(_implosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 

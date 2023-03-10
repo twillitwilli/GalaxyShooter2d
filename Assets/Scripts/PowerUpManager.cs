@@ -46,12 +46,14 @@ public class PowerUpManager : MonoBehaviour
                     {
                         PlayPowerUpObtainedSFX();
                         _tripleShotActive = true;
+                        _player.TripleShotActive(true);
                         StartCoroutine("TripleShotDuration");
                     }
                     else
                     {
                         PlayPowerUpObtainedSFX();
                         _waveAttackActive = true;
+                        _player.WaveShotActive(true);
                         StartCoroutine("WaveAttackDuration");
                     }
                 }
@@ -123,6 +125,7 @@ public class PowerUpManager : MonoBehaviour
     {
         yield return _tripleShotDuration;
         _tripleShotActive = false;
+        if (_player != null) { _player.TripleShotActive(false); }
     }
 
     private IEnumerator SpeedBoostDuration()
@@ -137,5 +140,6 @@ public class PowerUpManager : MonoBehaviour
         _tripleShotActive = false;
         yield return _waveAttackDuration;
         _waveAttackActive = false;
+        if (_player != null) { _player.WaveShotActive(false); }
     }
 }

@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [HideInInspector] public PlayerStats playerStats;
 
-    [SerializeField] private GameObject _playerExplosion, _playerThruster;
+    [SerializeField] private GameObject _playerExplosion, _playerThruster, _tripleShotActive, _waveShotActive;
 
     private Vector3 _defaultThrusterPos = new Vector3(0, -2.59f, 0);
     private Vector3 _defaultThrusterSize = new Vector3(0.5f, 0.5f, 1);
@@ -34,9 +34,21 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void TripleShotActive(bool active)
+    {
+        _tripleShotActive.SetActive(active);
+    }
+
+    public void WaveShotActive(bool active)
+    {
+        if (active) { TripleShotActive(false); }
+        _waveShotActive.SetActive(active);
+    }
+
     public void PlayerDied()
     {
         Instantiate(_playerExplosion, transform.position, transform.rotation);
+        GameManager.instance.cameraController.ShakeCamera();
         FindObjectOfType<EnemySpawner>().disableSpawner = true;
         Destroy(gameObject);
     }
