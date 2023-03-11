@@ -8,11 +8,12 @@ public class PlayerStats : MonoBehaviour
     [HideInInspector] public PowerUpManager powerUpManager;
     private SpriteRenderer _playerRenderer;
     private int _maxHealth = 3, _currentHealth, _currentAmmo;
-    private float _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12;
+    private float _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12, _thrustFuel = 100;
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
     private Color _playerHitColor = new Color(255, 0, 0, 255);
     [SerializeField] private GameObject[] _playerDamageEffect;
+    private bool _boosterControl;
 
     private void Start()
     {
@@ -23,6 +24,12 @@ public class PlayerStats : MonoBehaviour
         _currentAmmo = 15;
         GameManager.instance.displayManager.UpdateAmmoDisplay(_currentAmmo);
         AdjustCurrentHealth(0);
+    }
+
+    public void Update()
+    {
+        if (!BoostActive() && _thrustFuel < 100) { RechargeThrusters(); }
+        else if (BoostActive()) { UsingFuel(); }
     }
 
     public void AdjustCurrentHealth(int healthValue)
@@ -87,7 +94,7 @@ public class PlayerStats : MonoBehaviour
     {
         _playerSpeed += speedValue;
         if (_playerSpeed > 30) { _playerSpeed = 30; }
-        else if (_playerSpeed < 15) { _playerSpeed = 15; }
+        else if (_playerSpeed < 10) { _playerSpeed = 10; }
     }
 
     public void AdjustFireRate(float fireRateValue)
@@ -140,5 +147,45 @@ public class PlayerStats : MonoBehaviour
             return true;
         }
         else return false;
+    }
+
+    public void ThrusterBoost(bool boost, float boostSpeed)
+    {
+        _boosterControl = boost;
+        _player.ActivateBoostThrusters(boost);
+        AdjustPlayerSpeed(boostSpeed);
+    }
+
+    private void RechargeThrusters()
+    {
+        AdjustThrustFuel(Time.deltaTime * 1.5f);
+        GameManager.instance.displayManager.UpdateFuelDisplay(_thrustFuel);
+    }
+
+    private void UsingFuel()
+    {
+        AdjustThrustFuel(Time.deltaTime * -8);
+        GameManager.instance.displayManager.UpdateFuelDisplay(_thrustFuel);
+    }
+
+    public void AdjustThrustFuel(float fuelValue)
+    {
+        _thrustFuel += fuelValue;
+        if (_thrustFuel > 100) { _thrustFuel = 100; }
+        else if (_thrustFuel < 0) 
+        { 
+            _thrustFuel = 0;
+            ThrusterBoost(false, -8);
+        }
+    }
+
+    public bool BoostActive()
+    {
+        return _boosterControl;
+    }
+
+    public float ThrusterFuel()
+    {
+        return _thrustFuel;
     }
 }

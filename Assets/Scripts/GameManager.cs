@@ -58,6 +58,7 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<Player>();
         powerUpManager.SetNewPlayer();
         displayManager.LoadHighScore();
+        displayManager.UpdateFuelDisplay(player.playerStats.ThrusterFuel());
         _setScore = true;
     }
 }

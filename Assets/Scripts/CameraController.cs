@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    private Animator animator;
+    private Animator _animator;
 
     private void Start()
     {
-        animator = GetComponent<Animator>();
+        _animator = GetComponent<Animator>();
     }
 
     public void ShakeCamera()
     {
-        animator.SetBool("ShakeCamera", true);
+        _animator.SetBool("ShakeCamera", true);
     }
 
     public void CameraIdle()
     {
-        animator.SetBool("ShakeCamera", false);
+        _animator.SetBool("ShakeCamera", false);
     }
 }

@@ -7,7 +7,7 @@ using TMPro;
 public class UIManager : MonoBehaviour
 {
     [Header("Text Notifications")]
-    [SerializeField] private GameObject[] notifications;
+    [SerializeField] private GameObject[] _notifications;
 
     [Header("Score Display")]
     [SerializeField] private TMP_Text _currentScore;
@@ -21,6 +21,9 @@ public class UIManager : MonoBehaviour
     [Header("Ammo Display")]
     [SerializeField] private TMP_Text _ammoDisplay;
 
+    [Header("Thruster Fuel Display")]
+    [SerializeField] private Image _fuelDisplay;
+
     private void Start()
     {
         _currentPoints = 0;
@@ -32,9 +35,9 @@ public class UIManager : MonoBehaviour
     {
         if (index == 0 && On)
         {
-            foreach (GameObject texts in notifications) { texts.SetActive(false); }
+            foreach (GameObject texts in _notifications) { texts.SetActive(false); }
         }
-        notifications[index].SetActive(On);
+        _notifications[index].SetActive(On);
     }
 
     public void ResetCurrentScore()
@@ -76,5 +79,11 @@ public class UIManager : MonoBehaviour
         if (currentAmmo == 0) { ToggleNotification(true, 1); }
         else { ToggleNotification(false, 1); }
         _ammoDisplay.text = "Ammo: " + currentAmmo + "/15";
+    }
+
+    public void UpdateFuelDisplay(float currentFuel)
+    {
+        float displayConversion = currentFuel * 0.01f;
+        _fuelDisplay.fillAmount = displayConversion;
     }
 }

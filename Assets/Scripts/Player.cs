@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [HideInInspector] public PlayerStats playerStats;
 
-    [SerializeField] private GameObject _playerExplosion, _playerThruster, _tripleShotActive, _waveShotActive;
+    [SerializeField] private GameObject _playerExplosion, _playerThruster, _thrusterBoost, _tripleShotActive, _waveShotActive;
 
     private Vector3 _defaultThrusterPos = new Vector3(0, -2.59f, 0);
     private Vector3 _defaultThrusterSize = new Vector3(0.5f, 0.5f, 1);
@@ -18,6 +18,11 @@ public class Player : MonoBehaviour
     {
         playerStats = GetComponent<PlayerStats>();
         transform.localPosition = new Vector3(0, 0, 0);
+    }
+
+    public void ActivateBoostThrusters(bool activate)
+    {
+        _thrusterBoost.SetActive(activate);
     }
 
     public void ThrusterSize(bool hasSpeedBoost)

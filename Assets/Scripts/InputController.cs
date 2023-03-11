@@ -5,23 +5,28 @@ using UnityEngine;
 public class InputController : MonoBehaviour
 {
     private Player _player;
-    [SerializeField] private GameObject _laser, _tripleShot, _thrusterBoost, _meteorMiner, _waveAttack;
-    private bool _setFireCooldown, _boosterControl;
+    private PlayerStats _playerStats;
+    [SerializeField] private GameObject _laser, _tripleShot, _meteorMiner, _waveAttack;
+    private bool _setFireCooldown;
     private float _fireRateCooldown;
 
     private void Start()
     {
         _player = GetComponent<Player>();
+        _playerStats = GetComponent<PlayerStats>();
     }
 
     private void Update()
     {
+        if (_playerStats.ThrusterFuel() > 20)
+        {
+            if (!_playerStats.BoostActive() && Input.GetKeyDown(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(true, 8); }
+            else if (_playerStats.BoostActive() && Input.GetKeyUp(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(false, -8); }
+        }
+
         PlayerMovement();
 
         if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
-
-        if (!_boosterControl && Input.GetKeyDown(KeyCode.LeftShift)) { ThrusterBoost(true, 5); }
-        else if (_boosterControl && Input.GetKeyUp(KeyCode.LeftShift)) { ThrusterBoost(false, -5); }
 
         if (!_meteorMiner.activeSelf && Input.GetKeyDown(KeyCode.RightShift)) { _meteorMiner.SetActive(true); }
         else if (_meteorMiner.activeSelf && Input.GetKeyUp(KeyCode.RightShift)) { _meteorMiner.SetActive(false); }
@@ -30,11 +35,11 @@ public class InputController : MonoBehaviour
     private void PlayerMovement()
     {
         Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        if (!_player.playerStats.powerUpManager.IsSpeedBoostActive())
+        if (!_playerStats.powerUpManager.IsSpeedBoostActive())
         {
-            transform.Translate(movementDirection * _player.playerStats.GetPlayerSpeed() * Time.deltaTime);
+            transform.Translate(movementDirection * _playerStats.GetPlayerSpeed() * Time.deltaTime);
         }
-        else { transform.Translate(movementDirection * (_player.playerStats.GetPlayerSpeed() + 5) * Time.deltaTime); }
+        else { transform.Translate(movementDirection * (_playerStats.GetPlayerSpeed() + 5) * Time.deltaTime); }
         CheckPlayerBounds();
     }
 
@@ -47,9 +52,9 @@ public class InputController : MonoBehaviour
 
     private void FireLaser()
     {
-        if (_player.playerStats.UseAmmo(1))
+        if (!_playerStats.powerUpManager.IsWaveAttackActive() && _playerStats.UseAmmo(1))
         {
-            if (!_player.playerStats.powerUpManager.IsTripleShotActive())
+            if (!_playerStats.powerUpManager.IsTripleShotActive())
             {
                 Vector3 laserSpawnOffset = new Vector3(transform.position.x, transform.position.y + 0.518f, 0);
                 GameObject laserObject = Instantiate(_laser, laserSpawnOffset, transform.rotation);
@@ -62,8 +67,7 @@ public class InputController : MonoBehaviour
                 foreach (Laser lasers in laserShots) { lasers.player = _player; }
             }
         }
-
-        if (_player.playerStats.powerUpManager.IsWaveAttackActive())
+        else if (_playerStats.powerUpManager.IsWaveAttackActive())
         {
             Vector3 waveSpawnOffset = new Vector3(transform.position.x, transform.position.y + 0.87f, 0);
             GameObject newWaveAttack = Instantiate(_waveAttack, waveSpawnOffset, transform.rotation);
@@ -78,18 +82,11 @@ public class InputController : MonoBehaviour
     {
         if (_setFireCooldown)
         {
-            _fireRateCooldown = _player.playerStats.GetFireRate();
+            _fireRateCooldown = _playerStats.GetFireRate();
             _setFireCooldown = false;
         }
         if (_fireRateCooldown > 0) { _fireRateCooldown -= Time.deltaTime; }
         else return true;
         return false;
-    }
-
-    private void ThrusterBoost(bool boost, float boostSpeed)
-    {
-        _boosterControl = boost;
-        _thrusterBoost.SetActive(boost);
-        _player.playerStats.AdjustPlayerSpeed(boostSpeed);
     }
 }

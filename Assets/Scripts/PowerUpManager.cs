@@ -67,6 +67,11 @@ public class PowerUpManager : MonoBehaviour
                     _player.ThrusterSize(true);
                     StartCoroutine("SpeedBoostDuration");
                 }
+                else
+                {
+                    _player.playerStats.AdjustThrustFuel(50);
+                    GameManager.instance.displayManager.UpdateFuelDisplay(_player.playerStats.ThrusterFuel());
+                }
                 break;
 
             case PowerUps.shield:
