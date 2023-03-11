@@ -18,11 +18,8 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        if (_playerStats.ThrusterFuel() > 20)
-        {
-            if (!_playerStats.BoostActive() && Input.GetKeyDown(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(true, 8); }
-            else if (_playerStats.BoostActive() && Input.GetKeyUp(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(false, -8); }
-        }
+        if (_playerStats.ThrusterFuel() > 20 && !_playerStats.BoostActive() && Input.GetKeyDown(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(true, 8); }
+        else if (_playerStats.BoostActive() && Input.GetKeyUp(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(false, -8); }
 
         PlayerMovement();
 
