@@ -24,6 +24,9 @@ public class UIManager : MonoBehaviour
     [Header("Thruster Fuel Display")]
     [SerializeField] private Image _fuelDisplay;
 
+    [Header("Enemy Wave Display")]
+    [SerializeField] private TMP_Text _enemyWaveText;
+
     private void Start()
     {
         _currentPoints = 0;
@@ -85,5 +88,11 @@ public class UIManager : MonoBehaviour
     {
         float displayConversion = currentFuel * 0.01f;
         _fuelDisplay.fillAmount = displayConversion;
+    }
+
+    public void WaveUpdateNotification(string waveText)
+    {
+        _enemyWaveText.text = waveText;
+        ToggleNotification(true, 2);
     }
 }

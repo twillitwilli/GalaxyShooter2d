@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class OffensiveEnemy : Enemy
 {
+    private Player _player;
     private enum EnemyState { moving, attacking, fleeing }
     private EnemyState _currentState;
     [SerializeField] private GameObject _enemyLaser;
@@ -13,6 +14,7 @@ public class OffensiveEnemy : Enemy
 
     private void Start()
     {
+        _player = GameManager.instance.player;
         _currentState = EnemyState.moving;
         _randomStopPos = Random.Range(1.4f, 4.9f);
         _enemyStartSpeed = Random.Range(2.5f, 5);
@@ -34,7 +36,7 @@ public class OffensiveEnemy : Enemy
                 break;
 
             case EnemyState.attacking:
-                if (GameManager.instance.player == null) 
+                if (_player == null) 
                 {
                     _firing = false;
                     _currentState = EnemyState.fleeing; 
@@ -55,6 +57,35 @@ public class OffensiveEnemy : Enemy
         }
     }
 
+    private void LateUpdate()
+    {
+        switch (_currentState)
+        {
+            case EnemyState.attacking:
+                if (_player != null) { AimAtPlayer(); }
+                break;
+        }
+    }
+
+    private void AimAtPlayer()
+    {
+        transform.up = transform.position - _player.transform.position;
+
+        //transform.LookAt(_player.transform);
+
+        //Vector3 direction = (_player.transform.position - transform.position).normalized;
+        //Quaternion lookRotation = Quaternion.LookRotation(new Vector3(0, 0, direction.z));
+        //transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10);
+
+        //Vector3 target = _player.transform.position - transform.position;
+        //transform.LookAt(target);
+        
+        //Vector3 vectorToTarget = _player.transform.position - transform.position;
+        //float angle = Mathf.Atan2(_player.transform.position.y, _player.transform.position.x) * Mathf.Rad2Deg - 0;
+        //Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
+        //transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
+    }
+
     public virtual void Attacking()
     {
         if (_canFire)
@@ -72,7 +103,7 @@ public class OffensiveEnemy : Enemy
             yield return new WaitForSeconds(Random.Range(3, 6));
             if (_currentLaser == null)
             {
-                Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.338f, 0);
+                Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.683f, 0);
                 _currentLaser = Instantiate(_enemyLaser, spawnOffset, transform.rotation);
             }
         }

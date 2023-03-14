@@ -6,6 +6,11 @@ public class PowerUp : MonoBehaviour
 {
     public PowerUpManager.PowerUps powerUp;
 
+    private void Start()
+    {
+        transform.localEulerAngles = new Vector3(0, 0, 0);
+    }
+
     private void Update()
     {
         transform.Translate(-Vector3.up * 2.5f * Time.deltaTime);

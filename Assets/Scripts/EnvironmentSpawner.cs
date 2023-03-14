@@ -29,6 +29,7 @@ public class EnvironmentSpawner : MonoBehaviour
 
     public void TurnOnEnemySpawns()
     {
+        _enemySpawner.updateWave = true;
         enemySpawnerActive = true;
         _enemySpawner.StartCoroutine("SpawnEnemies");
     }
