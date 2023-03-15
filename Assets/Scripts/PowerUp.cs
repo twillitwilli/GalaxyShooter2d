@@ -9,6 +9,8 @@ public class PowerUp : MonoBehaviour
     private void Start()
     {
         transform.localEulerAngles = new Vector3(0, 0, 0);
+        CollectableManager.instance.spawnedPowerUps.Add(this);
+        transform.SetParent(CollectableManager.instance.transform);
     }
 
     private void Update()
@@ -24,5 +26,10 @@ public class PowerUp : MonoBehaviour
             GameManager.instance.powerUpManager.PowerUpObtained(powerUp);
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        CollectableManager.instance.spawnedPowerUps.Remove(this);
     }
 }

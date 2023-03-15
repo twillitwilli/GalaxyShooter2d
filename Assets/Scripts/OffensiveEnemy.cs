@@ -46,6 +46,7 @@ public class OffensiveEnemy : Enemy
                 break;
 
             case EnemyState.fleeing:
+                transform.localEulerAngles = new Vector3(0, 0, 0);
                 transform.Translate(-Vector3.up * (_enemyStartSpeed + 2) * Time.deltaTime);
 
                 if (transform.position.y < -9.3f)
@@ -70,20 +71,6 @@ public class OffensiveEnemy : Enemy
     private void AimAtPlayer()
     {
         transform.up = transform.position - _player.transform.position;
-
-        //transform.LookAt(_player.transform);
-
-        //Vector3 direction = (_player.transform.position - transform.position).normalized;
-        //Quaternion lookRotation = Quaternion.LookRotation(new Vector3(0, 0, direction.z));
-        //transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10);
-
-        //Vector3 target = _player.transform.position - transform.position;
-        //transform.LookAt(target);
-        
-        //Vector3 vectorToTarget = _player.transform.position - transform.position;
-        //float angle = Mathf.Atan2(_player.transform.position.y, _player.transform.position.x) * Mathf.Rad2Deg - 0;
-        //Quaternion q = Quaternion.AngleAxis(angle, Vector3.forward);
-        //transform.rotation = Quaternion.Slerp(transform.rotation, q, Time.deltaTime * 5);
     }
 
     public virtual void Attacking()

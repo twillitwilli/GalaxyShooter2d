@@ -5,15 +5,19 @@ using UnityEngine;
 public class AmmoCollectable : MonoBehaviour
 {
     private Player _player;
+    [HideInInspector] public float speed = 0.0001f;
 
     private void Start()
     {
+        CollectableManager.instance.spawnedAmmo.Add(this);
+        transform.SetParent(CollectableManager.instance.transform);
         _player = GameManager.instance.player;
     }
 
     private void Update()
     {
-        if (_player != null) { transform.position = Vector3.Lerp(transform.position, _player.transform.position, 0.005f); }
+        if (_player != null) { transform.position = Vector3.Lerp(transform.position, _player.transform.position, speed); }
+        else { Destroy(gameObject); }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -24,5 +28,10 @@ public class AmmoCollectable : MonoBehaviour
             player.playerStats.AdjustCurrentAmmo(1);
             Destroy(gameObject);
         }
+    }
+
+    private void OnDestroy()
+    {
+        CollectableManager.instance.spawnedAmmo.Remove(this);
     }
 }

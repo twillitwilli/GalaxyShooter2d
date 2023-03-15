@@ -27,6 +27,8 @@ public class InputController : MonoBehaviour
 
         if (!_meteorMiner.activeSelf && Input.GetKeyDown(KeyCode.RightShift)) { _meteorMiner.SetActive(true); }
         else if (_meteorMiner.activeSelf && Input.GetKeyUp(KeyCode.RightShift)) { _meteorMiner.SetActive(false); }
+
+        if (Input.GetKeyDown(KeyCode.C)) { CollectableManager.instance.CollectAmmo(); }
     }
 
     private void PlayerMovement()
