@@ -11,6 +11,7 @@ public class Meteor : MonoBehaviour
     private float _randomRotationSpeed;
     private GivePoints _givePoints;
     private LootChance _lootChance;
+    [HideInInspector] public bool exploded, leftScreen;
 
     private void Awake()
     {
@@ -31,24 +32,12 @@ public class Meteor : MonoBehaviour
         transform.Rotate(Vector3.forward * _randomRotationSpeed * Time.deltaTime);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Player player;
-        if (collision.gameObject.TryGetComponent<Player>(out player))
-        {
-            player.playerStats.AdjustCurrentHealth(-1);
-            Destroy(gameObject);
-        }
-    }
-
     public void Destroyed()
     {
         spawner.meteorsDestroyed++;
-        GameObject newExplosion = Instantiate(_explosion, transform.position, transform.rotation);
-        newExplosion.transform.localScale = transform.localScale;
-        GameManager.instance.cameraController.ShakeCamera();
         _givePoints.GivePointsToPointManager();
         _lootChance.Loot(_meteorParent.transform);
+        exploded = true;
         Destroy(gameObject);
     }
 
@@ -58,12 +47,21 @@ public class Meteor : MonoBehaviour
         spawner.meteorsGathered++;
         if (!spawner.enemySpawnerActive && spawner.meteorsGathered >= 10) { spawner.TurnOnEnemySpawns(); }
         _lootChance.Loot(_meteorParent.transform);
-        Instantiate(_implosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
-        Destroy(_meteorParent.gameObject);
+        if (!leftScreen)
+        {
+            if (exploded)
+            {
+                GameObject newExplosion = Instantiate(_explosion, transform.position, transform.rotation);
+                newExplosion.transform.localScale = transform.localScale;
+                GameManager.instance.cameraController.ShakeCamera();
+            }
+            else { Instantiate(_implosion, transform.position, transform.rotation); }
+            Destroy(_meteorParent.gameObject);
+        }
     }
 }

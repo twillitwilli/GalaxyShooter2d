@@ -20,7 +20,7 @@ TagManager:
   - PowerUp
   - PostProcessing
   - MeteorMiner
-  - 
+  - Meteor
   - 
   - 
   - 
@@ -50,6 +50,9 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 1221101847
+    locked: 0
+  - name: Player
+    uniqueID: 678920111
     locked: 0
   - name: Enemies
     uniqueID: 1394881287

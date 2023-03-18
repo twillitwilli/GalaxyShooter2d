@@ -9,7 +9,7 @@ public class OffensiveEnemy : Enemy
     private EnemyState _currentState;
     [SerializeField] private GameObject _enemyLaser;
     private GameObject _currentLaser;
-    private float _randomStopPos, _enemyStartSpeed;
+    private float _randomStopPos;
     private bool _canFire, _firing;
 
     private void Start()
@@ -17,7 +17,6 @@ public class OffensiveEnemy : Enemy
         _player = GameManager.instance.player;
         _currentState = EnemyState.moving;
         _randomStopPos = Random.Range(1.4f, 4.9f);
-        _enemyStartSpeed = Random.Range(2.5f, 5);
     }
 
 
@@ -26,13 +25,7 @@ public class OffensiveEnemy : Enemy
         switch (_currentState)
         {
             case EnemyState.moving:
-                transform.Translate(-Vector3.up * _enemyStartSpeed * Time.deltaTime);
-
-                if (transform.position.y <= _randomStopPos) 
-                {
-                    _canFire = true;
-                    _currentState = EnemyState.attacking; 
-                }
+                EnemyMovement();
                 break;
 
             case EnemyState.attacking:
@@ -47,7 +40,7 @@ public class OffensiveEnemy : Enemy
 
             case EnemyState.fleeing:
                 transform.localEulerAngles = new Vector3(0, 0, 0);
-                transform.Translate(-Vector3.up * (_enemyStartSpeed + 2) * Time.deltaTime);
+                transform.Translate(-Vector3.up * (enemySpeed + 2) * Time.deltaTime);
 
                 if (transform.position.y < -9.3f)
                 {
@@ -55,6 +48,16 @@ public class OffensiveEnemy : Enemy
                     Destroy(gameObject);
                 }
                 break;
+        }
+    }
+
+    public override void EnemyMovement()
+    {
+        base.EnemyMovement();
+        if (transform.position.y <= _randomStopPos)
+        {
+            _canFire = true;
+            _currentState = EnemyState.attacking;
         }
     }
 
@@ -90,7 +93,7 @@ public class OffensiveEnemy : Enemy
             yield return new WaitForSeconds(Random.Range(3, 6));
             if (_currentLaser == null)
             {
-                Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.683f, 0);
+                Vector3 spawnOffset = new Vector3(transform.position.x, transform.position.y + -0.5f, 0);
                 _currentLaser = Instantiate(_enemyLaser, spawnOffset, transform.rotation);
             }
         }

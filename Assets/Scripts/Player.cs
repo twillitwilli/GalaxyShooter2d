@@ -20,6 +20,17 @@ public class Player : MonoBehaviour
         transform.localPosition = new Vector3(0, 0, 0);
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Meteor meteor;
+        if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
+        {
+            meteor.exploded = true;
+            Destroy(meteor.gameObject);
+            playerStats.AdjustCurrentHealth(-1);
+        }
+    }
+
     public void ActivateBoostThrusters(bool activate)
     {
         _thrusterBoost.SetActive(activate);

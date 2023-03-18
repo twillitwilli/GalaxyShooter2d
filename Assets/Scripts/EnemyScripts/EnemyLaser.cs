@@ -4,11 +4,9 @@ using UnityEngine;
 
 public class EnemyLaser : MonoBehaviour
 {
-    private float _laserSpeed = 10;
-
     private void Update()
     {
-        transform.Translate(-Vector3.up * _laserSpeed * Time.deltaTime);
+        transform.Translate(-Vector3.up * 10 * Time.deltaTime);
         if (transform.position.y < -10) { Destroy(gameObject); }
     }
 

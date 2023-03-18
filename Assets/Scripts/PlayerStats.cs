@@ -7,8 +7,8 @@ public class PlayerStats : MonoBehaviour
     private Player _player;
     [HideInInspector] public PowerUpManager powerUpManager;
     private SpriteRenderer _playerRenderer;
-    private int _maxHealth = 3, _currentHealth, _currentAmmo;
-    private float _playerSpeed = 10, _fireRate = 0.25f, _attackDamage = 12, _thrustFuel = 100;
+    private int _maxHealth = 3, _currentHealth, _currentAmmo, _attackDamage = 1;
+    private float _playerSpeed = 10, _fireRate = 0.25f, _thrustFuel = 100;
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
     private Color _playerHitColor = new Color(255, 0, 0, 255);
@@ -104,11 +104,11 @@ public class PlayerStats : MonoBehaviour
         else if (_fireRate > 0.25f) { _fireRate = 0.25f; }
     }
 
-    public void AdjustAttackDamage(float attackDamageValue)
+    public void AdjustAttackDamage(int attackDamageValue)
     {
         _attackDamage += attackDamageValue;
-        if (_attackDamage > 100) { _attackDamage = 100; }
-        else if (_attackDamage < 12) { _attackDamage = 12; }
+        if (_attackDamage > 5) { _attackDamage = 5; }
+        else if (_attackDamage < 1) { _attackDamage = 1; }
     }
 
     public void AdjustCurrentAmmo(int ammoValue)
@@ -134,7 +134,7 @@ public class PlayerStats : MonoBehaviour
         return _fireRate;
     }
 
-    public float GetAttackDamage()
+    public int GetAttackDamage()
     {
         return _attackDamage;
     }
