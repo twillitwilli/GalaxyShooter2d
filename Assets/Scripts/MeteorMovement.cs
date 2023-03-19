@@ -14,10 +14,6 @@ public class MeteorMovement : MonoBehaviour
     private void Update()
     {
         transform.Translate(-Vector3.up * _randomSpeed * Time.deltaTime);
-        if (transform.position.y < -8) 
-        {
-            GetComponentInChildren<Meteor>().leftScreen = true;
-            Destroy(gameObject);
-        }
+        if (transform.position.y < -8) { Destroy(gameObject); }
     }
 }

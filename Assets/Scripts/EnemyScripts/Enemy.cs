@@ -63,14 +63,20 @@ public class Enemy : MonoBehaviour
         {
             _health += healthValue;
             if (_health > _maxHealth) { _health = _maxHealth; }
-            else if (_health < 0) { EnemyDestroyed(); }
+            else if (_health <= 0) { EnemyDestroyed(); }
         }
         else { _shield.SetActive(false); }
     }
 
-    public void IsShieldActive()
+    public bool IsShieldActive()
     {
-        if (!_shield.activeSelf) { _shield.SetActive(true); }
+        if (_shield.activeSelf) { return true; }
+        else { return false; }
+    }
+
+    public void ActivateShield()
+    {
+        _shield.SetActive(true);
     }
 
     private void EnemyDestroyed()

@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class GathererEnemy : Enemy
 {
-    private enum EnemyState { comeIntoScreen, moving, mining, collecting, fleeing }
+    private enum EnemyState { comeIntoScreen, moving, mining, support, chasePlayer, fleeing }
     private EnemyState _currentState;
     private GameObject _target;
-    [SerializeField] private GameObject _miningLaserEffect, _miningLaserShot;
-    private float _randomStopPos, fireCooldown;
-    private bool _setFireCooldown;
+    [SerializeField] private GameObject _miningLaserEffect, _miningLaserShot, _hasPowerUpEffect, _powerUpShot;
+    private float _randomStopPos, _fireCooldown, _supportCooldown;
+    private bool _setFireCooldown, _setSupportCooldown;
 
     private void Start()
     {
@@ -19,6 +19,9 @@ public class GathererEnemy : Enemy
 
     public override void Update()
     {
+        if (player == null) { _currentState = EnemyState.fleeing; }
+        else if (Vector2.Distance(transform.position, player.transform.position) < 3) { _currentState = EnemyState.chasePlayer; }
+
         switch (_currentState)
         {
             case EnemyState.comeIntoScreen:
@@ -33,14 +36,30 @@ public class GathererEnemy : Enemy
                 break;
 
             case EnemyState.mining:
-                if (!_miningLaserEffect.activeSelf) 
-                { 
+                if (!_miningLaserEffect.activeSelf)
+                {
                     _miningLaserEffect.SetActive(true);
                     _setFireCooldown = true;
                 }
                 FireGathererLaserShot();
                 if (_target == null || MeteorRange() > 3) { _currentState = EnemyState.moving; }
                 else { EnemyMovement(); }
+                break;
+
+            case EnemyState.support:
+                if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
+                HasPowerUp();
+                break;
+
+            case EnemyState.chasePlayer:
+                if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
+                ChasePlayer();
+                break;
+
+            case EnemyState.fleeing:
+                if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
+                transform.localEulerAngles = new Vector3(0, 0, 0);
+                transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
                 break;
         }
     }
@@ -56,8 +75,8 @@ public class GathererEnemy : Enemy
         else
         {
             AimAtTarget(_target.transform);
-            transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.0001f);
-            if (MeteorRange() < 1) { _currentState = EnemyState.mining; }
+            transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.0025f);
+            if (MeteorRange() < 1.5f) { _currentState = EnemyState.mining; }
         }
     }
 
@@ -72,7 +91,7 @@ public class GathererEnemy : Enemy
             float closestDistance = 100;
             for (int i = 0; i < colliders.Length; i++)
             {
-                if (colliders[i].gameObject.TryGetComponent<Meteor>(out meteor))
+                if (colliders[i].gameObject.TryGetComponent<Meteor>(out meteor) && meteor.gatherer == null)
                 {
                     float distanceCheck = Vector2.Distance(transform.position, meteor.transform.position);
                     if (distanceCheck < closestDistance)
@@ -83,6 +102,7 @@ public class GathererEnemy : Enemy
                 }
             }
         }
+        if (closetObj != null) { closetObj.GetComponent<Meteor>().gatherer = this; }
         return closetObj;
     }
 
@@ -95,16 +115,67 @@ public class GathererEnemy : Enemy
     {
         if (_setFireCooldown)
         {
-            fireCooldown = Random.Range(2, 3.5f);
+            _fireCooldown = Random.Range(2, 3.5f);
             _setFireCooldown = false;
         }
 
-        if (fireCooldown <= 0)
+        if (_fireCooldown <= 0)
         {
             Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + -0.71f, transform.position.z);
-            Instantiate(_miningLaserShot, spawnPoint, transform.rotation);
+            GameObject newLaserShot = Instantiate(_miningLaserShot, spawnPoint, transform.rotation);
+            newLaserShot.GetComponent<GathererLaser>().gatherer = this;
             _setFireCooldown = true;
         }
-        else { fireCooldown -= Time.deltaTime; }
+        else { _fireCooldown -= Time.deltaTime; }
+    }
+
+    public void ObtainedPowerUp()
+    {
+        _setSupportCooldown = true;
+        _currentState = EnemyState.support;
+        _hasPowerUpEffect.SetActive(true);
+    }
+
+    private void HasPowerUp()
+    {
+        if (SupportCooldown())
+        {
+            Vector2 point = new Vector2(transform.position.x, transform.position.y);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(point, 5);
+            Enemy enemy;
+            if (colliders.Length > 0)
+            {
+                for (int i = 0; i < colliders.Length; i++)
+                {
+                    if (colliders[i].gameObject.TryGetComponent<Enemy>(out enemy) && enemy != this && !enemy.IsShieldActive())
+                    {
+                        Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + -0.75f, transform.position.z);
+                        GameObject newPowerUpShot = Instantiate(_powerUpShot, spawnPoint, transform.rotation);
+                        newPowerUpShot.GetComponent<EnemyPowerUp>()._target = enemy;
+                        _currentState = EnemyState.moving;
+                        _hasPowerUpEffect.SetActive(false);
+                    }
+                }
+            }
+        }
+    }
+
+    private bool SupportCooldown()
+    {
+        if (_setSupportCooldown)
+        {
+            _supportCooldown = Random.Range(1.5f, 3);
+            _setSupportCooldown = false;
+        }
+        if (_supportCooldown > 0) { _supportCooldown -= Time.deltaTime; }
+        else if (_supportCooldown <= 0) { return true; }
+        return false;
+    }
+
+    private void ChasePlayer()
+    {
+        AimAtTarget(player.transform);
+        transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.005f);
+        if (Vector2.Distance(transform.position, player.transform.position) > 5) { _currentState = EnemyState.moving; }
     }
 }

@@ -21691,6 +21691,7 @@ MonoBehaviour:
   _enemyParent: {fileID: 332407245}
   disableSpawner: 0
   updateWave: 0
+  spawnedEnemy: []
 --- !u!4 &1256008359
 Transform:
   m_ObjectHideFlags: 0

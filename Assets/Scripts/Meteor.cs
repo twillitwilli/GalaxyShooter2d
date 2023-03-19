@@ -11,7 +11,8 @@ public class Meteor : MonoBehaviour
     private float _randomRotationSpeed;
     private GivePoints _givePoints;
     private LootChance _lootChance;
-    [HideInInspector] public bool exploded, leftScreen;
+    [HideInInspector] public bool exploded;
+    [HideInInspector] public GathererEnemy gatherer;
 
     private void Awake()
     {
@@ -47,21 +48,18 @@ public class Meteor : MonoBehaviour
         spawner.meteorsGathered++;
         if (!spawner.enemySpawnerActive && spawner.meteorsGathered >= 10) { spawner.TurnOnEnemySpawns(); }
         _lootChance.Loot(_meteorParent.transform);
+        Instantiate(_implosion, transform.position, transform.rotation);
         Destroy(gameObject);
     }
 
     private void OnDestroy()
     {
-        if (!leftScreen)
+        if (exploded)
         {
-            if (exploded)
-            {
-                GameObject newExplosion = Instantiate(_explosion, transform.position, transform.rotation);
-                newExplosion.transform.localScale = transform.localScale;
-                GameManager.instance.cameraController.ShakeCamera();
-            }
-            else { Instantiate(_implosion, transform.position, transform.rotation); }
-            Destroy(_meteorParent.gameObject);
+            GameObject newExplosion = Instantiate(_explosion, transform.position, transform.rotation);
+            newExplosion.transform.localScale = transform.localScale;
+            GameManager.instance.cameraController.ShakeCamera();
         }
+        Destroy(_meteorParent.gameObject);
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GathererLaser : MonoBehaviour
 {
+    [HideInInspector] public GathererEnemy gatherer;
+
     private void Update()
     {
         transform.Translate(-Vector3.up * 10 * Time.deltaTime);
@@ -17,6 +19,14 @@ public class GathererLaser : MonoBehaviour
         {
             meteor.exploded = true;
             Destroy(meteor.gameObject);
+            LootChance();
+            Destroy(gameObject);
         }
+    }
+
+    private void LootChance()
+    {
+        float lootChance = Random.Range(0, 100);
+        if (lootChance > 85) { gatherer.ObtainedPowerUp(); }
     }
 }
