@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [HideInInspector] public PlayerStats playerStats;
 
-    [SerializeField] private GameObject _playerExplosion, _playerThruster, _thrusterBoost, _tripleShotActive, _waveShotActive;
+    [SerializeField] private GameObject _playerExplosion, _playerThruster, _thrusterBoost, _tripleShotActive, _waveShotActive, _playerLocked;
 
     private Vector3 _defaultThrusterPos = new Vector3(0, -2.59f, 0);
     private Vector3 _defaultThrusterSize = new Vector3(0.5f, 0.5f, 1);
@@ -61,11 +61,20 @@ public class Player : MonoBehaviour
         _waveShotActive.SetActive(active);
     }
 
+    public void PlayerLockedEffect(bool active)
+    {
+        if (active && !_playerLocked.activeSelf) { _playerLocked.SetActive(true); }
+        else { _playerLocked.SetActive(false); }
+    }
+
     public void PlayerDied()
     {
-        Instantiate(_playerExplosion, transform.position, transform.rotation);
-        GameManager.instance.cameraController.ShakeCamera();
-        FindObjectOfType<EnemySpawner>().disableSpawner = true;
-        Destroy(gameObject);
+        if (!GameManager.instance.IsDevModeActive())
+        {
+            Instantiate(_playerExplosion, transform.position, transform.rotation);
+            GameManager.instance.cameraController.ShakeCamera();
+            FindObjectOfType<EnemySpawner>().disableSpawner = true;
+            Destroy(gameObject);
+        }
     }
 }

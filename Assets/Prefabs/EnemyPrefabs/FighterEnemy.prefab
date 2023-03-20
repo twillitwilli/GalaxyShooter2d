@@ -155,6 +155,8 @@ MonoBehaviour:
   _shield: {fileID: 7050004541228830792}
   _health: 3
   enemySpeed: 6
+  bossIncoming: 0
+  _enemyLaser: {fileID: 6172490556401935598, guid: ec3489d5646e3f94dab475e59e4aee9e, type: 3}
 --- !u!114 &8894946756147420516
 MonoBehaviour:
   m_ObjectHideFlags: 0

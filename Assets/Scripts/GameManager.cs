@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private bool _devMode, _resetHighScore;
     public static GameManager instance;
     [HideInInspector] public CameraController cameraController;
     [HideInInspector] public PowerUpManager powerUpManager;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        if (_resetHighScore) { PlayerPrefs.SetInt("HighScore", 0); }
         powerUpManager = GetComponent<PowerUpManager>();
         displayManager = GetComponent<UIManager>();
         StartCoroutine("GetNewPlayer");
@@ -60,5 +62,10 @@ public class GameManager : MonoBehaviour
         displayManager.LoadHighScore();
         displayManager.UpdateFuelDisplay(player.playerStats.ThrusterFuel());
         _setScore = true;
+    }
+
+    public bool IsDevModeActive()
+    {
+        return _devMode;
     }
 }

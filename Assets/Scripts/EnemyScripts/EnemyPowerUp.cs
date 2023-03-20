@@ -19,5 +19,11 @@ public class EnemyPowerUp : MonoBehaviour
             _target.ActivateShield();
             Destroy(gameObject);
         }
+
+        Player player;
+        if (collision.gameObject.TryGetComponent<Player>(out player))
+        {
+            player.playerStats.powerUpManager.PowerUpObtained(PowerUpManager.PowerUps.lockPlayer);
+        }
     }
 }

@@ -18,17 +18,23 @@ public class InputController : MonoBehaviour
 
     private void Update()
     {
-        if (_playerStats.ThrusterFuel() > 20 && !_playerStats.BoostActive() && Input.GetKeyDown(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(true, 8); }
-        else if (_playerStats.BoostActive() && Input.GetKeyUp(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(false, -8); }
+        if (!_playerStats.powerUpManager.IsPlayerLocked())
+        {
+            _player.PlayerLockedEffect(false);
 
-        PlayerMovement();
+            if (_playerStats.ThrusterFuel() > 20 && !_playerStats.BoostActive() && Input.GetKeyDown(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(true, 8); }
+            else if (_playerStats.BoostActive() && Input.GetKeyUp(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(false, -8); }
 
-        if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
+            PlayerMovement();
 
-        if (!_meteorMiner.activeSelf && Input.GetKeyDown(KeyCode.RightShift)) { _meteorMiner.SetActive(true); }
-        else if (_meteorMiner.activeSelf && Input.GetKeyUp(KeyCode.RightShift)) { _meteorMiner.SetActive(false); }
+            if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
 
-        if (Input.GetKeyDown(KeyCode.C)) { CollectableManager.instance.CollectAmmo(); }
+            if (!_meteorMiner.activeSelf && Input.GetKeyDown(KeyCode.RightShift)) { _meteorMiner.SetActive(true); }
+            else if (_meteorMiner.activeSelf && Input.GetKeyUp(KeyCode.RightShift)) { _meteorMiner.SetActive(false); }
+
+            if (Input.GetKeyDown(KeyCode.C)) { CollectableManager.instance.CollectAmmo(); }
+        }
+        else { _player.PlayerLockedEffect(true); }
     }
 
     private void PlayerMovement()

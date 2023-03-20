@@ -5,13 +5,14 @@ using UnityEngine;
 public class PowerUpManager : MonoBehaviour
 {
     private Player _player;
-    public enum PowerUps { tripleShot, speedBoost, shield }
+    public enum PowerUps { tripleShot, speedBoost, shield, lockPlayer }
     [SerializeField] private GameObject[] _powerUp;
 
-    private bool _tripleShotActive, _speedBoostActive, _waveAttackActive;
+    private bool _tripleShotActive, _speedBoostActive, _waveAttackActive, _playerLocked;
     private WaitForSeconds _tripleShotDuration = new WaitForSeconds(8);
     private WaitForSeconds _speedBoostDuration = new WaitForSeconds(10);
     private WaitForSeconds _waveAttackDuration = new WaitForSeconds(5);
+    private WaitForSeconds _playerLockedDuration = new WaitForSeconds(3);
 
     [SerializeField] private GameObject _shieldObject;
     private int _shieldHealth;
@@ -91,6 +92,11 @@ public class PowerUpManager : MonoBehaviour
                     }
                 }
                 break;
+
+            case PowerUps.lockPlayer:
+                _playerLocked = true;
+                StartCoroutine("PlayerLockedDuration");
+                break;
         }
     }
 
@@ -126,6 +132,11 @@ public class PowerUpManager : MonoBehaviour
         else return false;
     }
 
+    public bool IsPlayerLocked()
+    {
+        return _playerLocked;
+    }
+
     private IEnumerator TripleShotDuration()
     {
         yield return _tripleShotDuration;
@@ -146,5 +157,11 @@ public class PowerUpManager : MonoBehaviour
         yield return _waveAttackDuration;
         _waveAttackActive = false;
         if (_player != null) { _player.WaveShotActive(false); }
+    }
+
+    private IEnumerator PlayerLockedDuration()
+    {
+        yield return _playerLockedDuration;
+        _playerLocked = false;
     }
 }

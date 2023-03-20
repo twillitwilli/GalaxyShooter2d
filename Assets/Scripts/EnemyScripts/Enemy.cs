@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] private int _health;
     private int _maxHealth;
     public float enemySpeed;
+    [HideInInspector] public bool bossIncoming;
 
     private void Awake()
     {

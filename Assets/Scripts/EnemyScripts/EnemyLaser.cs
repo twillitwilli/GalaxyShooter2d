@@ -17,5 +17,11 @@ public class EnemyLaser : MonoBehaviour
         {
             player.playerStats.AdjustCurrentHealth(-1);
         }
+
+        PowerUp powerUp;
+        if (collision.gameObject.TryGetComponent<PowerUp>(out powerUp))
+        {
+            Destroy(powerUp.gameObject);
+        }
     }
 }

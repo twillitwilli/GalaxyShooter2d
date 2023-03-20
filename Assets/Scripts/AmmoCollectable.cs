@@ -25,7 +25,7 @@ public class AmmoCollectable : MonoBehaviour
         Player player;
         if (collision.gameObject.TryGetComponent<Player>(out player))
         {
-            player.playerStats.AdjustCurrentAmmo(1);
+            player.playerStats.AdjustCurrentAmmo(Random.Range(1, 4));
             Destroy(gameObject);
         }
     }

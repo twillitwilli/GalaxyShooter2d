@@ -4,24 +4,23 @@ using UnityEngine;
 
 public class OffensiveEnemy : Enemy
 {
-    private Player _player;
-    private enum EnemyState { moving, attacking, fleeing }
+    private enum EnemyState { moving, attacking, dodging, fleeing }
     private EnemyState _currentState;
     [SerializeField] private GameObject _enemyLaser;
     private GameObject _currentLaser;
     private float _randomStopPos;
-    private bool _canFire, _firing;
+    private bool _canFire, _firing, _moveLeft;
 
     private void Start()
     {
-        _player = GameManager.instance.player;
         _currentState = EnemyState.moving;
-        _randomStopPos = Random.Range(1.4f, 4.9f);
+        _randomStopPos = Random.Range(1.5f, 4.45f);
     }
 
 
     public override void Update()
     {
+        if (player == null || bossIncoming) { _currentState = EnemyState.fleeing; }
         switch (_currentState)
         {
             case EnemyState.moving:
@@ -29,13 +28,12 @@ public class OffensiveEnemy : Enemy
                 break;
 
             case EnemyState.attacking:
-                if (_player == null) 
-                {
-                    _firing = false;
-                    _currentState = EnemyState.fleeing; 
-                }
-
                 Attacking();
+                break;
+
+            case EnemyState.dodging:
+                transform.localEulerAngles = new Vector3(0, 0, 0);
+                DodgeMovement();
                 break;
 
             case EnemyState.fleeing:
@@ -61,19 +59,40 @@ public class OffensiveEnemy : Enemy
         }
     }
 
+    private void DodgeMovement()
+    {
+        if (_moveLeft) { transform.Translate(-Vector3.right * enemySpeed * Time.deltaTime); }
+        else { transform.Translate(Vector3.right * enemySpeed * Time.deltaTime); }
+        DodgeBounds();
+    }
+
+    private void DodgeBounds()
+    {
+        if (transform.position.x < -9.5f) 
+        {
+            transform.position = new Vector3(-9.5f, transform.position.y, transform.position.z);
+            _moveLeft = false; 
+        }
+        else if (transform.position.x > 9.5f) 
+        {
+            transform.position = new Vector3(9.5f, transform.position.y, transform.position.z);
+            _moveLeft = true; 
+        }
+    }
+
     private void LateUpdate()
     {
         switch (_currentState)
         {
             case EnemyState.attacking:
-                if (_player != null) { AimAtPlayer(); }
+                if (player != null) { AimAtPlayer(); }
                 break;
         }
     }
 
     private void AimAtPlayer()
     {
-        transform.up = transform.position - _player.transform.position;
+        transform.up = transform.position - player.transform.position;
     }
 
     public virtual void Attacking()
@@ -97,5 +116,21 @@ public class OffensiveEnemy : Enemy
                 _currentLaser = Instantiate(_enemyLaser, spawnOffset, transform.rotation);
             }
         }
+    }
+
+    public void DodgeChance()
+    {
+        float dodgeChance = Random.Range(0, 100);
+        if (dodgeChance > 60) 
+        { 
+            _currentState = EnemyState.dodging;
+            StartCoroutine("EndDodgeMovement");
+        }
+    }
+
+    private IEnumerator EndDodgeMovement()
+    {
+        yield return new WaitForSeconds(Random.Range(2, 4));
+        _currentState = EnemyState.attacking;
     }
 }
