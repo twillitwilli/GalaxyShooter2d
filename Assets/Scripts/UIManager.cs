@@ -27,6 +27,11 @@ public class UIManager : MonoBehaviour
     [Header("Enemy Wave Display")]
     [SerializeField] private TMP_Text _enemyWaveText;
 
+    [Header("Boss Display")]
+    [SerializeField] private GameObject _bossHealthDisplay;
+    [SerializeField] private TMP_Text _bossHealthText;
+    [SerializeField] private Image _bossHealthVisual;
+
     private void Start()
     {
         _currentPoints = 0;
@@ -94,5 +99,17 @@ public class UIManager : MonoBehaviour
     {
         _enemyWaveText.text = waveText;
         ToggleNotification(true, 2);
+    }
+
+    public void BossHealthDisplay(bool on)
+    {
+        if (on) { _bossHealthDisplay.SetActive(true); }
+        else { _bossHealthDisplay.SetActive(false); }
+    }
+
+    public void UpdateBossHealth(int maxHealth, int currentHealth)
+    {
+        _bossHealthText.text = currentHealth + "/" + maxHealth;
+        _bossHealthVisual.fillAmount = (currentHealth / maxHealth);
     }
 }

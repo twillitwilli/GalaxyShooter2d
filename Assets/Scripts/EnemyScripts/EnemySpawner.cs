@@ -8,7 +8,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private Transform _enemyParent;
     [HideInInspector] public bool disableSpawner, updateWave;
     private bool _bossSpawned;
-    private int _currentlySpawnedEnemies, _totalEnemiesKilled, _currentEnemyWave = 1, _currentLevel = 0;
+    private int _currentlySpawnedEnemies, _totalEnemiesKilled, _currentEnemyWave = 1, _currentLevel = 0, _waveDisplayMultiplier = 0;
 
     public IEnumerator SpawnEnemies()
     {
@@ -40,8 +40,7 @@ public class EnemySpawner : MonoBehaviour
                 else if (fighterEnemySpawnChance < 55 && fighterEnemySpawnChance > 30) { return 1; }
                 break;
             case 5:
-                //boss spawn
-                break;
+                return 4;
         }
         return 0;
     }
@@ -51,16 +50,41 @@ public class EnemySpawner : MonoBehaviour
         _currentlySpawnedEnemies++;
         Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
         GameObject newEnemy = Instantiate(_enemies[GetRandomEnemy()], spawnPoint, transform.rotation);
-        newEnemy.GetComponent<Enemy>().enemySpawner = this;
         newEnemy.transform.SetParent(_enemyParent);
+        if (_currentEnemyWave != 5) { newEnemy.GetComponent<Enemy>().enemySpawner = this; }
+        else 
+        { 
+            newEnemy.GetComponent<Boss>().enemySpawner = this;
+            disableSpawner = true;
+        }
     }
 
     private void WaveDisplay()
     {
         updateWave = false;
-        if (_currentEnemyWave != 5) { GameManager.instance.displayManager.WaveUpdateNotification("Wave " + _currentEnemyWave); }
+        if (_currentEnemyWave != 5) { GameManager.instance.displayManager.WaveUpdateNotification("Wave " + (_currentEnemyWave + _waveDisplayMultiplier)); }
         else { GameManager.instance.displayManager.WaveUpdateNotification("Boss Incoming"); }
         
+    }
+
+    public int GetCurrentLevel()
+    {
+        return _currentLevel;
+    }
+
+    public void IncreaseCurrentLevel()
+    {
+        _currentLevel++;
+        _waveDisplayMultiplier = _currentLevel * 5;
+        _currentEnemyWave = 1;
+        StartCoroutine("StartNextLevel");
+    }
+
+    private IEnumerator StartNextLevel()
+    {
+        yield return new WaitForSeconds(8);
+        disableSpawner = false;
+        StartCoroutine("SpawnEnemies");
     }
 
     public void EnemyDestroyed(bool destroyedByPlayer)

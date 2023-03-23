@@ -26,5 +26,11 @@ public class WaveAttack : MonoBehaviour
         {
             meteor.Destroyed();
         }
+
+        Boss boss;
+        if (collision.gameObject.TryGetComponent<Boss>(out boss))
+        {
+            boss.AdjustBossHealth(-player.playerStats.GetAttackDamage());
+        }
     }
 }

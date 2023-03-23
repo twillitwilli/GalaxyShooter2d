@@ -17,6 +17,7 @@ public class Laser : MonoBehaviour
     {
         Enemy enemy;
         Meteor meteor;
+        Boss boss;
         if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
         {
             enemy.AdjustHealth(-player.playerStats.GetAttackDamage());
@@ -25,6 +26,11 @@ public class Laser : MonoBehaviour
         else if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
         {
             meteor.Destroyed();
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.TryGetComponent<Boss>(out boss))
+        {
+            boss.AdjustBossHealth(-player.playerStats.GetAttackDamage());
             Destroy(gameObject);
         }
     }
