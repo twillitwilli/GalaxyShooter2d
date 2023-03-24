@@ -5,7 +5,7 @@ using UnityEngine;
 public class PowerUpManager : MonoBehaviour
 {
     private Player _player;
-    public enum PowerUps { tripleShot, speedBoost, shield, lockPlayer }
+    public enum PowerUps { tripleShot, speedBoost, shield, lockPlayer, homingMissile }
     [SerializeField] private GameObject[] _powerUp;
 
     private bool _tripleShotActive, _speedBoostActive, _waveAttackActive, _playerLocked;
@@ -96,6 +96,10 @@ public class PowerUpManager : MonoBehaviour
             case PowerUps.lockPlayer:
                 _playerLocked = true;
                 StartCoroutine("PlayerLockedDuration");
+                break;
+
+            case PowerUps.homingMissile:
+                _player.playerStats.AdjustCurrentHomingMissiles(1);
                 break;
         }
     }

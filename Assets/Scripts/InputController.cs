@@ -6,9 +6,9 @@ public class InputController : MonoBehaviour
 {
     private Player _player;
     private PlayerStats _playerStats;
-    [SerializeField] private GameObject _laser, _tripleShot, _meteorMiner, _waveAttack;
-    private bool _setFireCooldown;
-    private float _fireRateCooldown;
+    [SerializeField] private GameObject _laser, _tripleShot, _meteorMiner, _waveAttack, _homingMissile;
+    private bool _setFireCooldown, _setMissileCooldown;
+    private float _fireRateCooldown, _missileFireCooldown;
 
     private void Start()
     {
@@ -33,6 +33,8 @@ public class InputController : MonoBehaviour
             else if (_meteorMiner.activeSelf && Input.GetKeyUp(KeyCode.RightShift)) { _meteorMiner.SetActive(false); }
 
             if (Input.GetKeyDown(KeyCode.C)) { CollectableManager.instance.CollectAmmo(); }
+
+            if (MissileCooldown() && Input.GetKeyDown(KeyCode.V) && _playerStats.CurrentMissiles() > 0) { FireHomingMissile(); }
         }
         else { _player.PlayerLockedEffect(true); }
     }
@@ -91,6 +93,27 @@ public class InputController : MonoBehaviour
             _setFireCooldown = false;
         }
         if (_fireRateCooldown > 0) { _fireRateCooldown -= Time.deltaTime; }
+        else return true;
+        return false;
+    }
+
+    private void FireHomingMissile()
+    {
+        _setMissileCooldown = true;
+        Transform spawnLocation = _playerStats.FireMissile();
+        GameObject newMissile = Instantiate(_homingMissile, spawnLocation.position, spawnLocation.rotation);
+        newMissile.GetComponent<HomingMissile>().player = _player;
+        _playerStats.AdjustCurrentHomingMissiles(-1);
+    }
+
+    private bool MissileCooldown()
+    {
+        if (_setMissileCooldown)
+        {
+            _missileFireCooldown = 1;
+            _setMissileCooldown = false;
+        }
+        if (_missileFireCooldown > 0) { _missileFireCooldown -= Time.deltaTime; }
         else return true;
         return false;
     }
