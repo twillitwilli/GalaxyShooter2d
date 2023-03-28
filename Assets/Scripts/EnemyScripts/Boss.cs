@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    private enum BossState { idle, mirage }
-    private BossState _currentState;
+    private enum BossPhase { idle, mirage, deciding }
+    private BossPhase _currentState;
     [HideInInspector] public EnemySpawner enemySpawner;
-    [SerializeField] private GameObject _mirage;
-    [SerializeField] private GameObject _bossLaser, _bomb;
+    [SerializeField] private GameObject _mirage, _bossLaser, _bomb, _laserSpin;
     private List<GameObject> _enemies = new List<GameObject>();
     private int _maxHealth, _currentHealth;
 
@@ -19,7 +18,7 @@ public class Boss : MonoBehaviour
         _currentHealth = _maxHealth;
         GameManager.instance.displayManager.BossHealthDisplay(true);
         GameManager.instance.displayManager.UpdateBossHealth(_maxHealth, _currentHealth);
-        _currentState = BossState.idle;
+        _currentState = BossPhase.idle;
         transform.position = new Vector3(0, 6, 0);
     }
 
@@ -44,6 +43,11 @@ public class Boss : MonoBehaviour
     {
         GameObject mirage = Instantiate(_mirage, transform.position, transform.rotation);
         _enemies.Add(mirage);
+    }
+
+    private void DecidingAttackPattern()
+    {
+        
     }
 
     private void BossKilled()

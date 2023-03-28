@@ -14,6 +14,8 @@ public class Player : MonoBehaviour
     private Vector3 _boostedThrusterPos = new Vector3(0, -3.56f, 0);
     private Vector3 _boostedThrusterSize = new Vector3(1, 1, 1);
 
+    private bool _inSafeZone;
+
     private void Start()
     {
         playerStats = GetComponent<PlayerStats>();
@@ -65,6 +67,17 @@ public class Player : MonoBehaviour
     {
         if (active && !_playerLocked.activeSelf) { _playerLocked.SetActive(true); }
         else { _playerLocked.SetActive(false); }
+    }
+
+    public void EnterSafeZone(bool entered)
+    {
+        if (entered) { _inSafeZone = true; }
+        else { _inSafeZone = false; }
+    }
+
+    public bool IsInSafeZone()
+    {
+        return _inSafeZone;
     }
 
     public void PlayerDied()
