@@ -23548,7 +23548,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1900548312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33890,7 +33890,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6740012559853511282, guid: e8c07575ce66cb64d9bbe123f6dd13c1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 6740012559853511282, guid: e8c07575ce66cb64d9bbe123f6dd13c1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33924,13 +33924,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6740012559853511283, guid: e8c07575ce66cb64d9bbe123f6dd13c1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6740012559853511286, guid: e8c07575ce66cb64d9bbe123f6dd13c1, type: 3}
       propertyPath: m_Name
       value: AlienBoss
       objectReference: {fileID: 0}
     - target: {fileID: 6740012559853511286, guid: e8c07575ce66cb64d9bbe123f6dd13c1, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8c07575ce66cb64d9bbe123f6dd13c1, type: 3}
