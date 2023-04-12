@@ -8,10 +8,13 @@ public class Enemy : MonoBehaviour
     [HideInInspector] public EnemySpawner enemySpawner;
     private GivePoints _givePoints;
     private LootChance _lootChance;
+
     [SerializeField] private GameObject _enemyExplosion, _shield;
+
     [SerializeField] private int _health;
     private int _maxHealth;
     public float enemySpeed;
+
     [HideInInspector] public bool bossIncoming;
 
     private void Awake()
@@ -33,11 +36,6 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
     }  
-    
-    public virtual void AimAtTarget(Transform target)
-    {
-        transform.up = transform.position - target.position;
-    }
 
     public virtual void EnemyBounds()
     {
@@ -46,6 +44,11 @@ public class Enemy : MonoBehaviour
             enemySpawner.EnemyDestroyed(false);
             Destroy(gameObject);
         }
+    }
+
+    public virtual void AimAtTarget(Transform target)
+    {
+        transform.up = transform.position - target.position;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -85,6 +88,7 @@ public class Enemy : MonoBehaviour
         _givePoints.GivePointsToPointManager();
         _lootChance.Loot(transform);
         enemySpawner.EnemyDestroyed(true);
+        enemySpawner.RemoveTrackedEnemy(false, gameObject);
         GameManager.instance.cameraController.ShakeCamera();
         Instantiate(_enemyExplosion, transform.position, transform.rotation);
         Destroy(gameObject);

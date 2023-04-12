@@ -2,11 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyLaser : MonoBehaviour
+public class EnemyFireball : MonoBehaviour
 {
     private void Update()
     {
-        transform.Translate(-Vector3.up * 10 * Time.deltaTime);
+        transform.Translate(Vector3.up * 5 * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -15,12 +15,14 @@ public class EnemyLaser : MonoBehaviour
         if (collision.gameObject.TryGetComponent<Player>(out player))
         {
             player.playerStats.AdjustCurrentHealth(-1);
+            player.playerStats.AdjustCurrentHomingMissiles(-1);
         }
 
-        PowerUp powerUp;
-        if (collision.gameObject.TryGetComponent<PowerUp>(out powerUp))
+        Meteor meteor;
+        if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
         {
-            Destroy(powerUp.gameObject);
+            meteor.exploded = true;
+            Destroy(meteor.gameObject);
         }
     }
 }

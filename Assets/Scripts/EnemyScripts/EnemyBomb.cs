@@ -32,11 +32,11 @@ public class EnemyBomb : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         _speed = 0;
+        AudioSource.PlayClipAtPoint(explosionSFX, transform.position);
     }
 
     public void BombExploded()
     {
         GameManager.instance.cameraController.ShakeCamera();
-        AudioSource.PlayClipAtPoint(explosionSFX, transform.position);
     }
 }

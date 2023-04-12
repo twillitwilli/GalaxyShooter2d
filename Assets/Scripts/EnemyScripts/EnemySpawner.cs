@@ -4,11 +4,33 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
+    private bool waveUpdateCheatEnabled = true;
+
     [SerializeField] private GameObject[] _enemies;
     [SerializeField] private Transform _enemyParent;
+
     [HideInInspector] public bool disableSpawner, updateWave;
-    private bool _bossSpawned;
+
+    private List<GameObject> spawnedEnemies = new List<GameObject>();
+    private GameObject spawnedBoss;
+
     private int _currentlySpawnedEnemies, _totalEnemiesKilled, _currentEnemyWave = 1, _currentLevel = 0, _waveDisplayMultiplier = 0;
+
+    private void Update()
+    {
+        if (waveUpdateCheatEnabled)
+        {
+            waveUpdateCheatEnabled = false;
+            Debug.Log("Wave Updater Enabled: Press U to update wave.");
+        }
+        if (Input.GetKeyDown(KeyCode.U)) { ForceWaveUpdate(); }
+    }
+
+    private void ForceWaveUpdate()
+    {
+        _currentEnemyWave++;
+        updateWave = true;
+    }
 
     public IEnumerator SpawnEnemies()
     {
@@ -16,7 +38,7 @@ public class EnemySpawner : MonoBehaviour
         {
             yield return new WaitForSeconds(Random.Range(1, 2.5f));
             if (updateWave) { WaveDisplay(); }
-            if (_currentlySpawnedEnemies < 10 + _currentLevel && !_bossSpawned) { SpawnEnemy(); }
+            if (_currentlySpawnedEnemies < 10 + _currentLevel && spawnedBoss == null) { SpawnEnemy(); }
         }
     }
 
@@ -51,11 +73,25 @@ public class EnemySpawner : MonoBehaviour
         Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
         GameObject newEnemy = Instantiate(_enemies[GetRandomEnemy()], spawnPoint, transform.rotation);
         newEnemy.transform.SetParent(_enemyParent);
-        if (_currentEnemyWave != 5) { newEnemy.GetComponent<Enemy>().enemySpawner = this; }
-        else 
+        if (_currentEnemyWave != 5) 
         { 
+            newEnemy.GetComponent<Enemy>().enemySpawner = this;
+            spawnedEnemies.Add(newEnemy);
+        }
+        else 
+        {
             newEnemy.GetComponent<Boss>().enemySpawner = this;
+            spawnedBoss = newEnemy;
             disableSpawner = true;
+            BossSpawned();
+        }
+    }
+
+    private void BossSpawned()
+    {
+        foreach (GameObject obj in spawnedEnemies)
+        {
+            obj.GetComponent<Enemy>().bossIncoming = true;
         }
     }
 
@@ -85,6 +121,12 @@ public class EnemySpawner : MonoBehaviour
         yield return new WaitForSeconds(8);
         disableSpawner = false;
         StartCoroutine("SpawnEnemies");
+    }
+
+    public void RemoveTrackedEnemy(bool isBoss, GameObject enemy)
+    {
+        if (!isBoss) { spawnedEnemies.Remove(enemy); }
+        else spawnedBoss = null;
     }
 
     public void EnemyDestroyed(bool destroyedByPlayer)

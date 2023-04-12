@@ -5,13 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField] private bool _devMode, _resetHighScore;
+    [SerializeField] private bool _godMode, _resetHighScore;
     public static GameManager instance;
     [HideInInspector] public CameraController cameraController;
     [HideInInspector] public PowerUpManager powerUpManager;
     [HideInInspector] public UIManager displayManager;
     [HideInInspector] public Player player;
-    private bool _setScore;
 
     private void Awake()
     {
@@ -33,13 +32,6 @@ public class GameManager : MonoBehaviour
     {
         if (player == null)
         {
-            if (_setScore)
-            {
-                _setScore = false;
-                displayManager.SaveHighScore();
-                displayManager.ToggleNotification(true, 0);
-            }
-
             if (Input.GetKeyDown(KeyCode.R))
             {
                 SceneManager.LoadScene(1);
@@ -61,11 +53,10 @@ public class GameManager : MonoBehaviour
         powerUpManager.SetNewPlayer();
         displayManager.LoadHighScore();
         displayManager.UpdateFuelDisplay(player.playerStats.ThrusterFuel());
-        _setScore = true;
     }
 
-    public bool IsDevModeActive()
+    public bool IsGodModeActive()
     {
-        return _devMode;
+        return _godMode;
     }
 }

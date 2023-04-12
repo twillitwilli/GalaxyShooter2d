@@ -257,8 +257,8 @@ MonoBehaviour:
   _health: 4
   enemySpeed: 3.5
   bossIncoming: 0
-  enemyBomb: {fileID: 4148133372790954186, guid: 0fb303db1de8a5a41985215160f2b14e, type: 3}
-  enemyLaser: {fileID: 6172490556401935598, guid: ec3489d5646e3f94dab475e59e4aee9e, type: 3}
+  _enemyBomb: {fileID: 4148133372790954186, guid: 0fb303db1de8a5a41985215160f2b14e, type: 3}
+  _enemyFireball: {fileID: 1853552656435566702, guid: 7383955469e33b0498b71318e3e7fe77, type: 3}
 --- !u!114 &3844508075319450159
 MonoBehaviour:
   m_ObjectHideFlags: 0

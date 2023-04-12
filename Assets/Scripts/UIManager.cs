@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
 
     public void SaveHighScore()
     {
-        if (!GameManager.instance.IsDevModeActive() && _currentPoints >= _highScorePoints) PlayerPrefs.SetInt("HighScore", _highScorePoints);
+        if (!GameManager.instance.IsGodModeActive() && _currentPoints >= _highScorePoints) PlayerPrefs.SetInt("HighScore", _highScorePoints);
     }
 
     public void LoadHighScore()

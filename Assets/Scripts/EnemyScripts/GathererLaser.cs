@@ -9,7 +9,7 @@ public class GathererLaser : MonoBehaviour
     private void Update()
     {
         transform.Translate(-Vector3.up * 10 * Time.deltaTime);
-        if (transform.position.y < -10) { Destroy(gameObject); }
+        if (gatherer == null || Vector3.Distance(transform.position, gatherer.transform.position) > 15) { Destroy(gameObject); }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,6 +27,6 @@ public class GathererLaser : MonoBehaviour
     private void LootChance()
     {
         float lootChance = Random.Range(0, 100);
-        if (lootChance > 85) { gatherer.ObtainedPowerUp(); }
+        if (lootChance < 15) { gatherer.ObtainedPowerUp(); }
     }
 }

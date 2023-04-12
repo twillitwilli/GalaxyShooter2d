@@ -4,15 +4,22 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    private enum BossPhase { idle, mirage, deciding, laserAttack, movingRandomPos, moveToCenter, plasmaExplosion, laserSpin }
+    private enum BossPhase { idle, mirage, deciding, laserAttack, movingRandomPos, moveToCenter, plasmaExplosion, laserSpin, flee }
     private BossPhase _currentState;
+
     [HideInInspector] public EnemySpawner enemySpawner;
+
     [SerializeField] private GameObject _mirage, _bossLaser, _bomb, _laserSpin;
+
     private BoxCollider2D _bossCollider;
     private Animator _animator;
+    private GivePoints _givePoints;
+
     private List<GameObject> _enemies = new List<GameObject>();
+
     private int _maxHealth, _currentHealth, _currentLaserAttack, _maxLaserAttack;
-    private float _bossSpeed = 0.05f, _stoppingDistance = 0.5f;
+    private float _bossSpeed = 0.05f, _stoppingDistance = 1f;
+
     private bool _shootingLaser, _gotNewRandomPos, _bossCentered, _plasmaExplosion, _laserSpinning;
     private Vector3 _randomMovePosition;
 
@@ -21,6 +28,7 @@ public class Boss : MonoBehaviour
         _bossCollider = GetComponent<BoxCollider2D>();
         _bossCollider.enabled = false;
         _animator = GetComponent<Animator>();
+        _givePoints = GetComponent<GivePoints>();
         _enemies.Add(gameObject);
         _maxHealth = 50 + (10 * enemySpawner.GetCurrentLevel());
         _currentHealth = _maxHealth;
@@ -37,6 +45,7 @@ public class Boss : MonoBehaviour
 
     private void Update()
     {
+        if (GameManager.instance.player == null) { _currentState = BossPhase.flee; }
         switch (_currentState)
         {
             case BossPhase.laserAttack:
@@ -86,6 +95,15 @@ public class Boss : MonoBehaviour
                     StartCoroutine("StartLaserSpin");
                 }
                 break;
+
+            case BossPhase.mirage:
+                break;
+
+            case BossPhase.flee:
+                DefaultRotation();
+                transform.Translate(-Vector3.up * 5 * Time.deltaTime);
+                if (transform.position.y <= -15) { BossKilled(false); }
+                break;
         }
     }
 
@@ -101,6 +119,11 @@ public class Boss : MonoBehaviour
         }
     }
 
+    private Vector3 GetRandomMovePosition()
+    {
+        return new Vector3(Random.Range(-13.8f, 13.8f), Random.Range(-4.5f, 6.75f), 0);
+    }
+
     private void DefaultRotation()
     {
         transform.localEulerAngles = new Vector3(0, 0, 0);
@@ -108,13 +131,13 @@ public class Boss : MonoBehaviour
 
     private void AimAtTarget(Vector3 target)
     {
-        transform.up = transform.position - target;
+        //transform.up = transform.position - target;
     }
 
     public void AdjustBossHealth(int healthValue)
     {
         _currentHealth += healthValue;
-        if (_currentHealth <= 0) { BossKilled(); }
+        if (_currentHealth <= 0) { BossKilled(true); }
         else { GameManager.instance.displayManager.UpdateBossHealth(_maxHealth, _currentHealth); }
     }
 
@@ -172,11 +195,6 @@ public class Boss : MonoBehaviour
         Instantiate(_bossLaser, transform.position, transform.rotation);
     }
 
-    private Vector3 GetRandomMovePosition()
-    {
-        return new Vector3(Random.Range(-13.8f, 13.8f), Random.Range(-4.5f, 6.75f), 0);
-    }
-
     private IEnumerator StartPlasmaExplosion()
     {
         PlasmaExplosion();
@@ -214,8 +232,13 @@ public class Boss : MonoBehaviour
         _enemies.Add(mirage);
     }
 
-    private void BossKilled()
+    private void BossKilled(bool playerKilled)
     {
+        if (playerKilled)
+        {
+            _givePoints.GivePointsToPointManager();
+        }
+        enemySpawner.RemoveTrackedEnemy(true, gameObject);
         GameManager.instance.displayManager.BossHealthDisplay(false);
         Destroy(gameObject);
     }

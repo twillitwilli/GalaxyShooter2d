@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -7724135091034016142}
   - component: {fileID: 3297497247678826770}
   - component: {fileID: 1260642980758936362}
+  - component: {fileID: 7020204383839359433}
   m_Layer: 0
   m_Name: EnemyLaser
   m_TagString: Laser
@@ -73,7 +74,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1394881287
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: b030d335857201646be69703e678d6e5, type: 3}
   m_Color: {r: 0, g: 1, b: 0.4655435, a: 1}
@@ -241,3 +242,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7020204383839359433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6172490556401935598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9afbe96e624d3b14992a1736132a2783, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  seconds: 3

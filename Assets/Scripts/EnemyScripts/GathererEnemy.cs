@@ -6,8 +6,11 @@ public class GathererEnemy : Enemy
 {
     private enum EnemyState { comeIntoScreen, moving, mining, support, chasePlayer, fleeing }
     private EnemyState _currentState;
+
     private GameObject _target;
+
     [SerializeField] private GameObject _miningLaserEffect, _miningLaserShot, _hasPowerUpEffect, _powerUpShot;
+
     private float _randomStopPos, _fireCooldown, _supportCooldown;
     private bool _setFireCooldown, _setSupportCooldown;
 
@@ -25,7 +28,7 @@ public class GathererEnemy : Enemy
         switch (_currentState)
         {
             case EnemyState.comeIntoScreen:
-                transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
+                base.EnemyMovement();
                 if (transform.position.y <= _randomStopPos) { _currentState = EnemyState.moving; }
                 break;
 
@@ -33,6 +36,11 @@ public class GathererEnemy : Enemy
                 if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
                 EnemyMovement();
                 EnemyBounds();
+                break;
+
+            case EnemyState.chasePlayer:
+                if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
+                ChasePlayer();
                 break;
 
             case EnemyState.mining:
@@ -51,17 +59,19 @@ public class GathererEnemy : Enemy
                 HasPowerUp();
                 break;
 
-            case EnemyState.chasePlayer:
-                if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
-                ChasePlayer();
-                break;
-
             case EnemyState.fleeing:
                 if (_miningLaserEffect.activeSelf) { _miningLaserEffect.SetActive(false); }
                 transform.localEulerAngles = new Vector3(0, 0, 0);
-                transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
+                base.EnemyMovement();
                 break;
         }
+    }
+
+    private void ChasePlayer()
+    {
+        AimAtTarget(player.transform);
+        transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.005f);
+        if (Vector2.Distance(transform.position, player.transform.position) > 5) { _currentState = EnemyState.moving; }
     }
 
     public override void EnemyMovement()
@@ -141,7 +151,7 @@ public class GathererEnemy : Enemy
         if (SupportCooldown())
         {
             Vector2 point = new Vector2(transform.position.x, transform.position.y);
-            Collider2D[] colliders = Physics2D.OverlapCircleAll(point, 5);
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(point, 8);
             Enemy enemy;
             if (colliders.Length > 0)
             {
@@ -152,11 +162,11 @@ public class GathererEnemy : Enemy
                         Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y + -0.75f, transform.position.z);
                         GameObject newPowerUpShot = Instantiate(_powerUpShot, spawnPoint, transform.rotation);
                         newPowerUpShot.GetComponent<EnemyPowerUp>()._target = enemy;
-                        _currentState = EnemyState.moving;
                         _hasPowerUpEffect.SetActive(false);
                     }
                 }
             }
+            _currentState = EnemyState.moving;
         }
     }
 
@@ -164,18 +174,11 @@ public class GathererEnemy : Enemy
     {
         if (_setSupportCooldown)
         {
-            _supportCooldown = Random.Range(1.5f, 3);
+            _supportCooldown = 5;
             _setSupportCooldown = false;
         }
         if (_supportCooldown > 0) { _supportCooldown -= Time.deltaTime; }
         else if (_supportCooldown <= 0) { return true; }
         return false;
-    }
-
-    private void ChasePlayer()
-    {
-        AimAtTarget(player.transform);
-        transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.005f);
-        if (Vector2.Distance(transform.position, player.transform.position) > 5) { _currentState = EnemyState.moving; }
     }
 }

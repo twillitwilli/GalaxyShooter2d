@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6740012559853511280}
   - component: {fileID: 6740012559853511293}
   - component: {fileID: 6740012559853511281}
+  - component: {fileID: 965016413155175422}
   m_Layer: 7
   m_Name: AlienBoss
   m_TagString: Untagged
@@ -116,10 +117,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 0}
-  _mirage: {fileID: 0}
+  _mirage: {fileID: 1212986744644763502, guid: 6149a128d49212c48b328e64e3440838, type: 3}
   _bossLaser: {fileID: 6547329256172663058, guid: af3ab98b5249e354d916130dc9596f99, type: 3}
   _bomb: {fileID: 2453472460740340061, guid: 51c212a91b6695546926d3cfe0a991d5, type: 3}
   _laserSpin: {fileID: 6392344571283350447, guid: 7f0379e823344f04283724ac60bbc261, type: 3}
+--- !u!114 &965016413155175422
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6740012559853511286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 813cd5a7d7b24d74abc8d5e0f3cc49f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _pointValue: 100
 --- !u!1 &6740012560100593516
 GameObject:
   m_ObjectHideFlags: 0

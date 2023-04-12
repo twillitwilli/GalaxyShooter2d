@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private GameManager _gameManager;
+
     [HideInInspector] public PlayerStats playerStats;
 
     [SerializeField] private GameObject _playerExplosion, _playerThruster, _thrusterBoost, _tripleShotActive, _waveShotActive, _playerLocked;
@@ -18,6 +20,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
+        _gameManager = GameManager.instance;
         playerStats = GetComponent<PlayerStats>();
         transform.localPosition = new Vector3(0, 0, 0);
     }
@@ -82,10 +85,12 @@ public class Player : MonoBehaviour
 
     public void PlayerDied()
     {
-        if (!GameManager.instance.IsDevModeActive())
+        if (!GameManager.instance.IsGodModeActive())
         {
             Instantiate(_playerExplosion, transform.position, transform.rotation);
-            GameManager.instance.cameraController.ShakeCamera();
+            _gameManager.cameraController.ShakeCamera();
+            _gameManager.displayManager.SaveHighScore();
+            _gameManager.displayManager.ToggleNotification(true, 0);
             FindObjectOfType<EnemySpawner>().disableSpawner = true;
             Destroy(gameObject);
         }

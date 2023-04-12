@@ -29,6 +29,7 @@ public class OffensiveEnemy : Enemy
 
             case EnemyState.attacking:
                 Attacking();
+                if (player != null) { AimAtTarget(player.transform); }
                 break;
 
             case EnemyState.dodging:
@@ -38,7 +39,7 @@ public class OffensiveEnemy : Enemy
 
             case EnemyState.fleeing:
                 transform.localEulerAngles = new Vector3(0, 0, 0);
-                transform.Translate(-Vector3.up * (enemySpeed + 2) * Time.deltaTime);
+                base.EnemyMovement();
 
                 if (transform.position.y < -9.3f)
                 {
@@ -78,21 +79,6 @@ public class OffensiveEnemy : Enemy
             transform.position = new Vector3(9.5f, transform.position.y, transform.position.z);
             _moveLeft = true; 
         }
-    }
-
-    private void LateUpdate()
-    {
-        switch (_currentState)
-        {
-            case EnemyState.attacking:
-                if (player != null) { AimAtPlayer(); }
-                break;
-        }
-    }
-
-    private void AimAtPlayer()
-    {
-        transform.up = transform.position - player.transform.position;
     }
 
     public virtual void Attacking()
