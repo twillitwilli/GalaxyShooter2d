@@ -50,7 +50,7 @@ public class GathererEnemy : Enemy
                     _setFireCooldown = true;
                 }
                 FireGathererLaserShot();
-                if (_target == null || MeteorRange() > 3) { _currentState = EnemyState.moving; }
+                if (_target == null || MeteorRange() > 10) { _currentState = EnemyState.moving; }
                 else { EnemyMovement(); }
                 break;
 
@@ -85,8 +85,8 @@ public class GathererEnemy : Enemy
         else
         {
             AimAtTarget(_target.transform);
-            transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.0025f);
-            if (MeteorRange() < 1.5f) { _currentState = EnemyState.mining; }
+            transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.75f * Time.deltaTime);
+            if (MeteorRange() < 6) { _currentState = EnemyState.mining; }
         }
     }
 
@@ -94,7 +94,7 @@ public class GathererEnemy : Enemy
     {
         GameObject closetObj = null;
         Vector2 positionPoint = new Vector2(transform.position.x, transform.position.y);
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(positionPoint, 5);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(positionPoint, 15);
         if (colliders.Length > 0)
         {
             Meteor meteor;

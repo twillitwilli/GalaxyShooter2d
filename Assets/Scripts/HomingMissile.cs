@@ -15,7 +15,7 @@ public class HomingMissile : MonoBehaviour
         if (_targetLocked) 
         { 
             transform.up = _target.position - transform.position;
-            transform.position = Vector3.Lerp(transform.position, _target.position, 0.005f);
+            transform.position = Vector3.MoveTowards(transform.position, _target.position, 6 * Time.deltaTime);
         }
         else { transform.Translate(Vector3.up * 2.5f * Time.deltaTime); }
         if (transform.position.y >= 6) { Destroy(gameObject); }

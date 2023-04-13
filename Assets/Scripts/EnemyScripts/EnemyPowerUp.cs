@@ -8,7 +8,7 @@ public class EnemyPowerUp : MonoBehaviour
 
     private void Update()
     {
-        if (_target != null) { transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.0025f); }
+        if (_target != null) { transform.position = Vector3.MoveTowards(transform.position, _target.transform.position, 1.5f * Time.deltaTime); }
         else { Destroy(gameObject); }
     }
 

@@ -18,7 +18,7 @@ public class CollectableManager : MonoBehaviour
     {
         for (int i = 0; i < spawnedAmmo.Count; i++)
         {
-            spawnedAmmo[i].speed = 0.05f;
+            spawnedAmmo[i].speed *= 2;
         }
     }    
 }

@@ -9738,7 +9738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254db5294fbe30c48876ff335e27d022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionSFX: {fileID: 0}
+  _explosionSFX: {fileID: 0}
 --- !u!1 &4148133372790954186
 GameObject:
   m_ObjectHideFlags: 0
@@ -9843,7 +9843,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 254db5294fbe30c48876ff335e27d022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
+  _explosionSFX: {fileID: 8300000, guid: a885c043fab7e46438bba03ba9dab6bc, type: 3}
 --- !u!114 &3590608836740646920
 MonoBehaviour:
   m_ObjectHideFlags: 0

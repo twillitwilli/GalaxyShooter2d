@@ -5,10 +5,11 @@ using UnityEngine;
 public class AmmoCollectable : MonoBehaviour
 {
     private Player _player;
-    [HideInInspector] public float speed = 0.0001f;
+    [HideInInspector] public float speed;
 
     private void Start()
     {
+        speed = 5f;
         CollectableManager.instance.spawnedAmmo.Add(this);
         transform.SetParent(CollectableManager.instance.transform);
         _player = GameManager.instance.player;
@@ -16,7 +17,7 @@ public class AmmoCollectable : MonoBehaviour
 
     private void Update()
     {
-        if (_player != null) { transform.position = Vector3.Lerp(transform.position, _player.transform.position, speed); }
+        if (_player != null) { transform.position = Vector3.MoveTowards(transform.position, _player.transform.position, speed * Time.deltaTime); }
         else { Destroy(gameObject); }
     }
 
