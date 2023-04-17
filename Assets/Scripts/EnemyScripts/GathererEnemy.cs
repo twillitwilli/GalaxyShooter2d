@@ -17,7 +17,7 @@ public class GathererEnemy : Enemy
     private void Start()
     {
         _currentState = EnemyState.comeIntoScreen;
-        _randomStopPos = Random.Range(0, 3);
+        _randomStopPos = Random.Range(1.5f, 7);
     }
 
     public override void Update()

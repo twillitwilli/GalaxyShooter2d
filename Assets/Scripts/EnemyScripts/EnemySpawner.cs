@@ -70,7 +70,7 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         _currentlySpawnedEnemies++;
-        Vector3 spawnPoint = new Vector3(Random.Range(-9.3f, 9.3f), 9, 0);
+        Vector3 spawnPoint = new Vector3(Random.Range(-14f, 14f), 10, 0);
         GameObject newEnemy = Instantiate(_enemies[GetRandomEnemy()], spawnPoint, transform.rotation);
         newEnemy.transform.SetParent(_enemyParent);
         if (_currentEnemyWave != 5) 

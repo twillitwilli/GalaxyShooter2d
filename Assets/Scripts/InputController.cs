@@ -52,9 +52,9 @@ public class InputController : MonoBehaviour
 
     private void CheckPlayerBounds()
     {
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -5.5f, 5), 0);
-        if (transform.position.x >= 11.5f) { transform.position = new Vector3(-11.5f, transform.position.y, 0); }
-        else if (transform.position.x <= -11.5f) { transform.position = new Vector3(11.5f, transform.position.y, 0); }
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -8, 8), 0);
+        if (transform.position.x >= 15f) { transform.position = new Vector3(-15f, transform.position.y, 0); }
+        else if (transform.position.x <= -15f) { transform.position = new Vector3(15f, transform.position.y, 0); }
     }
 
     private void FireLaser()

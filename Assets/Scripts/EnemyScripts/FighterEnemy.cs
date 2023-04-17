@@ -4,35 +4,77 @@ using UnityEngine;
 
 public class FighterEnemy : Enemy
 {
-    private enum EnemyState { comeIntoScreen, chasePlayer, destroyPowerUp, fleeing }
+    private enum EnemyState { comeIntoScreen, movingPositions, shootingAtPlayer, destroyPowerUp, fleeing }
     private EnemyState _currentState;
-    private GameObject _target;
+
     [SerializeField] private GameObject _enemyLaser;
+
+    private GameObject _target;
+    private Vector3 _targetPosition;
+
     private float _randomStopPos, _fireCooldown;
-    private bool _setFireCooldown;
+    private bool _setFireCooldown, setNewPosition;
+    private int _positionsMoved, _shotsFired;
 
     private void Start()
     {
         _currentState = EnemyState.comeIntoScreen;
-        _randomStopPos = Random.Range(1, 4.5f);
+        _randomStopPos = Random.Range(1, 7f);
     }
 
     public override void Update()
     {
         if (player == null || bossIncoming) { _currentState = EnemyState.fleeing; }
-        else if (Vector2.Distance(transform.position, player.transform.position) < 3) { _currentState = EnemyState.chasePlayer; }
 
         switch (_currentState)
         {
             case EnemyState.comeIntoScreen:
                 transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
-                if (transform.position.y <= _randomStopPos) { _currentState = EnemyState.chasePlayer; }
+
+                if (transform.position.y <= _randomStopPos) 
+                {
+                    _positionsMoved = 0;
+                    setNewPosition = true;
+                    _currentState = EnemyState.movingPositions; 
+                }
                 break;
 
-            case EnemyState.chasePlayer:
+            case EnemyState.movingPositions:
+                if (setNewPosition)
+                {
+                    float newX = Random.Range(-14, 14);
+                    float newY = Random.Range(-3.5f, 7);
+                    _targetPosition = new Vector3(newX, newY, 0);
+                    setNewPosition = false;
+                }
+
+                EnemyMovement();
+                if (Vector3.Distance(transform.position, _targetPosition) < 0.5f)
+                {
+                    _positionsMoved++;
+
+                    if (_positionsMoved == 3) 
+                    {
+                        _shotsFired = 0;
+                        _currentState = EnemyState.shootingAtPlayer; 
+                    }
+                    else 
+                    { 
+                        setNewPosition = true;
+                        ClosestPowerUp();
+                        if (_target != null) { _currentState = EnemyState.destroyPowerUp; }
+                    }
+                }
+                break;
+
+            case EnemyState.shootingAtPlayer:
                 AimAtTarget(player.transform);
-                if (!PlayerWithinRange()) { ChasePlayer(); }
-                FireLaser();
+                if (_shotsFired >= 3)
+                {
+                    _positionsMoved = 0;
+                    _currentState = EnemyState.movingPositions;
+                }
+                else { FireLaser(); }
                 break;
 
             case EnemyState.destroyPowerUp:
@@ -41,27 +83,30 @@ public class FighterEnemy : Enemy
                     EnemyMovement();
                     FireLaser();
                 }
-                else { _currentState = EnemyState.chasePlayer; }
+                else { _currentState = EnemyState.movingPositions; }
                 break;
 
             case EnemyState.fleeing:
                 transform.localEulerAngles = new Vector3(0, 0, 0);
-                transform.Translate(-Vector3.up * enemySpeed * Time.deltaTime);
+                base.EnemyMovement();
                 break;
         }
-
-        if (_target == null) 
-        { 
-            if (_currentState != EnemyState.chasePlayer) { _currentState = EnemyState.chasePlayer; }
-            ClosestPowerUp(); 
-        }
-        else { _currentState = EnemyState.destroyPowerUp; }
     }
 
     public override void EnemyMovement()
     {
-        AimAtTarget(_target.transform);
-        transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.0025f);
+        switch (_currentState)
+        {
+            case EnemyState.movingPositions:
+                transform.up = transform.position - _targetPosition;
+                transform.position = Vector3.MoveTowards(transform.position, _targetPosition, enemySpeed * Time.deltaTime);
+                break;
+
+            case EnemyState.destroyPowerUp:
+                AimAtTarget(_target.transform);
+                transform.position = Vector3.Lerp(transform.position, _target.transform.position, 0.0025f);
+                break;
+        }
     }
 
     private void ClosestPowerUp()
@@ -89,22 +134,11 @@ public class FighterEnemy : Enemy
         if (closetObj != null) { _target = closetObj; }
     }
 
-    private bool PlayerWithinRange()
-    {
-        if (Vector2.Distance(transform.position, player.transform.position) < _randomStopPos) { return true; }
-        else return false;
-    }
-
-    private void ChasePlayer()
-    {
-        transform.position = Vector3.Lerp(transform.position, player.transform.position, 0.005f);
-    }
-
     private void FireLaser()
     {
         if (_setFireCooldown)
         {
-            _fireCooldown = Random.Range(1.5f, 3);
+            _fireCooldown = 0.25f;
             _setFireCooldown = false;
         }
         if (_fireCooldown > 0) { _fireCooldown -= Time.deltaTime; }
@@ -112,6 +146,7 @@ public class FighterEnemy : Enemy
         {
             Vector3 spawnPoint = new Vector3(transform.position.x, transform.position.y, 0);
             Instantiate(_enemyLaser, spawnPoint, transform.rotation);
+            _shotsFired++;
             _setFireCooldown = true;
         }
     }

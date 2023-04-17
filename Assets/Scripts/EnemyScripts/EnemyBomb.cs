@@ -5,7 +5,6 @@ using UnityEngine;
 public class EnemyBomb : MonoBehaviour
 {
     private float _speed;
-    [SerializeField] private AudioClip _explosionSFX;
 
     private void Start()
     {
@@ -30,9 +29,8 @@ public class EnemyBomb : MonoBehaviour
 
     private IEnumerator StopBomb()
     {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(3);
         _speed = 0;
-        AudioSource.PlayClipAtPoint(_explosionSFX, transform.position);
     }
 
     public void BombExploded()

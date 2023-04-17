@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
 
     public virtual void EnemyBounds()
     {
-        if (transform.position.y < -9.3f)
+        if (transform.position.y < -10f)
         {
             enemySpawner.EnemyDestroyed(false);
             Destroy(gameObject);

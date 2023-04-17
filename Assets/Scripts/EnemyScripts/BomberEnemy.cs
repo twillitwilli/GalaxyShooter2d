@@ -10,7 +10,8 @@ public class BomberEnemy : Enemy
 
     private void Start()
     {
-        float randomYPos = Random.Range(2.5f, 4.45f);
+        float randomYPos = Random.Range(2.5f, 6.5f);
+
         if (Random.Range(0, 1f) > 0.5f) { _moveLeft = true; }
 
         if (_moveLeft) { transform.position = new Vector3(11, randomYPos, 0); }
@@ -20,37 +21,28 @@ public class BomberEnemy : Enemy
     public override void Update()
     {
         base.Update();
+
         if (BombCooldown()) { DropBomb(); }
+
         if (FireballCooldown() && PlayerBehindEnemy()) { ShootFireball(); }
     }
 
     public override void EnemyMovement()
     {
-        if (player == null || _fleeing)
-        {
-            transform.localEulerAngles = new Vector3(0, 0, 0);
-            base.EnemyMovement();
-        }
+        if (player == null || _fleeing) { transform.localEulerAngles = new Vector3(0, 0, 0); }
         else
         {
-            if (_moveLeft)
-            {
-                transform.localEulerAngles = new Vector3(0, 0, -90);
-                base.EnemyMovement();
-            }
-            else
-            {
-                transform.localEulerAngles = new Vector3(0, 0, 90);
-                base.EnemyMovement();
-            }
+            if (_moveLeft) { transform.localEulerAngles = new Vector3(0, 0, -90); }
+            else { transform.localEulerAngles = new Vector3(0, 0, 90); }
         }
+        base.EnemyMovement();
     }
 
     public override void EnemyBounds()
     {
         base.EnemyBounds();
-        if (transform.position.x > 11) { _moveLeft = true; }
-        else if (transform.position.x < -11) { _moveLeft = false; }
+        if (transform.position.x > 16) { _moveLeft = true; }
+        else if (transform.position.x < -16) { _moveLeft = false; }
     }
 
     private bool BombCooldown()

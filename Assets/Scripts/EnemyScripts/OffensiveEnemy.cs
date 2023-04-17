@@ -14,7 +14,7 @@ public class OffensiveEnemy : Enemy
     private void Start()
     {
         _currentState = EnemyState.moving;
-        _randomStopPos = Random.Range(1.5f, 4.45f);
+        _randomStopPos = Random.Range(1.5f, 7f);
     }
 
 
@@ -69,14 +69,14 @@ public class OffensiveEnemy : Enemy
 
     private void DodgeBounds()
     {
-        if (transform.position.x < -9.5f) 
+        if (transform.position.x < -14f) 
         {
-            transform.position = new Vector3(-9.5f, transform.position.y, transform.position.z);
+            transform.position = new Vector3(-14f, transform.position.y, transform.position.z);
             _moveLeft = false; 
         }
-        else if (transform.position.x > 9.5f) 
+        else if (transform.position.x > 14f) 
         {
-            transform.position = new Vector3(9.5f, transform.position.y, transform.position.z);
+            transform.position = new Vector3(14f, transform.position.y, transform.position.z);
             _moveLeft = true; 
         }
     }
