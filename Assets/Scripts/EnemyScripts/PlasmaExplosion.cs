@@ -16,7 +16,7 @@ public class PlasmaExplosion : MonoBehaviour
     {
         for (int i = 0; i < 4; i++)
         {
-            Vector3 spawnPoint = new Vector3(Random.Range(-8.5f, 8.5f), Random.Range(-4.2f, 4.2f), 0);
+            Vector3 spawnPoint = new Vector3(Random.Range(-12f, 12f), Random.Range(-7f, 7f), 0);
             Instantiate(_safeZone, spawnPoint, transform.rotation);
         }
     }

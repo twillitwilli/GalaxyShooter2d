@@ -238,8 +238,8 @@ public class Boss : MonoBehaviour
         {
             _givePoints.GivePointsToPointManager();
         }
-        enemySpawner.RemoveTrackedEnemy(true, gameObject);
         GameManager.instance.displayManager.BossHealthDisplay(false);
+        enemySpawner.IncreaseCurrentLevel();
         Destroy(gameObject);
     }
 }

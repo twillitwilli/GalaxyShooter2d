@@ -24,7 +24,7 @@ public class FighterEnemy : Enemy
 
     public override void Update()
     {
-        if (player == null || bossIncoming) { _currentState = EnemyState.fleeing; }
+        if (player == null || enemySpawner.IsBossSpawned()) { _currentState = EnemyState.fleeing; }
 
         switch (_currentState)
         {
@@ -113,7 +113,7 @@ public class FighterEnemy : Enemy
     {
         GameObject closetObj = null;
         Vector2 positionPoint = new Vector2(transform.position.x, transform.position.y);
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(positionPoint, 5);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(positionPoint, 15);
         if (colliders.Length > 0)
         {
             PowerUp powerUp;

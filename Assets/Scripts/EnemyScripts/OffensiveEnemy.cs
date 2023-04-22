@@ -20,7 +20,7 @@ public class OffensiveEnemy : Enemy
 
     public override void Update()
     {
-        if (player == null || bossIncoming) { _currentState = EnemyState.fleeing; }
+        if (player == null || enemySpawner.IsBossSpawned()) { _currentState = EnemyState.fleeing; }
         switch (_currentState)
         {
             case EnemyState.moving:

@@ -15,8 +15,6 @@ public class Enemy : MonoBehaviour
     private int _maxHealth;
     public float enemySpeed;
 
-    [HideInInspector] public bool bossIncoming;
-
     private void Awake()
     {
         player = GameManager.instance.player;
@@ -88,7 +86,6 @@ public class Enemy : MonoBehaviour
         _givePoints.GivePointsToPointManager();
         _lootChance.Loot(transform);
         enemySpawner.EnemyDestroyed(true);
-        enemySpawner.RemoveTrackedEnemy(false, gameObject);
         GameManager.instance.cameraController.ShakeCamera();
         Instantiate(_enemyExplosion, transform.position, transform.rotation);
         Destroy(gameObject);

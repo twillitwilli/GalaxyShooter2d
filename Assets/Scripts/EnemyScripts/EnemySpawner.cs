@@ -11,7 +11,6 @@ public class EnemySpawner : MonoBehaviour
 
     [HideInInspector] public bool disableSpawner, updateWave;
 
-    private List<GameObject> spawnedEnemies = new List<GameObject>();
     private GameObject spawnedBoss;
 
     private int _currentlySpawnedEnemies, _totalEnemiesKilled, _currentEnemyWave = 1, _currentLevel = 0, _waveDisplayMultiplier = 0;
@@ -50,17 +49,20 @@ public class EnemySpawner : MonoBehaviour
                 float offensiveEnemySpawnChance = Random.Range(0, 100);
                 if (offensiveEnemySpawnChance > 65) { return 1; }
                 break;
+
             case 3:
                 float bomberEnemySpawnChance = Random.Range(0, 100);
                 if (bomberEnemySpawnChance > 80) { return 2; }
                 else if (bomberEnemySpawnChance < 80 && bomberEnemySpawnChance > 45) { return 1; }
                 break;
+
             case 4:
                 float fighterEnemySpawnChance = Random.Range(0, 100);
                 if (fighterEnemySpawnChance > 70) { return 3; }
                 else if (fighterEnemySpawnChance < 70 && fighterEnemySpawnChance > 55) { return 2; }
                 else if (fighterEnemySpawnChance < 55 && fighterEnemySpawnChance > 30) { return 1; }
                 break;
+
             case 5:
                 return 4;
         }
@@ -70,28 +72,17 @@ public class EnemySpawner : MonoBehaviour
     private void SpawnEnemy()
     {
         _currentlySpawnedEnemies++;
+
         Vector3 spawnPoint = new Vector3(Random.Range(-14f, 14f), 10, 0);
         GameObject newEnemy = Instantiate(_enemies[GetRandomEnemy()], spawnPoint, transform.rotation);
         newEnemy.transform.SetParent(_enemyParent);
-        if (_currentEnemyWave != 5) 
-        { 
-            newEnemy.GetComponent<Enemy>().enemySpawner = this;
-            spawnedEnemies.Add(newEnemy);
-        }
+
+        if (_currentEnemyWave != 5) { newEnemy.GetComponent<Enemy>().enemySpawner = this; }
         else 
         {
             newEnemy.GetComponent<Boss>().enemySpawner = this;
             spawnedBoss = newEnemy;
             disableSpawner = true;
-            BossSpawned();
-        }
-    }
-
-    private void BossSpawned()
-    {
-        foreach (GameObject obj in spawnedEnemies)
-        {
-            obj.GetComponent<Enemy>().bossIncoming = true;
         }
     }
 
@@ -123,10 +114,10 @@ public class EnemySpawner : MonoBehaviour
         StartCoroutine("SpawnEnemies");
     }
 
-    public void RemoveTrackedEnemy(bool isBoss, GameObject enemy)
+    public bool IsBossSpawned()
     {
-        if (!isBoss) { spawnedEnemies.Remove(enemy); }
-        else spawnedBoss = null;
+        if (spawnedBoss == null) { return false; }
+        else return true;
     }
 
     public void EnemyDestroyed(bool destroyedByPlayer)

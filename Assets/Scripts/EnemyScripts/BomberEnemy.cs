@@ -5,7 +5,7 @@ using UnityEngine;
 public class BomberEnemy : Enemy
 {
     [SerializeField] private GameObject _enemyBomb, _enemyFireball;
-    private bool _moveLeft, _fleeing, _setBombCooldown, _setFireballCooldown;
+    private bool _moveLeft, _setBombCooldown, _setFireballCooldown;
     private float _bombCooldown, _fireballCooldown;
 
     private void Start()
@@ -29,7 +29,7 @@ public class BomberEnemy : Enemy
 
     public override void EnemyMovement()
     {
-        if (player == null || _fleeing) { transform.localEulerAngles = new Vector3(0, 0, 0); }
+        if (player == null || enemySpawner.IsBossSpawned()) { transform.localEulerAngles = new Vector3(0, 0, 0); }
         else
         {
             if (_moveLeft) { transform.localEulerAngles = new Vector3(0, 0, -90); }

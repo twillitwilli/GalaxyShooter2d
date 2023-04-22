@@ -110,6 +110,7 @@ public class UIManager : MonoBehaviour
     public void UpdateBossHealth(int maxHealth, int currentHealth)
     {
         _bossHealthText.text = currentHealth + "/" + maxHealth;
-        _bossHealthVisual.fillAmount = (currentHealth / maxHealth);
+        float healthPercentage = currentHealth / maxHealth;
+        _bossHealthVisual.fillAmount = healthPercentage;
     }
 }

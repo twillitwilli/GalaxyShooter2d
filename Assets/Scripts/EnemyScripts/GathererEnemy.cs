@@ -22,7 +22,7 @@ public class GathererEnemy : Enemy
 
     public override void Update()
     {
-        if (player == null || bossIncoming) { _currentState = EnemyState.fleeing; }
+        if (player == null || enemySpawner.IsBossSpawned()) { _currentState = EnemyState.fleeing; }
         else if (Vector2.Distance(transform.position, player.transform.position) < 3) { _currentState = EnemyState.chasePlayer; }
 
         switch (_currentState)
