@@ -117,10 +117,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemySpawner: {fileID: 0}
+  _renderer: {fileID: 6740012560866411713}
+  _normalMat: {fileID: 2100000, guid: 234d49fc54c4a9244991469d9b70eb97, type: 2}
+  _mirageMat: {fileID: 2100000, guid: a247fc026af854e4eba39c41e1f7209e, type: 2}
   _mirage: {fileID: 1212986744644763502, guid: 6149a128d49212c48b328e64e3440838, type: 3}
   _bossLaser: {fileID: 6547329256172663058, guid: af3ab98b5249e354d916130dc9596f99, type: 3}
   _bomb: {fileID: 2453472460740340061, guid: 51c212a91b6695546926d3cfe0a991d5, type: 3}
   _laserSpin: {fileID: 6392344571283350447, guid: 7f0379e823344f04283724ac60bbc261, type: 3}
+  _bossExplosion: {fileID: 1595646545455037744, guid: 22ed868101bef914f8fb7b6d060721e4, type: 3}
 --- !u!114 &965016413155175422
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14686,6 +14690,11 @@ PrefabInstance:
 --- !u!4 &6740012560868609751 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 499964, guid: 32303dc3554fcfc419798a1f0235187f, type: 3}
+  m_PrefabInstance: {fileID: 6740012560868257323}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &6740012560866411713 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 2370282, guid: 32303dc3554fcfc419798a1f0235187f, type: 3}
   m_PrefabInstance: {fileID: 6740012560868257323}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6740012560912645316

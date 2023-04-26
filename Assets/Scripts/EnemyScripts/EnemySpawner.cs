@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private bool waveUpdateCheatEnabled = true;
+    private bool waveUpdateCheatEnabled = false;
 
     [SerializeField] private GameObject[] _enemies;
     [SerializeField] private Transform _enemyParent;
@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
             waveUpdateCheatEnabled = false;
             Debug.Log("Wave Updater Enabled: Press U to update wave.");
         }
-        if (Input.GetKeyDown(KeyCode.U)) { ForceWaveUpdate(); }
+        //if (Input.GetKeyDown(KeyCode.U)) { ForceWaveUpdate(); }
     }
 
     private void ForceWaveUpdate()
@@ -104,6 +104,7 @@ public class EnemySpawner : MonoBehaviour
         _currentLevel++;
         _waveDisplayMultiplier = _currentLevel * 5;
         _currentEnemyWave = 1;
+        updateWave = true;
         StartCoroutine("StartNextLevel");
     }
 

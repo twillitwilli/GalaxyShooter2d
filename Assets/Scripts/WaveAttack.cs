@@ -10,7 +10,7 @@ public class WaveAttack : MonoBehaviour
     private void Update()
     {
         transform.Translate(Vector3.right * _waveSpeed * Time.deltaTime);
-        if (transform.position.y > 7) { Destroy(gameObject); }
+        if (transform.position.y > 15) { Destroy(gameObject); }
     }
 
     public void OnTriggerEnter2D(Collider2D collision)

@@ -12,12 +12,6 @@ public class PlayerSafeZone : MonoBehaviour
         {
             _player.EnterSafeZone(true);
         }
-
-        Meteor meteor;
-        if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
-        {
-            Destroy(meteor.gameObject);
-        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

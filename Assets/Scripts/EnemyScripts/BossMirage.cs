@@ -4,23 +4,74 @@ using UnityEngine;
 
 public class BossMirage : MonoBehaviour
 {
-    [SerializeField] private MeshRenderer _renderer;
-    [SerializeField] private Material _defaultMat, _illusionMat;
-    private int _currentHealth = 2, _maxHealth = 2;
+    [HideInInspector] public Boss realBoss;
+    private Player _player;
+
+    private bool _movingLeft;
+    private Vector3 _randomMovePosition;
+
+    private int _currentHealth = 3, _maxHealth = 3;
+
+    [SerializeField] private GameObject _bossLaser;
+    private bool _setLaserCooldown;
+    private float _laserCooldownTimer;
+
     private GivePoints _givePoints;
     private LootChance _lootChance;
 
     private void Start()
     {
-        _renderer.material = _defaultMat;
+        _player = GameManager.instance.player;
         _givePoints = GetComponent<GivePoints>();
         _lootChance = GetComponent<LootChance>();
     }
 
+    private void Update()
+    {
+        transform.up = transform.position - _player.transform.position;
+        Movement();
+        LaserAttack();
+    }
+
+    private void Movement()
+    {
+        if (_movingLeft && _randomMovePosition.x >= 0) { RandomMovePosition(true); }
+        else if (!_movingLeft && _randomMovePosition.x <= 0) { RandomMovePosition(false); }
+
+        transform.position = Vector3.MoveTowards(transform.position, _randomMovePosition, 6 * Time.deltaTime * 0.75f);
+        if (transform.position == _randomMovePosition)
+        {
+            if (_movingLeft) { _movingLeft = false; }
+            else { _movingLeft = true; }
+        }
+    }
+
+    private void RandomMovePosition(bool isMovingLeft)
+    {
+        float randomXPos = Random.Range(0.1f, 12);
+        if (isMovingLeft) { randomXPos *= -1; }
+        _randomMovePosition = new Vector3(randomXPos, Random.Range(0, 6.5f), 0);
+    }
+
+    private void LaserAttack()
+    {
+        if (_setLaserCooldown)
+        {
+            _laserCooldownTimer = 3;
+            _setLaserCooldown = false;
+        }
+
+        if (_laserCooldownTimer > 0) { _laserCooldownTimer -= Time.deltaTime; }
+        else
+        {
+            Instantiate(_bossLaser, transform.position, transform.rotation);
+            _setLaserCooldown = true;
+        }
+    }
+
     public void AdjustCurrentHealth(int healthValue)
     {
-        _currentHealth -= healthValue;
-        if ((_currentHealth / _maxHealth) < 0.5f) { _renderer.material = _illusionMat; }
+        _currentHealth += healthValue;
         if (_currentHealth <= 0) { MirageFaded(true); }
     }
 
@@ -34,6 +85,7 @@ public class BossMirage : MonoBehaviour
     {
         if (killedByPlayer)
         {
+            realBoss.MirageFaded(this);
             _givePoints.GivePointsToPointManager();
             _lootChance.Loot(transform);
         }

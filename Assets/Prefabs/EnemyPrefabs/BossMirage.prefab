@@ -14567,9 +14567,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca5e3b44d62c90441ae837ac463cb3ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _renderer: {fileID: 1212986744273547378}
-  _defaultMat: {fileID: 2100000, guid: 234d49fc54c4a9244991469d9b70eb97, type: 2}
-  _illusionMat: {fileID: 2100000, guid: a247fc026af854e4eba39c41e1f7209e, type: 2}
+  realBoss: {fileID: 0}
+  _bossLaser: {fileID: 6547329256172663058, guid: af3ab98b5249e354d916130dc9596f99, type: 3}
 --- !u!114 &5204803784778680630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14680,10 +14679,5 @@ PrefabInstance:
 --- !u!4 &1212986744271354468 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 499964, guid: 32303dc3554fcfc419798a1f0235187f, type: 3}
-  m_PrefabInstance: {fileID: 1212986744271182488}
-  m_PrefabAsset: {fileID: 0}
---- !u!23 &1212986744273547378 stripped
-MeshRenderer:
-  m_CorrespondingSourceObject: {fileID: 2370282, guid: 32303dc3554fcfc419798a1f0235187f, type: 3}
   m_PrefabInstance: {fileID: 1212986744271182488}
   m_PrefabAsset: {fileID: 0}

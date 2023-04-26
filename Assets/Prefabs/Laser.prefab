@@ -239,6 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
+  _impact: {fileID: 3858358944533326152, guid: f503e844914ebb04b917cb591935679e, type: 3}
 --- !u!82 &1260642980758936362
 AudioSource:
   m_ObjectHideFlags: 0

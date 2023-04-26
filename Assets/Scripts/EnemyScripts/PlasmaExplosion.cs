@@ -26,7 +26,6 @@ public class PlasmaExplosion : MonoBehaviour
         if (_player == null && collision.gameObject.TryGetComponent<Player>(out _player))
         {
             _player.playerStats.AdjustCurrentHealth(-1);
-            StartCoroutine("DamageOverTime");
         }
 
         Meteor meteor;
@@ -34,23 +33,5 @@ public class PlasmaExplosion : MonoBehaviour
         {
             Destroy(meteor.gameObject);
         }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (_player != null && collision.gameObject.GetComponent<Player>())
-        {
-            _player = null;
-        }
-    }
-
-    private IEnumerator DamageOverTime()
-    {
-        while (_player != null)
-        {
-            yield return new WaitForSeconds(1.5f);
-            if (!_player.IsInSafeZone()) { _player.playerStats.AdjustCurrentHealth(-1); }
-        }
-        
     }
 }

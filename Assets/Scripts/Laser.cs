@@ -6,6 +6,7 @@ public class Laser : MonoBehaviour
 {
     [HideInInspector] public Player player;
     private float _laserSpeed = 10;
+    [SerializeField] private GameObject _impact;
 
     private void Update()
     {
@@ -18,20 +19,32 @@ public class Laser : MonoBehaviour
         Enemy enemy;
         Meteor meteor;
         Boss boss;
+        BossMirage mirage;
         if (collision.gameObject.TryGetComponent<Enemy>(out enemy))
         {
             enemy.AdjustHealth(-player.playerStats.GetAttackDamage());
-            Destroy(gameObject);
+            Impact();
         }
         else if (collision.gameObject.TryGetComponent<Meteor>(out meteor))
         {
             meteor.Destroyed();
-            Destroy(gameObject);
+            Impact();
         }
         else if (collision.gameObject.TryGetComponent<Boss>(out boss))
         {
             boss.AdjustBossHealth(-player.playerStats.GetAttackDamage());
-            Destroy(gameObject);
+            Impact();
         }
+        else if (collision.gameObject.TryGetComponent<BossMirage>(out mirage))
+        {
+            mirage.AdjustCurrentHealth(-1);
+        }
+    }
+
+    private void Impact()
+    {
+        GameObject newImpact = Instantiate(_impact, transform.position, transform.rotation);
+        newImpact.transform.localScale = new Vector3(0.1f, 0.1f, 1);
+        Destroy(gameObject);
     }
 }

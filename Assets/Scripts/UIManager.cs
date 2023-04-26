@@ -29,7 +29,6 @@ public class UIManager : MonoBehaviour
 
     [Header("Boss Display")]
     [SerializeField] private GameObject _bossHealthDisplay;
-    [SerializeField] private TMP_Text _bossHealthText;
     [SerializeField] private Image _bossHealthVisual;
 
     private void Start()
@@ -109,8 +108,9 @@ public class UIManager : MonoBehaviour
 
     public void UpdateBossHealth(int maxHealth, int currentHealth)
     {
-        _bossHealthText.text = currentHealth + "/" + maxHealth;
-        float healthPercentage = currentHealth / maxHealth;
+        float currentValue = currentHealth;
+        float maxValue = maxHealth;
+        float healthPercentage = currentValue / maxValue;
         _bossHealthVisual.fillAmount = healthPercentage;
     }
 }

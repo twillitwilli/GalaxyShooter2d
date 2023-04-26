@@ -36,23 +36,26 @@ public class PlayerStats : MonoBehaviour
 
     public void AdjustCurrentHealth(int healthValue)
     {
-        if (powerUpManager.ShieldActive() && healthValue < 0) { return; }
-
-        if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
-
-        _currentHealth += healthValue;
-        VisualDamage();
-
-        if (_currentHealth > _maxHealth) { _currentHealth = _maxHealth; }
-        else if (_currentHealth <= 0) 
+        if (!_player.IsInSafeZone())
         {
-            _currentHealth = 0;
-            GameManager.instance.displayManager.UpdateHealthDisplay(_currentHealth);
-            _player.PlayerDied();
-            return;
-        }
+            if (powerUpManager.ShieldActive() && healthValue < 0) { return; }
 
-        GameManager.instance.displayManager.UpdateHealthDisplay(_currentHealth);
+            if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
+
+            _currentHealth += healthValue;
+            VisualDamage();
+
+            if (_currentHealth > _maxHealth) { _currentHealth = _maxHealth; }
+            else if (_currentHealth <= 0)
+            {
+                _currentHealth = 0;
+                GameManager.instance.displayManager.UpdateHealthDisplay(_currentHealth);
+                _player.PlayerDied();
+                return;
+            }
+
+            GameManager.instance.displayManager.UpdateHealthDisplay(_currentHealth);
+        }
     }
 
     private IEnumerator PlayerHitColorChange()
