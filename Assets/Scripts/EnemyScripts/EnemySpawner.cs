@@ -84,6 +84,7 @@ public class EnemySpawner : MonoBehaviour
     public void IncreaseCurrentLevel()
     {
         _currentLevel++;
+        _totalEnemiesKilled = 0;
         _waveDisplayMultiplier = _currentLevel * 5;
         _currentEnemyWave = 1;
         updateWave = true;
