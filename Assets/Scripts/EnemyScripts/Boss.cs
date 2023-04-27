@@ -35,7 +35,7 @@ public class Boss : MonoBehaviour
         _givePoints = GetComponent<GivePoints>();
         _player = GameManager.instance.player;
 
-        _maxHealth = 10 + (10 * enemySpawner.GetCurrentLevel());
+        _maxHealth = 100 + (10 * enemySpawner.GetCurrentLevel());
         _currentHealth = _maxHealth;
         GameManager.instance.displayManager.BossHealthDisplay(true);
         GameManager.instance.displayManager.UpdateBossHealth(_maxHealth, _currentHealth);

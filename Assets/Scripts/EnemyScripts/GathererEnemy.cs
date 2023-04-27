@@ -80,7 +80,7 @@ public class GathererEnemy : Enemy
         {
             transform.localEulerAngles = new Vector3(0, 0, 0);
             base.EnemyMovement();
-            _target = ClosestMeteor();
+            if (transform.position.y < 6) { _target = ClosestMeteor(); }
         }
         else
         {
@@ -103,11 +103,14 @@ public class GathererEnemy : Enemy
             {
                 if (colliders[i].gameObject.TryGetComponent<Meteor>(out meteor) && meteor.gatherer == null)
                 {
-                    float distanceCheck = Vector2.Distance(transform.position, meteor.transform.position);
-                    if (distanceCheck < closestDistance)
+                    if (meteor.transform.position.y < 6)
                     {
-                        closestDistance = distanceCheck;
-                        closetObj = colliders[i].gameObject;
+                        float distanceCheck = Vector2.Distance(transform.position, meteor.transform.position);
+                        if (distanceCheck < closestDistance)
+                        {
+                            closestDistance = distanceCheck;
+                            closetObj = colliders[i].gameObject;
+                        }
                     }
                 }
             }
