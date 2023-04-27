@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemySpawner : MonoBehaviour
 {
-    private bool waveUpdateCheatEnabled = false;
-
     [SerializeField] private GameObject[] _enemies;
     [SerializeField] private Transform _enemyParent;
 
@@ -14,22 +12,6 @@ public class EnemySpawner : MonoBehaviour
     private GameObject spawnedBoss;
 
     private int _currentlySpawnedEnemies, _totalEnemiesKilled, _currentEnemyWave = 1, _currentLevel = 0, _waveDisplayMultiplier = 0;
-
-    private void Update()
-    {
-        if (waveUpdateCheatEnabled)
-        {
-            waveUpdateCheatEnabled = false;
-            Debug.Log("Wave Updater Enabled: Press U to update wave.");
-        }
-        //if (Input.GetKeyDown(KeyCode.U)) { ForceWaveUpdate(); }
-    }
-
-    private void ForceWaveUpdate()
-    {
-        _currentEnemyWave++;
-        updateWave = true;
-    }
 
     public IEnumerator SpawnEnemies()
     {

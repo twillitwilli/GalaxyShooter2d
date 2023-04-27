@@ -35,7 +35,7 @@ public class Boss : MonoBehaviour
         _givePoints = GetComponent<GivePoints>();
         _player = GameManager.instance.player;
 
-        _maxHealth = 100 + (10 * enemySpawner.GetCurrentLevel());
+        _maxHealth = 10 + (10 * enemySpawner.GetCurrentLevel());
         _currentHealth = _maxHealth;
         GameManager.instance.displayManager.BossHealthDisplay(true);
         GameManager.instance.displayManager.UpdateBossHealth(_maxHealth, _currentHealth);
@@ -247,10 +247,14 @@ public class Boss : MonoBehaviour
 
     public void AdjustBossHealth(int healthValue)
     {
-        if (!_mirageActive)
+        if (!_mirageActive && !_bossDead)
         {
             _currentHealth += healthValue;
-            if (_currentHealth <= 0) { BossKilled(true); }
+            if (_currentHealth <= 0) 
+            {
+                _bossDead = true;
+                BossKilled(true); 
+            }
             else { GameManager.instance.displayManager.UpdateBossHealth(_maxHealth, _currentHealth); }
         }
         else
@@ -333,7 +337,6 @@ public class Boss : MonoBehaviour
 
     private void BossKilled(bool playerKilled)
     {
-        _bossDead = true;
         _bossCollider.enabled = false;
 
         if (playerKilled)
