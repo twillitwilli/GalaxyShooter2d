@@ -20,12 +20,12 @@ public class InputController : MonoBehaviour
     {
         if (!_playerStats.powerUpManager.IsPlayerLocked())
         {
+            PlayerMovement();
+
             _player.PlayerLockedEffect(false);
 
             if (_playerStats.ThrusterFuel() > 20 && !_playerStats.BoostActive() && Input.GetKeyDown(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(true, 8); }
             else if (_playerStats.BoostActive() && Input.GetKeyUp(KeyCode.LeftShift)) { _playerStats.ThrusterBoost(false, -8); }
-
-            PlayerMovement();
 
             if (CanFire() && Input.GetKeyDown(KeyCode.Space)) { FireLaser(); }
 
@@ -41,12 +41,17 @@ public class InputController : MonoBehaviour
 
     private void PlayerMovement()
     {
-        Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        if (!_playerStats.powerUpManager.IsSpeedBoostActive())
-        {
-            transform.Translate(movementDirection * _playerStats.GetPlayerSpeed() * Time.deltaTime);
-        }
-        else { transform.Translate(movementDirection * (_playerStats.GetPlayerSpeed() + 5) * Time.deltaTime); }
+        float xDirection = transform.position.x + (_playerStats.GetPlayerSpeed() * Input.GetAxis("Horizontal") * Time.deltaTime);
+        float yDirection = transform.position.y + (_playerStats.GetPlayerSpeed() * Input.GetAxis("Vertical") * Time.deltaTime);
+        transform.position = new Vector3(xDirection, yDirection, 0);
+
+        //Vector3 movementDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+        //if (!_playerStats.powerUpManager.IsSpeedBoostActive())
+        //{
+        //    transform.Translate(movementDirection * _playerStats.GetPlayerSpeed() * Time.deltaTime);
+        //}
+        //else { transform.Translate(movementDirection * (_playerStats.GetPlayerSpeed() + 5) * Time.deltaTime); }
+
         CheckPlayerBounds();
     }
 

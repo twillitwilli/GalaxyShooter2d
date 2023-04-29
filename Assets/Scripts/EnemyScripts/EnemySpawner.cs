@@ -126,7 +126,7 @@ public class EnemySpawner : MonoBehaviour
                     _currentEnemyWave = 4;
                     updateWave = true;
                     break;
-                case 100:
+                case 80:
                     _currentEnemyWave = 5;
                     updateWave = true;
                     break;

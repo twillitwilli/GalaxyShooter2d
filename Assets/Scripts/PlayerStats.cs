@@ -7,14 +7,20 @@ public class PlayerStats : MonoBehaviour
     private Player _player;
     [HideInInspector] public PowerUpManager powerUpManager;
     private SpriteRenderer _playerRenderer;
+
     private int _maxHealth = 3, _currentHealth, _currentAmmo, _attackDamage = 1, _homingMissiles = 2;
     private float _playerSpeed = 10, _fireRate = 0.25f, _thrustFuel = 100;
+
     private WaitForSeconds _colorChangeWaitTime = new WaitForSeconds(0.2f);
     private Color _defaualtColor = new Color(255, 255, 255, 255);
     private Color _playerHitColor = new Color(255, 0, 0, 255);
     [SerializeField] private GameObject[] _playerDamageEffect;
     [SerializeField] private GameObject[] _homingMissleVisuals;
+
     private bool _boosterControl;
+
+    private bool _iFrame, _setIFrameCD;
+    private float _iFrameTimer;
 
     private void Start()
     {
@@ -32,15 +38,22 @@ public class PlayerStats : MonoBehaviour
     {
         if (!BoostActive() && _thrustFuel < 100) { RechargeThrusters(); }
         else if (BoostActive()) { UsingFuel(); }
+
+        if (_iFrame) { IFrameCD(); }
     }
 
     public void AdjustCurrentHealth(int healthValue)
     {
-        if (!_player.IsInSafeZone())
+        if ( !_player.IsInSafeZone() && !_iFrame)
         {
             if (powerUpManager.ShieldActive() && healthValue < 0) { return; }
 
-            if (healthValue < 0) { StartCoroutine("PlayerHitColorChange"); }
+            if (healthValue < 0) 
+            { 
+                StartCoroutine("PlayerHitColorChange");
+                _setIFrameCD = true;
+                _iFrame = true;
+            }
 
             _currentHealth += healthValue;
             VisualDamage();
@@ -95,6 +108,18 @@ public class PlayerStats : MonoBehaviour
         else if (_maxHealth < 100) { _maxHealth = 100; }
     }
 
+    private void IFrameCD()
+    {
+        if (_setIFrameCD)
+        {
+            _iFrameTimer = 0.5f;
+            _setIFrameCD = false;
+        }
+
+        if (_iFrameTimer > 0) { _iFrameTimer -= Time.deltaTime; }
+        else { _iFrame = false; }
+    }
+
     public void AdjustPlayerSpeed(float speedValue)
     {
         _playerSpeed += speedValue;
@@ -131,7 +156,8 @@ public class PlayerStats : MonoBehaviour
 
     public float GetPlayerSpeed()
     {
-        return _playerSpeed;
+        if (powerUpManager.IsSpeedBoostActive()) { return _playerSpeed + 5; }
+        else { return _playerSpeed; }
     }
 
     public float GetFireRate()
